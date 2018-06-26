@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:layout_gravity="center_horizontal"
+    tools:context=".MedInput">
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+            <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/selectMed"
+            style="@android:style/Widget.Material.Light.EditText"
+            android:singleLine="true"
+            android:textAlignment="center"
+            android:hint="Medication Name "
+            android:textAppearance="@android:style/TextAppearance.Material.Subhead"
+            android:textSize="21sp" />
+    </android.support.design.widget.TextInputLayout>
+
+
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_start_date"
+            android:id="@+id/startDateIcon"
+            android:scaleX="1.2"
+            android:scaleY="1.2"
+            android:layout_gravity="center_vertical"
+            android:paddingRight="12dp"
+            android:paddingLeft="5dp"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/selectStart"
+            android:text="Select Start Date: "
+            android:textAppearance="@android:style/TextAppearance.Material.Subhead"
+            android:textSize="21sp"
+            android:layout_gravity="center_vertical"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+        />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/selectEnd"
+            android:text="Select End Date: "
+            android:textAppearance="@android:style/TextAppearance.Material.Subhead"
+            android:textSize="21sp"
+            android:layout_gravity="center_horizontal"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp" />
+    </LinearLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/setCondition"
+            style="@android:style/Widget.Material.Light.EditText"
+            android:singleLine="true"
+            android:textAlignment="center"
+            android:hint="Associated Condition "
+            android:textAppearance="@android:style/TextAppearance.Material.Subhead"
+            android:textSize="21sp" />
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.FloatingActionButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/finish"
+        android:layout_gravity="bottom|right"
+        app:fabSize="normal"
+        android:clickable="true"
+        android:paddingBottom="6dp"
+        android:src="@drawable/ic_add"
+        />
+
+
+</LinearLayout>
+
+
+
+
+
+
