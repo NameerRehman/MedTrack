@@ -21,7 +21,7 @@ public class MainActivity extends AppCompatActivity {
     private String endDate;
     private String medName;
     private String condition;
-//test123
+//test
 
 
     ArrayList<MedItem> medList; //list of instances of the MedItem method (i.e list of meds & their accompanying info)
