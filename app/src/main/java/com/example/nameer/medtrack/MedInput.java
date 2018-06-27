@@ -95,7 +95,6 @@ public class MedInput extends AppCompatActivity {
         };
 
 
-        //recieve medList from MainActivity and assign it to medListUpdated
 
         FloatingActionButton finish = (FloatingActionButton)findViewById(R.id.finish);
         finish.setOnClickListener(new View.OnClickListener() {

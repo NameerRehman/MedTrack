@@ -95,9 +95,9 @@
         android:id="@+id/finish"
         android:layout_gravity="bottom|right"
         app:fabSize="normal"
-        android:clickable="true"
         android:paddingBottom="6dp"
         android:src="@drawable/ic_add"
+        android:onClick="finish"
         />
 
 
