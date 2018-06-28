@@ -11,6 +11,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -176,10 +177,15 @@ public class MainActivity extends AppCompatActivity {
     public void finish(View view){
         medName = selectMed.getEditableText().toString();
         condition = setCondition.getText().toString();
-        medList.add(new MedItem(medName,calStartDate , calEndDate, condition, "healed most flares test test test test test"));
-        setContentView(R.layout.activity_main);
-        recyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setAdapter(adapter);
+        if (medName.length() >0){
+            medList.add(new MedItem(medName,calStartDate , calEndDate, condition, "healed most flares test test test test test"));
+            setContentView(R.layout.activity_main);
+            recyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);
+            recyclerView.setLayoutManager(new LinearLayoutManager(this));
+            recyclerView.setAdapter(adapter);
+        } else {
+            Toast.makeText(this, "Please enter medication name", Toast.LENGTH_SHORT).show();
+        }
+
     }
 }
