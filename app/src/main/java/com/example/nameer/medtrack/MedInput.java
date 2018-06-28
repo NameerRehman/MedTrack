@@ -15,6 +15,7 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -105,11 +106,15 @@ public class MedInput extends AppCompatActivity {
         finish.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(MedInput.this, MainActivity.class);
-                startActivity(i);
                 medName = selectMed.getEditableText().toString();
                 condition = setCondition.getText().toString();
-                db.medDao().insertAll(new MedItem(medName, calStartDate, calEndDate, condition, "dsimd"));
+                if (medName.length() >0) {
+                    Intent i = new Intent(MedInput.this, MainActivity.class);
+                    startActivity(i);
+                    db.medDao().insertAll(new MedItem(medName, calStartDate, calEndDate, condition, "dsimd"));
+                } else {
+                    Toast.makeText(MedInput.this, "Please enter medication name", Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }

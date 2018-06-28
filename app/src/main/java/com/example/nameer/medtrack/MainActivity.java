@@ -85,13 +85,3 @@ public class MainActivity extends AppCompatActivity {
 
     }*/
 }
-
-
-if(startDate!=null){
-            startDate = getIntent().getExtras().getString("start");        }
-        if(endDate!=null){
-            endDate = getIntent().getExtras().getString("end");        }
-        if(medName!=null){
-            medName = getIntent().getExtras().getString("medName");        }
-        if(condition!=null)
-            condition = getIntent().getExtras().getString("condition");        }
