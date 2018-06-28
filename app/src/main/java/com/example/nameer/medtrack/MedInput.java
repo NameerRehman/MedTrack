@@ -2,6 +2,7 @@ package com.example.nameer.medtrack;
 
 
 import android.app.DatePickerDialog;
+import android.arch.persistence.room.Room;
 import android.content.Context;
 import android.content.Intent;
 import android.support.design.widget.FloatingActionButton;
@@ -47,6 +48,10 @@ public class MedInput extends AppCompatActivity {
         selectEnd = (TextView) findViewById(R.id.selectEnd);
         selectMed = (EditText) findViewById(R.id.selectMed);
         setCondition = (EditText) findViewById(R.id.setCondition);
+
+        final AppDatabase db = Room.databaseBuilder(getApplicationContext(), AppDatabase.class, "production")
+                .allowMainThreadQueries() //bad practice - should wrap in background thread (sync task?)
+                .build();
 
         selectStart.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -100,29 +105,12 @@ public class MedInput extends AppCompatActivity {
         finish.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent test = new Intent(MedInput.this, MainActivity.class);
+                Intent i = new Intent(MedInput.this, MainActivity.class);
+                startActivity(i);
                 medName = selectMed.getEditableText().toString();
                 condition = setCondition.getText().toString();
-                test.putExtra("medName", medName);
-                test.putExtra("start", calStartDate);
-                test.putExtra("end", calEndDate);
-                test.putExtra("condition", condition);
-                startActivity(test);
-                //medListUpdated.add(new MedItem("test 0.1%", , "June 8", "Psoriasis", "healed most flares test test test test test"));
-                //send updated medlist to main activity
-                //test.putExtra("medListUpdated", medListUpdated)
+                db.medDao().insertAll(new MedItem(medName, calStartDate, calEndDate, condition, "dsimd"));
             }
         });
-
-
-       /*medListHelper Obj = new medListHelper(medName, calStartDate, calEndDate, condition);
-        Obj.setCalStartDate(calStartDate);
-        Obj.setCalEndDate(calEndDate);
-        Obj.setMedName(medName);
-        Obj.setMedList();*/
-
-
-
-
     }
 }

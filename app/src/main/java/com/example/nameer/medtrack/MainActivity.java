@@ -1,6 +1,7 @@
 package com.example.nameer.medtrack;
 
 import android.app.DatePickerDialog;
+import android.arch.persistence.room.Room;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -23,23 +24,10 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView.LayoutManager layoutManager;
     private String calStartYear;
     FloatingActionButton add;
-    /*private String startDate;
+    private String startDate;
     private String endDate;
     private String medName;
-    private String condition;*/
-    private TextView selectStart;
-    private TextView selectEnd;
-    private EditText selectMed;
-    private EditText setCondition;
-    private DatePickerDialog.OnDateSetListener mStartDateListener;
-    private DatePickerDialog.OnDateSetListener mEndDateListener;
-    private String calStartDate;
-    private String calEndDate;
-    private String medName;
     private String condition;
-
-
-
 
     ArrayList<MedItem> medList; //list of instances of the MedItem method (i.e list of meds & their accompanying info)
 
@@ -49,111 +37,35 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
 
-       medList = new ArrayList<MedItem>();
-        /*if(startDate!=null){
-            startDate = getIntent().getExtras().getString("start");        }
-        if(endDate!=null){
-            endDate = getIntent().getExtras().getString("end");        }
-        if(medName!=null){
-            medName = getIntent().getExtras().getString("medName");        }
-        if(condition!=null){
-            condition = getIntent().getExtras().getString("condition");        } */
-
-
+       //medList = new ArrayList<MedItem>();
 
         recyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);
-        //recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        medList.add(
-                new MedItem("Probiotic 0.1%", "May 30", "June 8", "Psoriasis", "healed most flares")
-        );
+        AppDatabase db = Room.databaseBuilder(getApplicationContext(), AppDatabase.class, "production")
+                .allowMainThreadQueries() //bad practice - should wrap in background thread (sync task?)
+                .build();
+
+        List<MedItem> medList = db.medDao().getAllMedItems();
 
         adapter = new MedAdaptar(this, medList);
         recyclerView.setAdapter(adapter);
 
+
         add = (FloatingActionButton)findViewById(R.id.add);
-        /*add.setOnClickListener(new View.OnClickListener() {
+        add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Intent i = new Intent(MainActivity.this, MedInput.class);
-                //startActivity(i);
-                setContentView(R.layout.activity_med_input);
-                medInputTest();
-
+                Intent i = new Intent(MainActivity.this, MedInput.class);
+                startActivity(i);
             }
-        });*/
+        });
 
 
     }
 
-    public void medInputTest(){
-        selectStart = (TextView) findViewById(R.id.selectStart);
-        selectEnd = (TextView) findViewById(R.id.selectEnd);
-        selectMed = (EditText) findViewById(R.id.selectMed);
-        setCondition = (EditText) findViewById(R.id.setCondition);
 
-        selectStart.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v){
-                Calendar calStart = Calendar.getInstance();
-                int calStartYear = calStart.get(Calendar.YEAR);
-                int calStartMonth = calStart.get(Calendar.MONTH);
-                int calStartDay = calStart.get(Calendar.DAY_OF_MONTH);
-
-                DatePickerDialog dialogStart = new DatePickerDialog(MainActivity.this, android.R.style.Theme_Material_Light_Dialog, mStartDateListener, calStartYear,calStartMonth,calStartDay);
-                dialogStart.show();
-            }
-        });
-
-        mStartDateListener = new DatePickerDialog.OnDateSetListener(){
-            @Override
-            public void onDateSet(DatePicker datePicker, int calStartYear, int calStartMonth, int calStartDay){
-                calStartMonth = calStartMonth + 1;
-                calStartDate = calStartMonth + "/" + calStartDay + "/" +calStartYear;
-                selectStart.setText(calStartDate);
-            }
-        };
-
-
-
-        selectEnd.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v){
-                Calendar calEnd = Calendar.getInstance();
-                int calEndYear = calEnd.get(Calendar.YEAR);
-                int calEndMonth = calEnd.get(Calendar.MONTH);
-                int calEndDay = calEnd.get(Calendar.DAY_OF_MONTH);
-
-                DatePickerDialog dialogEnd = new DatePickerDialog(MainActivity.this, android.R.style.Theme_Material_Light_Dialog, mEndDateListener, calEndYear,calEndMonth,calEndDay);
-                dialogEnd.show();
-            }
-        });
-
-        mEndDateListener = new DatePickerDialog.OnDateSetListener(){
-            @Override
-            public void onDateSet(DatePicker datePicker, int calEndYear, int calEndMonth, int calEndDay){
-                calEndMonth = calEndMonth + 1;
-                calEndDate = calEndMonth + "/" + calEndDay + "/" + calEndYear;
-                selectEnd.setText(calEndDate);
-            }
-        };
-
-
-        FloatingActionButton finish = (FloatingActionButton)findViewById(R.id.finish);
-        /*finish.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                medName = selectMed.getEditableText().toString();
-                condition = setCondition.getText().toString();
-                medList.add(new MedItem(medName,calStartDate , calEndDate, condition, "healed most flares test test test test test"));
-                setContentView(R.layout.activity_main);
-                recyclerView.setAdapter(adapter);
-            }
-        });*/
-    }
-
-    public void add(View view){
+    /*public void add(View view){
         setContentView(R.layout.activity_med_input);
         medInputTest();
     }
@@ -171,5 +83,15 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(this, "Please enter medication name", Toast.LENGTH_SHORT).show();
         }
 
-    }
+    }*/
 }
+
+
+if(startDate!=null){
+            startDate = getIntent().getExtras().getString("start");        }
+        if(endDate!=null){
+            endDate = getIntent().getExtras().getString("end");        }
+        if(medName!=null){
+            medName = getIntent().getExtras().getString("medName");        }
+        if(condition!=null)
+            condition = getIntent().getExtras().getString("condition");        }
