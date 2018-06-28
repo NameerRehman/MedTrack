@@ -8,7 +8,7 @@ import java.util.List;
 
 @Dao
 public interface MedDao {
-    @Query("SELECT * FROM med_table")
+    @Query("SELECT * FROM med_table ORDER BY start_date")
     List<MedItem> getAllMedItems();
 
     @Insert

@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.List;
 
@@ -47,7 +48,7 @@ public class MedAdaptar extends RecyclerView.Adapter<MedAdaptar.ViewHolder> {
         return medList.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder{
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener{
 
         public TextView textViewMedName;
         public TextView textViewStartDate;
@@ -63,6 +64,20 @@ public class MedAdaptar extends RecyclerView.Adapter<MedAdaptar.ViewHolder> {
             textViewEndDate = (TextView) itemView.findViewById(R.id.endDate);
             textViewCondition = (TextView) itemView.findViewById(R.id.condition);
             textViewNotes = (TextView) itemView.findViewById(R.id.notes);
+
+            itemView.setOnClickListener(this);
+            itemView.setOnLongClickListener(this);
+        }
+
+        @Override
+        public void onClick(View v){
+            Toast.makeText(mCtx, "click", Toast.LENGTH_SHORT).show();
+        }
+
+        @Override
+        public boolean onLongClick(View v){
+            Toast.makeText(mCtx, "onLongclick", Toast.LENGTH_SHORT).show();
+            return true;
         }
     }
 }
