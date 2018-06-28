@@ -1,10 +1,32 @@
 package com.example.nameer.medtrack;
 
+import android.arch.persistence.room.ColumnInfo;
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.PrimaryKey;
+import android.support.annotation.NonNull;
+
+
+@Entity(tableName="med_table")
 public class MedItem {
+
+    @PrimaryKey(autoGenerate = true)
+    @NonNull
+    private int id;
+
+    @ColumnInfo(name = "med_name") //in database - use underscore convention
     private String medName;
+
+
+    @ColumnInfo(name = "start_date")
     private String startDate;
+
+    @ColumnInfo(name = "end_date")
     private String endDate;
+
+    @ColumnInfo(name = "condition")
     private String condition;
+
+    @ColumnInfo(name = "notes")
     private String notes;
 
     //constructor to initialize variables
@@ -36,4 +58,9 @@ public class MedItem {
     public String getNotes() {
         return notes;
     }
+
+    @NonNull
+    public int getId() { return id; }
+
+    public void setId(@NonNull int id) { this.id = id; }
 }

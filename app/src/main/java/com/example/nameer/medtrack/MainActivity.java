@@ -69,10 +69,6 @@ public class MainActivity extends AppCompatActivity {
                 new MedItem("Probiotic 0.1%", "May 30", "June 8", "Psoriasis", "healed most flares")
         );
 
-        medList.add(
-                new MedItem("Probiotic 0.1%", "May 30", "June 8", "Psoriasis", "healed most flares test test test test test")
-        );
-
         adapter = new MedAdaptar(this, medList);
         recyclerView.setAdapter(adapter);
 
@@ -87,18 +83,6 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });*/
-
-
-
-
-
-       // if(startDate!=null) {
-         //   medList.add(
-         //           new MedItem(medName, startDate, endDate, condition, "healed most flares test test test test test")
-         //   );
-
-
-        //}
 
 
     }
