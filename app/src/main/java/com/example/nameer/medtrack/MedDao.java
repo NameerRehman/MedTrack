@@ -8,10 +8,13 @@ import android.arch.persistence.room.Query;
 
 import java.util.List;
 
+//This class maps method calls to database queries
+//When the Repository calls getMedListByDate, Room can execute SELECT * from med_table ORDER BY start_date
+
 @Dao
 public interface MedDao {
     @Query("SELECT * FROM med_table ORDER BY start_date")
-    LiveData<List<MedItem>> getMedList();
+    LiveData<List<MedItem>> getMedListByDate();
 
     @Insert
     void insertAll(MedItem...medItems);

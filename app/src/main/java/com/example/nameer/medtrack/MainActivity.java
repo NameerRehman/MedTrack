@@ -52,11 +52,11 @@ public class MainActivity extends AppCompatActivity {
 
         mMedViewModel = ViewModelProviders.of(this).get(MedViewModel.class);
 
-        mMedViewModel.getMedList().observe(this, new Observer<List<MedItem>>(){
+//Observer that observes medList LiveData from the database and executes onChanged when it changes
+        mMedViewModel.getAllMeds().observe(this, new Observer<List<MedItem>>(){
             @Override
             public void onChanged (@Nullable final List<MedItem> medList){
-                //Update the cached copy of medList in the adapter
-                adapter.setMedList(medList);
+                adapter.setMedList(medList); //Updates the "mMedList" variable in adapter
             }
         });
 

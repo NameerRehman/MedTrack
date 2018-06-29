@@ -6,27 +6,32 @@ import android.os.AsyncTask;
 
 import java.util.List;
 
+//this class manages one or more databases - in this case, AppDatabase. Sends data to MedViewModel
+//so that LiveData can be sent to MainActivity
 public class MedRepository {
 
     private MedDao mMedDao;
-    private LiveData<List<MedItem>> mMedList;
+    private LiveData<List<MedItem>> mAllMeds;
 
+    //get access to data from AppDatabase
     MedRepository(Application application){
         AppDatabase db = AppDatabase.getDatabase(application);
         mMedDao = db.medDao();
-        mMedList = mMedDao.getMedList();
+        mAllMeds = mMedDao.getMedListByDate(); //calls database query (with the help of MedDao class) to get Meds orderd by StartDate
     }
 
-    LiveData<List<MedItem>> getMedList(){
-        return mMedList;
+    //getter to be accessed by MedViewModel and then MainActivity to observe LiveData
+    LiveData<List<MedItem>> getAllMeds(){
+        return mAllMeds;
     }
 
     public void insert (MedItem medItem){
         new insertAsyncTask(mMedDao).execute(medItem);
     }
 
-    private static class insertAsyncTask extends AsyncTask<MedItem, Void, Void> {
 
+
+    private static class insertAsyncTask extends AsyncTask<MedItem, Void, Void> {
         private MedDao mAsyncTaskDao;
 
         insertAsyncTask(MedDao dao) {
