@@ -60,12 +60,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        /*AppDatabase db = Room.databaseBuilder(getApplicationContext(), AppDatabase.class, "production")
-           .allowMainThreadQueries() //bad practice - should wrap in background thread (sync task?)
-           .build();
-
-        List<MedItem> medList = db.medDao().getAllMedItems();*/
-
 
 
 

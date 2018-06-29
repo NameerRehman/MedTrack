@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -13,10 +12,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-            <EditText
+        <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/selectMed"
+            android:id="@+id/EselectMed"
             style="@android:style/Widget.Material.Light.EditText"
             android:singleLine="true"
             android:textAlignment="center"
@@ -46,14 +45,14 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/selectStart"
+            android:id="@+id/EselectStart"
             android:text="Select Start Date: "
             android:textAppearance="@android:style/TextAppearance.Material.Subhead"
             android:textSize="21sp"
             android:layout_gravity="center_vertical"
             android:paddingTop="10dp"
             android:paddingBottom="10dp"
-        />
+            />
     </LinearLayout>
 
     <LinearLayout
@@ -74,7 +73,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/selectEnd"
+            android:id="@+id/EselectEnd"
             android:text="Select End Date: "
             android:textAppearance="@android:style/TextAppearance.Material.Subhead"
             android:textSize="21sp"
@@ -90,7 +89,7 @@
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/setCondition"
+            android:id="@+id/EsetCondition"
             style="@android:style/Widget.Material.Light.EditText"
             android:singleLine="true"
             android:textAlignment="center"
@@ -113,17 +112,17 @@
         android:gravity="right"
         android:orientation="horizontal">
 
-    <android.support.design.widget.FloatingActionButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/finish"
-        android:layout_gravity="bottom|end"
-        app:fabSize="normal"
-        android:paddingBottom="6dp"
-        android:src="@drawable/ic_check_white"
-        android:layout_marginRight="10dp"
-        android:layout_marginBottom="10dp"
-        />
+        <android.support.design.widget.FloatingActionButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/Efinish"
+            android:layout_gravity="bottom|end"
+            app:fabSize="normal"
+            android:paddingBottom="6dp"
+            android:src="@drawable/ic_check_white"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="10dp"
+            />
     </LinearLayout>
 
 

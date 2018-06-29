@@ -1,11 +1,13 @@
 package com.example.nameer.medtrack;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -15,6 +17,7 @@ public class MedAdaptar extends RecyclerView.Adapter<MedAdaptar.ViewHolder> {
 
     private Context mCtx;
     private List<MedItem> mMedList; // Cached copy of medList
+    private MedItem currentPosition;
 
     //constructor to get context of main activity and medList data from main activity
     public MedAdaptar(Context mCtx) {
@@ -44,8 +47,10 @@ public class MedAdaptar extends RecyclerView.Adapter<MedAdaptar.ViewHolder> {
 
         @Override
         public void onClick(View v){
-            Toast.makeText(mCtx, "click", Toast.LENGTH_SHORT).show();
-            //mMedList.get((holder.getAdapterPosition))
+            //currentPosition = mMedList.get(getAdapterPosition());
+            //Intent i = new Intent(mCtx, MedEdit.class);
+            //mCtx.startActivity(i);
+
         }
 
         @Override
