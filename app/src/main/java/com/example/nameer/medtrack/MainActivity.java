@@ -1,8 +1,12 @@
 package com.example.nameer.medtrack;
 
 import android.app.DatePickerDialog;
+import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModelProviders;
 import android.arch.persistence.room.Room;
 import android.content.Intent;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -28,6 +32,8 @@ public class MainActivity extends AppCompatActivity {
     private String endDate;
     private String medName;
     private String condition;
+    private MedViewModel mMedViewModel;
+    public static final int NEW_WORD_ACTIVITY_REQUEST_CODE = 1;
 
     ArrayList<MedItem> medList; //list of instances of the MedItem method (i.e list of meds & their accompanying info)
 
@@ -41,15 +47,26 @@ public class MainActivity extends AppCompatActivity {
 
         recyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-
-        AppDatabase db = Room.databaseBuilder(getApplicationContext(), AppDatabase.class, "production")
-                .allowMainThreadQueries() //bad practice - should wrap in background thread (sync task?)
-                .build();
-
-        List<MedItem> medList = db.medDao().getAllMedItems();
-
-        adapter = new MedAdaptar(this, medList);
+        final MedAdaptar adapter = new MedAdaptar(this);
         recyclerView.setAdapter(adapter);
+
+        mMedViewModel = ViewModelProviders.of(this).get(MedViewModel.class);
+
+        mMedViewModel.getMedList().observe(this, new Observer<List<MedItem>>(){
+            @Override
+            public void onChanged (@Nullable final List<MedItem> medList){
+                //Update the cached copy of medList in the adapter
+                adapter.setMedList(medList);
+            }
+        });
+
+        /*AppDatabase db = Room.databaseBuilder(getApplicationContext(), AppDatabase.class, "production")
+           .allowMainThreadQueries() //bad practice - should wrap in background thread (sync task?)
+           .build();
+
+        List<MedItem> medList = db.medDao().getAllMedItems();*/
+
+
 
 
         add = (FloatingActionButton)findViewById(R.id.add);
@@ -57,12 +74,32 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(MainActivity.this, MedInput.class);
-                startActivity(i);
+                startActivityForResult(i, NEW_WORD_ACTIVITY_REQUEST_CODE);
+
+
             }
         });
 
 
     }
+
+    public void onActivityResult(int requestCode, int resultCode, Intent i){
+        super.onActivityResult(requestCode, resultCode, i);
+
+        if(requestCode == NEW_WORD_ACTIVITY_REQUEST_CODE && resultCode == RESULT_OK){
+            medName = i.getStringExtra("medName");
+
+                startDate = i.getStringExtra("start");
+                endDate = i.getStringExtra("end");
+                condition = i.getStringExtra("condition");
+
+            MedItem medItem = new MedItem(medName, startDate, endDate, condition, "dfdf");
+            mMedViewModel.insert(medItem);
+        } else {
+            Toast.makeText(getApplicationContext(),"empty not saved", Toast.LENGTH_LONG).show();
+        }
+    }
+
 
 
     /*public void add(View view){
@@ -84,4 +121,6 @@ public class MainActivity extends AppCompatActivity {
         }
 
     }*/
+
+
 }

@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.DatePicker;
@@ -37,13 +38,10 @@ public class MedInput extends AppCompatActivity {
     private String condition;
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_med_input);
-
-        //final ArrayList<MedItem> medList = new ArrayList<>();
 
         selectStart = (TextView) findViewById(R.id.selectStart);
         selectEnd = (TextView) findViewById(R.id.selectEnd);
@@ -106,15 +104,25 @@ public class MedInput extends AppCompatActivity {
         finish.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                medName = selectMed.getEditableText().toString();
-                condition = setCondition.getText().toString();
-                if (medName.length() >0) {
-                    Intent i = new Intent(MedInput.this, MainActivity.class);
-                    startActivity(i);
-                    db.medDao().insertAll(new MedItem(medName, calStartDate, calEndDate, condition, "dsimd"));
-                } else {
+
+                Intent i = new Intent();
+
+                if (TextUtils.isEmpty(selectMed.getEditableText())) {
                     Toast.makeText(MedInput.this, "Please enter medication name", Toast.LENGTH_SHORT).show();
+                    setResult(RESULT_CANCELED, i);
+
+                } else {
+                    medName = selectMed.getEditableText().toString();
+                    condition = setCondition.getText().toString();
+                    i.putExtra("medName", medName);
+                    i.putExtra("start", calStartDate);
+                    i.putExtra("end", calEndDate);
+                    i.putExtra("condition", condition);
+                    setResult(RESULT_OK, i);
+                    finish();
+
                 }
+
             }
         });
     }
