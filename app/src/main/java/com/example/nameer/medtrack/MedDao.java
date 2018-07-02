@@ -19,9 +19,10 @@ public interface MedDao {
     @Insert
     void insertAll(MedItem...medItems);
 
-    @Query("DELETE FROM med_table")
-    void deleteAll();
+    @Query("DELETE FROM med_table WHERE id = :id")
+    void delete(int id);
 
-    @Delete
-    void delete(MedItem...medItems);
+    @Query("UPDATE med_table SET med_name = :medName, start_date = :startDate, end_date = :endDate, condition = :condition WHERE id =:id")
+    void update(String medName, String startDate, String endDate, String condition, int id);
+
 }

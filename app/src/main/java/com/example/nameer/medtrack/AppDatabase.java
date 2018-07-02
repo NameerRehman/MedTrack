@@ -29,9 +29,6 @@ public abstract class AppDatabase extends RoomDatabase {
                     //create database
                     INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
                             AppDatabase.class, "word_database")
-                            //wipes and rebuilds instead of migrating if no migration object
-                            //.fallbackToDestructiveMigration()
-                            //.addCallback(sRoomDatabaseCallback)
                             .addMigrations(MIGRATION_1_2)
                             .build();
 
@@ -58,7 +55,7 @@ public abstract class AppDatabase extends RoomDatabase {
 
         @Override
         protected Void doInBackground(final Void... params){
-            mDao.deleteAll();
+            //mDao.deleteAll();
             return null;
 
         }

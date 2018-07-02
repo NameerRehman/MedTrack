@@ -19,7 +19,7 @@ public class MedViewModel extends AndroidViewModel{
     public MedViewModel(Application application) {
         super(application);
         mRepository = new MedRepository(application);
-        mAllMeds = mRepository.getAllMeds(); //returns mAllMeds from repo
+        mAllMeds = mRepository.getAllMeds(); //returns mAllMeds from repo - db.medDao().getMedListByDate;
     }
 
     //return LiveData mAllMeds (called in MainActivity to setup observer relationship)
@@ -30,5 +30,9 @@ public class MedViewModel extends AndroidViewModel{
     //Insert new data into repo - used in onClick of "add" buton in MainActivity
     public void insert(MedItem medItem) {
         mRepository.insert(medItem);
+    }
+
+    public void delete(int id){
+        mRepository.delete(id);
     }
 }

@@ -5,9 +5,11 @@ import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
 import android.support.annotation.NonNull;
 
+import java.io.Serializable;
+
 
 @Entity(tableName="med_table")
-public class MedItem {
+public class MedItem implements Serializable{
 
     @PrimaryKey(autoGenerate = true)
     @NonNull

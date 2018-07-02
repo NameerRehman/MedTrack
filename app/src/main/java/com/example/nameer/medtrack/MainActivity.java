@@ -1,6 +1,5 @@
 package com.example.nameer.medtrack;
 
-import android.app.DatePickerDialog;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.arch.persistence.room.Room;
@@ -13,9 +12,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.support.design.widget.FloatingActionButton;
-import android.widget.DatePicker;
-import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -33,17 +29,13 @@ public class MainActivity extends AppCompatActivity {
     private String medName;
     private String condition;
     private MedViewModel mMedViewModel;
-    public static final int NEW_WORD_ACTIVITY_REQUEST_CODE = 1;
+    public static final int NEW_MEDITEM_REQUEST_CODE = 1;
 
-    ArrayList<MedItem> medList; //list of instances of the MedItem method (i.e list of meds & their accompanying info)
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-
-       //medList = new ArrayList<MedItem>();
 
         recyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -52,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
 
         mMedViewModel = ViewModelProviders.of(this).get(MedViewModel.class);
 
-//Observer that observes medList LiveData from the database and executes onChanged when it changes
+//Observer that observes mAllMeds LiveData from the database and executes onChanged when it changes
         mMedViewModel.getAllMeds().observe(this, new Observer<List<MedItem>>(){
             @Override
             public void onChanged (@Nullable final List<MedItem> medList){
@@ -68,8 +60,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(MainActivity.this, MedInput.class);
-                startActivityForResult(i, NEW_WORD_ACTIVITY_REQUEST_CODE);
-
+                startActivityForResult(i, NEW_MEDITEM_REQUEST_CODE);
 
             }
         });
@@ -80,15 +71,23 @@ public class MainActivity extends AppCompatActivity {
     public void onActivityResult(int requestCode, int resultCode, Intent i){
         super.onActivityResult(requestCode, resultCode, i);
 
-        if(requestCode == NEW_WORD_ACTIVITY_REQUEST_CODE && resultCode == RESULT_OK){
+        if(requestCode == NEW_MEDITEM_REQUEST_CODE && resultCode == RESULT_OK) {
             medName = i.getStringExtra("medName");
+            startDate = i.getStringExtra("start");
+            endDate = i.getStringExtra("end");
+            condition = i.getStringExtra("condition");
 
-                startDate = i.getStringExtra("start");
-                endDate = i.getStringExtra("end");
-                condition = i.getStringExtra("condition");
 
             MedItem medItem = new MedItem(medName, startDate, endDate, condition, "dfdf");
             mMedViewModel.insert(medItem);
+
+        } else if(requestCode == 2 && resultCode == RESULT_OK){
+            //MedItem medItem = new MedItem("successv2", ".",".","","");
+            //mMedViewModel.insert(medItem);
+            int ID = i.getIntExtra("id",0);
+            if(ID != 0){
+                mMedViewModel.delete(ID);
+            }
         } else {
             Toast.makeText(getApplicationContext(),"empty not saved", Toast.LENGTH_LONG).show();
         }

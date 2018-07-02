@@ -28,6 +28,7 @@ public class MedRepository {
     public void insert (MedItem medItem){
         new insertAsyncTask(mMedDao).execute(medItem);
     }
+    public void delete (int id){ new deleteAsyncTask(mMedDao).execute(id); }
 
 
 
@@ -41,6 +42,20 @@ public class MedRepository {
         @Override
         protected Void doInBackground(final MedItem... params) {
             mAsyncTaskDao.insertAll(params[0]);
+            return null;
+        }
+    }
+
+    private static class deleteAsyncTask extends AsyncTask<Integer, Void, Void> {
+        private MedDao mAsyncTaskDao;
+
+        deleteAsyncTask(MedDao dao) {
+            mAsyncTaskDao = dao;
+        }
+
+        @Override
+        protected Void doInBackground(final Integer... params) {
+            mAsyncTaskDao.delete(params[0]);
             return null;
         }
     }

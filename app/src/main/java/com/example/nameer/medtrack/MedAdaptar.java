@@ -18,11 +18,13 @@ public class MedAdaptar extends RecyclerView.Adapter<MedAdaptar.ViewHolder> {
     private Context mCtx;
     private List<MedItem> mMedList; // Cached copy of medList
     private MedItem currentPosition;
+    public static final int EDIT_MEDITEM_REQUEST_CODE = 1;
 
     //constructor to get context of main activity and medList data from main activity
     public MedAdaptar(Context mCtx) {
         this.mCtx = mCtx;
     }
+
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener{
 
@@ -47,9 +49,12 @@ public class MedAdaptar extends RecyclerView.Adapter<MedAdaptar.ViewHolder> {
 
         @Override
         public void onClick(View v){
-            //currentPosition = mMedList.get(getAdapterPosition());
-            //Intent i = new Intent(mCtx, MedEdit.class);
-            //mCtx.startActivity(i);
+            currentPosition = mMedList.get(getLayoutPosition());
+            Intent i = new Intent(mCtx, MedEdit.class);
+            i.putExtra("position", currentPosition);
+            mCtx.startActivity(i);
+            ((MainActivity) mCtx).startActivityForResult(i,2);
+            //Toast.makeText(mCtx, Integer.toString(currentPosition), Toast.LENGTH_SHORT).show();
 
         }
 
@@ -93,6 +98,10 @@ public class MedAdaptar extends RecyclerView.Adapter<MedAdaptar.ViewHolder> {
         notifyDataSetChanged();
     }
 
+
+    public MedItem getPosition(){
+        return currentPosition;
+    }
 
     // getItemCount() is called many times, and when it is first called,
     // mWords has not been updated (means initially, it's null, and we can't return null).

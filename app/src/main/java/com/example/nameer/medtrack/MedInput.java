@@ -48,9 +48,9 @@ public class MedInput extends AppCompatActivity {
         selectMed = (EditText) findViewById(R.id.selectMed);
         setCondition = (EditText) findViewById(R.id.setCondition);
 
-        final AppDatabase db = Room.databaseBuilder(getApplicationContext(), AppDatabase.class, "production")
-                .allowMainThreadQueries() //bad practice - should wrap in background thread (sync task?)
-                .build();
+        //final AppDatabase db = Room.databaseBuilder(getApplicationContext(), AppDatabase.class, "production")
+         //       .allowMainThreadQueries() //bad practice - should wrap in background thread (sync task?)
+         //       .build();
 
         selectStart.setOnClickListener(new View.OnClickListener() {
             @Override
