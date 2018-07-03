@@ -36,7 +36,7 @@ public class MedViewModel extends AndroidViewModel{
         mRepository.delete(id);
     }
 
-    public void update(String medName, int id){
-        mRepository.update(medName, id);
+    public void update(String medName, String startDate, String endDate, String condition, String notes, int id){
+        mRepository.update(medName, startDate, endDate, condition, notes, id);
     }
 }

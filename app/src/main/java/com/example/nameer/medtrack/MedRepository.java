@@ -30,7 +30,8 @@ public class MedRepository {
         new insertAsyncTask(mMedDao).execute(medItem);
     }
     public void delete (int id){ new deleteAsyncTask(mMedDao).execute(id); }
-    public void update (String medName, int id){ new editAsyncTask(mMedDao, medName).execute(id); }
+    public void update (String medName, String startDate, String endDate, String condition, String notes, int id){
+        new editAsyncTask(mMedDao, medName, startDate, endDate, condition, notes).execute(id); }
 
 
 
@@ -65,15 +66,23 @@ public class MedRepository {
     private static class editAsyncTask extends AsyncTask<Integer, Void, Void> {
         private MedDao mAsyncTaskDao;
         private String medName;
+        private String startDate;
+        private String endDate;
+        private String condition;
+        private String notes;
 
-        editAsyncTask(MedDao dao, String medName) {
+        editAsyncTask(MedDao dao, String medName, String startDate, String endDate, String condition, String notes) {
             mAsyncTaskDao = dao;
             this.medName = medName;
+            this.startDate = startDate;
+            this.endDate = endDate;
+            this.condition = condition;
+            this.notes  = notes;
         }
 
         @Override
         protected Void doInBackground(final Integer... params) {
-            mAsyncTaskDao.update(medName, params[0]);
+            mAsyncTaskDao.update(medName, startDate, endDate, condition, notes, params[0]);
             return null;
         }
     }

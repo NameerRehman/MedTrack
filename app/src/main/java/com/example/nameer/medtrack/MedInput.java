@@ -30,12 +30,14 @@ public class MedInput extends AppCompatActivity {
     private TextView selectEnd;
     private EditText selectMed;
     private EditText setCondition;
+    private EditText setNotes;
     private DatePickerDialog.OnDateSetListener mStartDateListener;
     private DatePickerDialog.OnDateSetListener mEndDateListener;
     private String calStartDate;
     private String calEndDate;
     private String medName;
     private String condition;
+    private String notes;
 
 
     @Override
@@ -47,6 +49,7 @@ public class MedInput extends AppCompatActivity {
         selectEnd = (TextView) findViewById(R.id.selectEnd);
         selectMed = (EditText) findViewById(R.id.selectMed);
         setCondition = (EditText) findViewById(R.id.setCondition);
+        setNotes = (EditText) findViewById(R.id.setNotes);
 
         //final AppDatabase db = Room.databaseBuilder(getApplicationContext(), AppDatabase.class, "production")
          //       .allowMainThreadQueries() //bad practice - should wrap in background thread (sync task?)
@@ -114,10 +117,12 @@ public class MedInput extends AppCompatActivity {
                 } else {
                     medName = selectMed.getEditableText().toString();
                     condition = setCondition.getText().toString();
+                    notes = setNotes.getText().toString();
                     i.putExtra("medName", medName);
                     i.putExtra("start", calStartDate);
                     i.putExtra("end", calEndDate);
                     i.putExtra("condition", condition);
+                    i.putExtra("notes", notes);
                     setResult(RESULT_OK, i);
                     finish();
 

@@ -52,7 +52,6 @@ public class MedAdaptar extends RecyclerView.Adapter<MedAdaptar.ViewHolder> {
             currentPosition = mMedList.get(getLayoutPosition());
             Intent i = new Intent(mCtx, MedEdit.class);
             i.putExtra("position", currentPosition);
-            mCtx.startActivity(i);
             ((MainActivity) mCtx).startActivityForResult(i,2);
             //Toast.makeText(mCtx, Integer.toString(currentPosition), Toast.LENGTH_SHORT).show();
 

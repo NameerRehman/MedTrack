@@ -22,7 +22,7 @@ public interface MedDao {
     @Query("DELETE FROM med_table WHERE id = :id")
     void delete(int id);
 
-    @Query("UPDATE med_table SET med_name = :medName WHERE id =:id")
-    void update(String medName, int id);
+    @Query("UPDATE med_table SET med_name = :medName, start_date = :startDate, end_date = :endDate, condition = :condition, notes = :notes WHERE id =:id")
+    void update(String medName, String startDate, String endDate, String condition, String notes, int id);
 
 }

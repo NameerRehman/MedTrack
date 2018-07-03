@@ -27,6 +27,7 @@ public class MedEdit extends AppCompatActivity {
     private TextView EselectEnd;
     private EditText EselectMed;
     private EditText EsetCondition;
+    private EditText EsetNotes;
     private Button delete;
 
     private MedItem currentPosition;
@@ -37,6 +38,7 @@ public class MedEdit extends AppCompatActivity {
     private String calEndDate;
     private String medName;
     private String condition;
+    private String notes;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +49,7 @@ public class MedEdit extends AppCompatActivity {
         EselectEnd = (TextView) findViewById(R.id.EselectEnd);
         EselectMed = (EditText) findViewById(R.id.EselectMed);
         EsetCondition = (EditText) findViewById(R.id.EsetCondition);
+        EsetNotes = (EditText) findViewById(R.id.EsetNotes);
 
         //get MedItem object that was clicked in RecyclerView adapter
         Bundle extras = getIntent().getExtras();
@@ -55,6 +58,8 @@ public class MedEdit extends AppCompatActivity {
 
             EselectMed.setText(currentPosition.getMedName());
             EsetCondition.setText(currentPosition.getCondition());
+            EsetNotes.setText(currentPosition.getNotes());
+
             if(currentPosition.getStartDate()!=null){
                 EselectStart.setText(currentPosition.getStartDate());
             }else{
@@ -86,10 +91,15 @@ public class MedEdit extends AppCompatActivity {
                 } else {
                     medName = EselectMed.getEditableText().toString();
                     condition = EsetCondition.getText().toString();
+                    notes = EsetNotes.getText().toString();
+                    calStartDate = EselectStart.getText().toString();
+                    calEndDate = EselectEnd.getText().toString();
+
                     i.putExtra("EmedName", medName);
                     i.putExtra("Estart", calStartDate);
                     i.putExtra("Eend", calEndDate);
                     i.putExtra("Econdition", condition);
+                    i.putExtra("Enotes", notes);
                     i.putExtra("id", currentPosition.getId());
                     setResult(2, i);
                     finish();
@@ -123,17 +133,20 @@ public class MedEdit extends AppCompatActivity {
 
                 DatePickerDialog dialogStart = new DatePickerDialog(MedEdit.this, android.R.style.Theme_Material_Light_Dialog, mStartDateListener, calStartYear,calStartMonth,calStartDay);
                 dialogStart.show();
+
+                //date listener in onclick method, so will only listen for date when clicked
+                mStartDateListener = new DatePickerDialog.OnDateSetListener(){
+                    @Override
+                    public void onDateSet(DatePicker datePicker, int calStartYear, int calStartMonth, int calStartDay){
+                        calStartMonth = calStartMonth + 1;
+                        calStartDate = calStartMonth + "/" + calStartDay + "/" +calStartYear;
+                        EselectStart.setText(calStartDate);
+                    }
+                };
             }
         });
 
-        mStartDateListener = new DatePickerDialog.OnDateSetListener(){
-            @Override
-            public void onDateSet(DatePicker datePicker, int calStartYear, int calStartMonth, int calStartDay){
-                calStartMonth = calStartMonth + 1;
-                calStartDate = calStartMonth + "/" + calStartDay + "/" +calStartYear;
-                EselectStart.setText(calStartDate);
-            }
-        };
+
     }
 
     public void editEndDate(){
@@ -147,17 +160,19 @@ public class MedEdit extends AppCompatActivity {
 
                 DatePickerDialog dialogEnd = new DatePickerDialog(MedEdit.this, android.R.style.Theme_Material_Light_Dialog, mEndDateListener, calEndYear,calEndMonth,calEndDay);
                 dialogEnd.show();
+
+                mEndDateListener = new DatePickerDialog.OnDateSetListener(){
+                    @Override
+                    public void onDateSet(DatePicker datePicker, int calEndYear, int calEndMonth, int calEndDay){
+                        calEndMonth = calEndMonth + 1;
+                        calEndDate = calEndMonth + "/" + calEndDay + "/" + calEndYear;
+                        EselectEnd.setText(calEndDate);
+                    }
+                };
             }
         });
 
-        mEndDateListener = new DatePickerDialog.OnDateSetListener(){
-            @Override
-            public void onDateSet(DatePicker datePicker, int calEndYear, int calEndMonth, int calEndDay){
-                calEndMonth = calEndMonth + 1;
-                calEndDate = calEndMonth + "/" + calEndDay + "/" + calEndYear;
-                EselectEnd.setText(calEndDate);
-            }
-        };
+
 
     }
 

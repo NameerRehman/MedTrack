@@ -28,6 +28,7 @@ public class MainActivity extends AppCompatActivity {
     private String endDate;
     private String medName;
     private String condition;
+    private String notes;
     private MedViewModel mMedViewModel;
     public static final int NEW_MEDITEM_REQUEST_CODE = 1;
 
@@ -76,16 +77,22 @@ public class MainActivity extends AppCompatActivity {
             startDate = i.getStringExtra("start");
             endDate = i.getStringExtra("end");
             condition = i.getStringExtra("condition");
+            notes = i.getStringExtra("notes");
 
 
-            MedItem medItem = new MedItem(medName, startDate, endDate, condition, "dfdf");
+            MedItem medItem = new MedItem(medName, startDate, endDate, condition, notes);
             mMedViewModel.insert(medItem);
 
         } else if(requestCode == 2 && resultCode == 2){
-            String medName = i.getStringExtra("EmedName");
+            String EmedName = i.getStringExtra("EmedName");
+            String EstartDate = i.getStringExtra("Estart");
+            String EendDate = i.getStringExtra("Eend");
+            String Econdition = i.getStringExtra("Econdition");
+            String Enotes = i.getStringExtra("Enotes");
+
             int ID1 = i.getIntExtra("id",0);
             if(ID1 != 0){
-                mMedViewModel.update(medName, ID1);
+                mMedViewModel.update(EmedName, EstartDate, EendDate, Econdition, Enotes, ID1);
             }
 
         }else if(requestCode == 2 && resultCode ==3){
@@ -94,7 +101,7 @@ public class MainActivity extends AppCompatActivity {
                 mMedViewModel.delete(ID);
             }
         } else {
-            Toast.makeText(getApplicationContext(),"empty not saved", Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(),"Empty not saved", Toast.LENGTH_LONG).show();
         }
     }
 

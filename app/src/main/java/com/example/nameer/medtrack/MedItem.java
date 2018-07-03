@@ -15,7 +15,7 @@ public class MedItem implements Serializable{
     @NonNull
     private int id;
 
-    @ColumnInfo(name = "med_name") //in database - use underscore convention
+    @ColumnInfo(name = "med_name") //in databases - use underscore convention
     private String medName;
 
 
