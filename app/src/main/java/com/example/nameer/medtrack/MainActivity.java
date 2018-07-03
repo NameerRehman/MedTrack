@@ -81,9 +81,14 @@ public class MainActivity extends AppCompatActivity {
             MedItem medItem = new MedItem(medName, startDate, endDate, condition, "dfdf");
             mMedViewModel.insert(medItem);
 
-        } else if(requestCode == 2 && resultCode == RESULT_OK){
-            //MedItem medItem = new MedItem("successv2", ".",".","","");
-            //mMedViewModel.insert(medItem);
+        } else if(requestCode == 2 && resultCode == 2){
+            String medName = i.getStringExtra("EmedName");
+            int ID1 = i.getIntExtra("id",0);
+            if(ID1 != 0){
+                mMedViewModel.update(medName, ID1);
+            }
+
+        }else if(requestCode == 2 && resultCode ==3){
             int ID = i.getIntExtra("id",0);
             if(ID != 0){
                 mMedViewModel.delete(ID);

@@ -10,6 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -26,6 +27,7 @@ public class MedEdit extends AppCompatActivity {
     private TextView EselectEnd;
     private EditText EselectMed;
     private EditText EsetCondition;
+    private Button delete;
 
     private MedItem currentPosition;
 
@@ -52,13 +54,65 @@ public class MedEdit extends AppCompatActivity {
             currentPosition = (MedItem)extras.getSerializable("position");
 
             EselectMed.setText(currentPosition.getMedName());
-            EselectStart.setText(currentPosition.getStartDate());
-            EselectEnd.setText(currentPosition.getEndDate());
             EsetCondition.setText(currentPosition.getCondition());
+            if(currentPosition.getStartDate()!=null){
+                EselectStart.setText(currentPosition.getStartDate());
+            }else{
+                EselectStart.setText("N/A");
+            }
+
+            if(currentPosition.getEndDate() != null){
+                EselectEnd.setText(currentPosition.getEndDate());
+            }else{
+                EselectEnd.setText("N/A");
+            }
         }
 
+        editEndDate(); //date picker dialog to edit start/end dates
+        editStartDate();
 
 
+        FloatingActionButton Efinish = (FloatingActionButton)findViewById(R.id.Efinish);
+        Efinish.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent i = new Intent(MedEdit.this, MainActivity.class);
+
+                if (TextUtils.isEmpty(EselectMed.getEditableText())) {
+                    Toast.makeText(MedEdit.this, "Please enter medication name", Toast.LENGTH_SHORT).show();
+                    setResult(RESULT_CANCELED, i);
+
+                } else {
+                    medName = EselectMed.getEditableText().toString();
+                    condition = EsetCondition.getText().toString();
+                    i.putExtra("EmedName", medName);
+                    i.putExtra("Estart", calStartDate);
+                    i.putExtra("Eend", calEndDate);
+                    i.putExtra("Econdition", condition);
+                    i.putExtra("id", currentPosition.getId());
+                    setResult(2, i);
+                    finish();
+
+                }
+
+            }
+        });
+
+        delete = (Button) findViewById(R.id.delete);
+        delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(MedEdit.this, MainActivity.class);
+                i.putExtra("id", currentPosition.getId());
+                setResult(3,i);
+                finish();
+
+            }
+        });
+    }
+
+    public void editStartDate(){
         EselectStart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v){
@@ -80,9 +134,9 @@ public class MedEdit extends AppCompatActivity {
                 EselectStart.setText(calStartDate);
             }
         };
+    }
 
-
-
+    public void editEndDate(){
         EselectEnd.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
@@ -105,36 +159,8 @@ public class MedEdit extends AppCompatActivity {
             }
         };
 
-
-
-        FloatingActionButton Efinish = (FloatingActionButton)findViewById(R.id.Efinish);
-        Efinish.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                Intent i = new Intent(MedEdit.this, MainActivity.class);
-
-                if (TextUtils.isEmpty(EselectMed.getEditableText())) {
-                    Toast.makeText(MedEdit.this, "Please enter medication name", Toast.LENGTH_SHORT).show();
-                    setResult(RESULT_CANCELED, i);
-
-                } else {
-                    medName = EselectMed.getEditableText().toString();
-                    condition = EsetCondition.getText().toString();
-                    i.putExtra("EmedName", medName);
-                    i.putExtra("Estart", calStartDate);
-                    i.putExtra("Eend", calEndDate);
-                    i.putExtra("Econdition", condition);
-                    i.putExtra("id", currentPosition.getId());
-                    setResult(RESULT_OK, i);
-                    finish();
-
-                }
-
-            }
-        });
-
     }
+
 }
 
 

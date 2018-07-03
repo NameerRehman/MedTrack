@@ -3,6 +3,7 @@ package com.example.nameer.medtrack;
 import android.app.Application;
 import android.arch.lifecycle.LiveData;
 import android.os.AsyncTask;
+import android.os.Bundle;
 
 import java.util.List;
 
@@ -29,6 +30,7 @@ public class MedRepository {
         new insertAsyncTask(mMedDao).execute(medItem);
     }
     public void delete (int id){ new deleteAsyncTask(mMedDao).execute(id); }
+    public void update (String medName, int id){ new editAsyncTask(mMedDao, medName).execute(id); }
 
 
 
@@ -56,6 +58,22 @@ public class MedRepository {
         @Override
         protected Void doInBackground(final Integer... params) {
             mAsyncTaskDao.delete(params[0]);
+            return null;
+        }
+    }
+
+    private static class editAsyncTask extends AsyncTask<Integer, Void, Void> {
+        private MedDao mAsyncTaskDao;
+        private String medName;
+
+        editAsyncTask(MedDao dao, String medName) {
+            mAsyncTaskDao = dao;
+            this.medName = medName;
+        }
+
+        @Override
+        protected Void doInBackground(final Integer... params) {
+            mAsyncTaskDao.update(medName, params[0]);
             return null;
         }
     }

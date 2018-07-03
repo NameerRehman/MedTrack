@@ -35,4 +35,8 @@ public class MedViewModel extends AndroidViewModel{
     public void delete(int id){
         mRepository.delete(id);
     }
+
+    public void update(String medName, int id){
+        mRepository.update(medName, id);
+    }
 }
