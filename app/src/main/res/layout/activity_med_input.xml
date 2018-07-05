@@ -7,11 +7,17 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".MedInput">
+    tools:context=".MedInput"    >
 
     <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:focusedByDefault="false"
+        android:defaultFocusHighlightEnabled="false">
+
 
             <EditText
             android:layout_width="match_parent"
@@ -24,7 +30,8 @@
             android:textAppearance="@android:style/TextAppearance.Material.Subhead"
             android:textSize="21sp"
             android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"/>
+            android:layout_marginRight="10dp"
+            />
     </android.support.design.widget.TextInputLayout>
 
 
@@ -33,6 +40,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
+        android:layout_marginTop="15dp"
+        android:layout_gravity="center_horizontal"
         >
 
         <ImageView
@@ -50,7 +59,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/selectStart"
-            android:text="Select Start Date: "
+            android:text="Select Start Date "
             android:textAppearance="@android:style/TextAppearance.Material.Subhead"
             android:textSize="21sp"
             android:layout_gravity="center_vertical"
@@ -61,9 +70,11 @@
     </LinearLayout>
 
     <LinearLayout
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:layout_gravity="center_horizontal">
+
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -79,7 +90,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/selectEnd"
-            android:text="Select End Date: "
+            android:text="Select End Date "
             android:textAppearance="@android:style/TextAppearance.Material.Subhead"
             android:textSize="21sp"
             android:layout_gravity="center_horizontal"
@@ -115,7 +126,6 @@
             android:layout_height="wrap_content"
             android:id="@+id/setNotes"
             style="@android:style/Widget.Material.Light.EditText"
-            android:singleLine="true"
             android:textAlignment="center"
             android:hint="Notes "
             android:textAppearance="@android:style/TextAppearance.Material.Subhead"

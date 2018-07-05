@@ -1,8 +1,10 @@
 package com.example.nameer.medtrack;
 
+import android.app.Activity;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.arch.persistence.room.Room;
+import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -12,11 +14,15 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.support.design.widget.FloatingActionButton;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
-
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
+import android.widget.ArrayAdapter;
+import android.widget.AdapterView.OnItemSelectedListener;
+
 
 public class MainActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
@@ -24,11 +30,15 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView.LayoutManager layoutManager;
     private String calStartYear;
     FloatingActionButton add;
+    private Spinner conditionsSpinner;
     private String startDate;
     private String endDate;
     private String medName;
     private String condition;
     private String notes;
+
+    ArrayList<String> conditionsArrayList;
+    private String conditions;
     private MedViewModel mMedViewModel;
     public static final int NEW_MEDITEM_REQUEST_CODE = 1;
 
@@ -45,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
 
         mMedViewModel = ViewModelProviders.of(this).get(MedViewModel.class);
 
-//Observer that observes mAllMeds LiveData from the database and executes onChanged when it changes
+        //Observer that observes mAllMeds LiveData from the database and executes onChanged when it changes
         mMedViewModel.getAllMeds().observe(this, new Observer<List<MedItem>>(){
             @Override
             public void onChanged (@Nullable final List<MedItem> medList){
@@ -53,7 +63,29 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        conditionsSpinner = (Spinner) findViewById(R.id.conditionsSpinner);
+        conditionsArrayList = new ArrayList<String>();
+        conditions = "";
+        final ArrayAdapter<String> conditionsAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,conditionsArrayList);
+        mMedViewModel.getConditions().observe(this, new Observer<List<String>>(){
+            @Override
+            public void onChanged (@Nullable final List<String> conditionsList){
+                conditionsArrayList.clear();
+                if (conditionsList != null){
+                    for (int i = 0; i < conditionsList.size(); i++) {
+                        if (conditionsArrayList.contains(conditionsList.get(i))){
 
+                        }else{
+                            conditionsArrayList.add(conditionsList.get(i));
+                        }
+                    }
+                }
+
+                conditionsAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                conditionsSpinner.setAdapter(conditionsAdapter);
+
+            }
+        });
 
 
         add = (FloatingActionButton)findViewById(R.id.add);
@@ -104,28 +136,4 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(getApplicationContext(),"Empty not saved", Toast.LENGTH_LONG).show();
         }
     }
-
-
-
-    /*public void add(View view){
-        setContentView(R.layout.activity_med_input);
-        medInputTest();
-    }
-
-    public void finish(View view){
-        medName = selectMed.getEditableText().toString();
-        condition = setCondition.getText().toString();
-        if (medName.length() >0){
-            medList.add(new MedItem(medName,calStartDate , calEndDate, condition, "healed most flares test test test test test"));
-            setContentView(R.layout.activity_main);
-            recyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);
-            recyclerView.setLayoutManager(new LinearLayoutManager(this));
-            recyclerView.setAdapter(adapter);
-        } else {
-            Toast.makeText(this, "Please enter medication name", Toast.LENGTH_SHORT).show();
-        }
-
-    }*/
-
-
 }

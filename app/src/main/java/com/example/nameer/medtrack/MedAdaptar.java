@@ -7,10 +7,12 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.HashSet;
 import java.util.List;
 
 public class MedAdaptar extends RecyclerView.Adapter<MedAdaptar.ViewHolder> {
@@ -42,6 +44,7 @@ public class MedAdaptar extends RecyclerView.Adapter<MedAdaptar.ViewHolder> {
             textViewEndDate = (TextView) itemView.findViewById(R.id.endDate);
             textViewCondition = (TextView) itemView.findViewById(R.id.condition);
             textViewNotes = (TextView) itemView.findViewById(R.id.notes);
+
 
             itemView.setOnClickListener(this);
             itemView.setOnLongClickListener(this);

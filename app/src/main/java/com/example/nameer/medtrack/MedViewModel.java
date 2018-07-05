@@ -14,18 +14,22 @@ import java.util.List;
 public class MedViewModel extends AndroidViewModel{
     private MedRepository mRepository; //variable to hold a reference to the repository
     private LiveData<List<MedItem>> mAllMeds; //LiveData variable to cache medList
+    private LiveData<List<String>> mConditions;
+
 
     //get access to data from repo (i.e getAllMeds) - (note: not the usual this. constructor)
     public MedViewModel(Application application) {
         super(application);
         mRepository = new MedRepository(application);
         mAllMeds = mRepository.getAllMeds(); //returns mAllMeds from repo - db.medDao().getMedListByDate;
+        mConditions = mRepository.getConditions();
     }
 
     //return LiveData mAllMeds (called in MainActivity to setup observer relationship)
     LiveData<List<MedItem>> getAllMeds() {
         return mAllMeds;
     }
+    LiveData<List<String>> getConditions() { return mConditions; }
 
     //Insert new data into repo - used in onClick of "add" buton in MainActivity
     public void insert(MedItem medItem) {

@@ -16,6 +16,12 @@ public interface MedDao {
     @Query("SELECT * FROM med_table ORDER BY start_date")
     LiveData<List<MedItem>> getMedListByDate();
 
+    @Query("SELECT * FROM med_table WHERE condition = :condition")
+    LiveData<List<MedItem>> getMedListByCondition(String condition);
+
+    @Query("SELECT DISTINCT condition FROM med_table")
+    LiveData<List<String>> getConditions();
+
     @Insert
     void insertAll(MedItem...medItems);
 

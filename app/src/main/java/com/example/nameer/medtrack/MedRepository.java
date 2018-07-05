@@ -13,18 +13,21 @@ public class MedRepository {
 
     private MedDao mMedDao;
     private LiveData<List<MedItem>> mAllMeds;
+    private LiveData<List<String>> mConditions;
 
     //get access to data from AppDatabase
     MedRepository(Application application){
         AppDatabase db = AppDatabase.getDatabase(application);
         mMedDao = db.medDao();
         mAllMeds = mMedDao.getMedListByDate(); //calls database query (with the help of MedDao class) to get Meds orderd by StartDate
+        mConditions = mMedDao.getConditions();
     }
 
     //getter to be accessed by MedViewModel and then MainActivity to observe LiveData
     LiveData<List<MedItem>> getAllMeds(){
         return mAllMeds;
     }
+    LiveData<List<String>> getConditions() { return mConditions; }
 
     public void insert (MedItem medItem){
         new insertAsyncTask(mMedDao).execute(medItem);
@@ -86,4 +89,18 @@ public class MedRepository {
             return null;
         }
     }
+
+    /*private static class getConditionsAsyncTask extends AsyncTask<Void, Void, Void> {
+        private MedDao mAsyncTaskDao;
+
+        getConditionsAsyncTask(MedDao dao) {
+            mAsyncTaskDao = dao;
+        }
+
+        @Override
+        protected Void doInBackground(final Void...params) {
+            mAsyncTaskDao.getConditions();
+            return null;
+        }
+    }*/
 }
