@@ -14,6 +14,8 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.support.design.widget.FloatingActionButton;
+import android.widget.Adapter;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -24,7 +26,7 @@ import android.widget.ArrayAdapter;
 import android.widget.AdapterView.OnItemSelectedListener;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener{
     private RecyclerView recyclerView;
     private RecyclerView.Adapter adapter;
     private RecyclerView.LayoutManager layoutManager;
@@ -41,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
     private String conditions;
     private MedViewModel mMedViewModel;
     public static final int NEW_MEDITEM_REQUEST_CODE = 1;
+    public static final int EDIT_MEDITEM_REQUEST_CODE = 2;
 
 
     @Override
@@ -63,6 +66,57 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+
+        setupConditionsSpinner();
+        conditionsSpinner.setOnItemSelectedListener(this);
+
+
+        add = (FloatingActionButton)findViewById(R.id.add);
+        add.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(MainActivity.this, MedInput.class);
+                startActivityForResult(i, NEW_MEDITEM_REQUEST_CODE);
+            }
+        });
+    }
+
+    public void onActivityResult(int requestCode, int resultCode, Intent i){
+        super.onActivityResult(requestCode, resultCode, i);
+
+        if(requestCode == NEW_MEDITEM_REQUEST_CODE && resultCode == RESULT_OK) {
+            medName = i.getStringExtra("medName");
+            startDate = i.getStringExtra("start");
+            endDate = i.getStringExtra("end");
+            condition = i.getStringExtra("condition");
+            notes = i.getStringExtra("notes");
+
+            MedItem medItem = new MedItem(medName, startDate, endDate, condition, notes);
+            mMedViewModel.insert(medItem);
+
+        } else if(requestCode == EDIT_MEDITEM_REQUEST_CODE && resultCode == 2){
+            String EmedName = i.getStringExtra("EmedName");
+            String EstartDate = i.getStringExtra("Estart");
+            String EendDate = i.getStringExtra("Eend");
+            String Econdition = i.getStringExtra("Econdition");
+            String Enotes = i.getStringExtra("Enotes");
+
+            int ID1 = i.getIntExtra("id",0);
+            if(ID1 != 0){
+                mMedViewModel.update(EmedName, EstartDate, EendDate, Econdition, Enotes, ID1);
+            }
+
+        }else if(requestCode == EDIT_MEDITEM_REQUEST_CODE && resultCode ==3){
+            int ID = i.getIntExtra("id",0);
+            if(ID != 0){
+                mMedViewModel.delete(ID);
+            }
+        } else {
+            Toast.makeText(getApplicationContext(),"Empty not saved", Toast.LENGTH_LONG).show();
+        }
+    }
+
+    public void setupConditionsSpinner(){
         conditionsSpinner = (Spinner) findViewById(R.id.conditionsSpinner);
         conditionsArrayList = new ArrayList<String>();
         conditions = "";
@@ -80,60 +134,20 @@ public class MainActivity extends AppCompatActivity {
                         }
                     }
                 }
-
                 conditionsAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 conditionsSpinner.setAdapter(conditionsAdapter);
-
             }
         });
-
-
-        add = (FloatingActionButton)findViewById(R.id.add);
-        add.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(MainActivity.this, MedInput.class);
-                startActivityForResult(i, NEW_MEDITEM_REQUEST_CODE);
-
-            }
-        });
-
-
     }
 
-    public void onActivityResult(int requestCode, int resultCode, Intent i){
-        super.onActivityResult(requestCode, resultCode, i);
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        String selectedCondition = parent.getItemAtPosition(position).toString();
+        Toast.makeText(this, selectedCondition, Toast.LENGTH_SHORT).show();
+    }
 
-        if(requestCode == NEW_MEDITEM_REQUEST_CODE && resultCode == RESULT_OK) {
-            medName = i.getStringExtra("medName");
-            startDate = i.getStringExtra("start");
-            endDate = i.getStringExtra("end");
-            condition = i.getStringExtra("condition");
-            notes = i.getStringExtra("notes");
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
 
-
-            MedItem medItem = new MedItem(medName, startDate, endDate, condition, notes);
-            mMedViewModel.insert(medItem);
-
-        } else if(requestCode == 2 && resultCode == 2){
-            String EmedName = i.getStringExtra("EmedName");
-            String EstartDate = i.getStringExtra("Estart");
-            String EendDate = i.getStringExtra("Eend");
-            String Econdition = i.getStringExtra("Econdition");
-            String Enotes = i.getStringExtra("Enotes");
-
-            int ID1 = i.getIntExtra("id",0);
-            if(ID1 != 0){
-                mMedViewModel.update(EmedName, EstartDate, EendDate, Econdition, Enotes, ID1);
-            }
-
-        }else if(requestCode == 2 && resultCode ==3){
-            int ID = i.getIntExtra("id",0);
-            if(ID != 0){
-                mMedViewModel.delete(ID);
-            }
-        } else {
-            Toast.makeText(getApplicationContext(),"Empty not saved", Toast.LENGTH_LONG).show();
-        }
     }
 }
