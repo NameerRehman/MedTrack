@@ -17,7 +17,7 @@ public interface MedDao {
     LiveData<List<MedItem>> getMedListByDate();
 
     @Query("SELECT * FROM med_table WHERE condition = :condition")
-    LiveData<List<MedItem>> getMedListByCondition(String condition);
+    LiveData<List<MedItem>> getMedsByCondition(String condition);
 
     @Query("SELECT DISTINCT condition FROM med_table")
     LiveData<List<String>> getConditions();

@@ -15,6 +15,7 @@ public class MedViewModel extends AndroidViewModel{
     private MedRepository mRepository; //variable to hold a reference to the repository
     private LiveData<List<MedItem>> mAllMeds; //LiveData variable to cache medList
     private LiveData<List<String>> mConditions;
+    private LiveData<List<MedItem>> mMedsByCondition;
 
 
     //get access to data from repo (i.e getAllMeds) - (note: not the usual this. constructor)
@@ -30,6 +31,7 @@ public class MedViewModel extends AndroidViewModel{
         return mAllMeds;
     }
     LiveData<List<String>> getConditions() { return mConditions; }
+    LiveData<List<MedItem>> getMedsByCondition(String condition) {return mRepository.getMedsByCondition(condition);}
 
     //Insert new data into repo - used in onClick of "add" buton in MainActivity
     public void insert(MedItem medItem) {

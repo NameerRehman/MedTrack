@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:id="@+id/nav_meds"
+        android:title="My Meds"/>
+
+    <item android:id="@+id/nav_lookup"
+        android:title="Meds Lookup"/>
+
+</menu>

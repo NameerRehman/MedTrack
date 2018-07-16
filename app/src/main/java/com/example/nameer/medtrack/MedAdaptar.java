@@ -28,7 +28,7 @@ public class MedAdaptar extends RecyclerView.Adapter<MedAdaptar.ViewHolder> {
     }
 
 
-    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener{
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
         public TextView textViewMedName;
         public TextView textViewStartDate;
@@ -43,11 +43,8 @@ public class MedAdaptar extends RecyclerView.Adapter<MedAdaptar.ViewHolder> {
             textViewStartDate = (TextView) itemView.findViewById(R.id.startDate);
             textViewEndDate = (TextView) itemView.findViewById(R.id.endDate);
             textViewCondition = (TextView) itemView.findViewById(R.id.condition);
-            textViewNotes = (TextView) itemView.findViewById(R.id.notes);
-
 
             itemView.setOnClickListener(this);
-            itemView.setOnLongClickListener(this);
         }
 
         @Override
@@ -58,12 +55,6 @@ public class MedAdaptar extends RecyclerView.Adapter<MedAdaptar.ViewHolder> {
             ((MainActivity) mCtx).startActivityForResult(i,2);
             //Toast.makeText(mCtx, Integer.toString(currentPosition), Toast.LENGTH_SHORT).show();
 
-        }
-
-        @Override
-        public boolean onLongClick(View v){
-            Toast.makeText(mCtx, "onLongclick", Toast.LENGTH_SHORT).show();
-            return true;
         }
     }
 
@@ -85,7 +76,6 @@ public class MedAdaptar extends RecyclerView.Adapter<MedAdaptar.ViewHolder> {
             holder.textViewStartDate.setText(medItem.getStartDate());
             holder.textViewEndDate.setText(medItem.getEndDate());
             holder.textViewCondition.setText((medItem.getCondition()));
-            holder.textViewNotes.setText(medItem.getNotes());
         } else { // Covers the case of data not being ready yet.
             holder.textViewMedName.setText("no input");
             holder.textViewStartDate.setText("no input");

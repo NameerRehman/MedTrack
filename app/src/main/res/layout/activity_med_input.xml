@@ -1,164 +1,164 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<LinearLayout
+<android.support.design.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context=".MedInput"    >
+    android:fitsSystemWindows="true">
 
-    <android.support.design.widget.TextInputLayout
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:focusable="true"
-        android:focusableInTouchMode="true"
-        android:focusedByDefault="false"
-        android:defaultFocusHighlightEnabled="false">
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:paddingHorizontal="10dp"
+        android:paddingVertical="10dp"
+        tools:context=".MedInput">
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:defaultFocusHighlightEnabled="false"
+            android:focusableInTouchMode="true"
+            android:focusedByDefault="false">
 
 
             <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/selectMed"
-            style="@android:style/Widget.Material.Light.EditText"
-            android:singleLine="true"
-            android:textAlignment="center"
-            android:hint="Medication Name "
-            android:textAppearance="@android:style/TextAppearance.Material.Subhead"
-            android:textSize="21sp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            />
-    </android.support.design.widget.TextInputLayout>
+                android:id="@+id/selectMed"
+                style="@android:style/Widget.Material.Light.EditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginVertical="20dp"
+                android:hint="Medication Name "
+                android:singleLine="true"
+                android:textAppearance="@android:style/TextAppearance.Material.Subhead"
+                android:textSize="19sp" />
+        </android.support.design.widget.TextInputLayout>
 
 
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginTop="15dp"
-        android:layout_gravity="center_horizontal"
-        >
-
-        <ImageView
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_start_date"
-            android:id="@+id/startDateIcon"
-            android:scaleX="1.2"
-            android:scaleY="1.2"
-            android:layout_gravity="center_vertical"
-            android:paddingRight="12dp"
-            android:paddingLeft="5dp"
-            />
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/selectStart"
-            android:text="Select Start Date "
-            android:textAppearance="@android:style/TextAppearance.Material.Subhead"
-            android:textSize="21sp"
-            android:layout_gravity="center_vertical"
-            android:gravity="center_horizontal"
-            android:paddingTop="10dp"
-            android:paddingBottom="10dp"
-        />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_gravity="center_horizontal">
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_end_date"
-            android:id="@+id/endDateIcon"
-            android:scaleX="1.2"
-            android:scaleY="1.2"
-            android:layout_gravity="center_vertical"
-            android:paddingRight="12dp"
-            android:paddingLeft="5dp"
-            />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/selectEnd"
-            android:text="Select End Date "
-            android:textAppearance="@android:style/TextAppearance.Material.Subhead"
-            android:textSize="21sp"
             android:layout_gravity="center_horizontal"
-            android:gravity="center_horizontal"
-            android:paddingTop="10dp"
-            android:paddingBottom="10dp" />
+            android:layout_marginTop="15dp"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/startDateIcon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:paddingLeft="5dp"
+                android:paddingRight="12dp"
+                android:scaleX="1.2"
+                android:scaleY="1.2"
+                android:src="@drawable/ic_start_date" />
+
+            <TextView
+                android:id="@+id/selectStart"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:gravity="center_horizontal"
+                android:paddingBottom="10dp"
+                android:paddingTop="10dp"
+                android:text="Select Start Date "
+                android:textAppearance="@android:style/TextAppearance.Material.Subhead"
+                android:textSize="19sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/endDateIcon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:paddingLeft="5dp"
+                android:paddingRight="12dp"
+                android:scaleX="1.2"
+                android:scaleY="1.2"
+                android:src="@drawable/ic_end_date" />
+
+            <TextView
+                android:id="@+id/selectEnd"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:gravity="center_horizontal"
+                android:paddingBottom="10dp"
+                android:paddingTop="10dp"
+                android:text="Select End Date "
+                android:textAppearance="@android:style/TextAppearance.Material.Subhead"
+                android:textSize="19sp" />
+        </LinearLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="10dp">
+
+            <EditText
+                android:id="@+id/setCondition"
+                style="@android:style/Widget.Material.Light.EditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:hint="Associated Condition "
+                android:singleLine="true"
+                android:textAppearance="@android:style/TextAppearance.Material.Subhead"
+                android:textSize="19sp" />
+        </android.support.design.widget.TextInputLayout>
+
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="10dp">
+
+            <EditText
+                android:id="@+id/setNotes"
+                style="@android:style/Widget.Material.Light.EditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:hint="Notes "
+                android:textAppearance="@android:style/TextAppearance.Material.Subhead"
+                android:textSize="19sp" />
+
+        </android.support.design.widget.TextInputLayout>
+
     </LinearLayout>
-
-    <android.support.design.widget.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/setCondition"
-            style="@android:style/Widget.Material.Light.EditText"
-            android:singleLine="true"
-            android:textAlignment="center"
-            android:hint="Associated Condition "
-            android:textAppearance="@android:style/TextAppearance.Material.Subhead"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:textSize="21sp" />
-    </android.support.design.widget.TextInputLayout>
-
-    <android.support.design.widget.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/setNotes"
-            style="@android:style/Widget.Material.Light.EditText"
-            android:textAlignment="center"
-            android:hint="Notes "
-            android:textAppearance="@android:style/TextAppearance.Material.Subhead"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:textSize="21sp" />
-    </android.support.design.widget.TextInputLayout>
-
-    <LinearLayout
-        android:id="@+id/ly_bar_bottom"
-        android:layout_width="fill_parent"
-        android:layout_height="match_parent"
-        android:layout_alignParentBottom="true"
-        android:gravity="right"
-        android:orientation="horizontal">
+</ScrollView>
 
     <android.support.design.widget.FloatingActionButton
+        android:id="@+id/finish"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/finish"
         android:layout_gravity="bottom|end"
-        app:fabSize="normal"
-        android:paddingBottom="6dp"
-        android:src="@drawable/ic_check_white"
-        android:layout_marginRight="10dp"
         android:layout_marginBottom="10dp"
-        />
-    </LinearLayout>
+        android:layout_marginHorizontal="15dp"
+        android:paddingBottom="6dp"
+        android:layout_marginVertical="15dp"
+        android:src="@drawable/ic_check_white"
+        app:fabSize="normal" />
 
-
-</LinearLayout>
-
-
+</android.support.design.widget.CoordinatorLayout>
 
 
 

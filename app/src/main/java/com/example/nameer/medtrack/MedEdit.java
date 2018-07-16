@@ -53,25 +53,27 @@ public class MedEdit extends AppCompatActivity {
 
         //get MedItem object that was clicked in RecyclerView adapter
         Bundle extras = getIntent().getExtras();
-        if (extras!= null){
-            currentPosition = (MedItem)extras.getSerializable("position");
+        if (extras != null) {
+            currentPosition = (MedItem) extras.getSerializable("position");
 
             EselectMed.setText(currentPosition.getMedName());
             EsetCondition.setText(currentPosition.getCondition());
             EsetNotes.setText(currentPosition.getNotes());
 
-            if(currentPosition.getStartDate()!=null){
-                EselectStart.setText(currentPosition.getStartDate());
-            }else{
-                EselectStart.setText("N/A");
+            if (currentPosition.getStartDate() != null) {
+                    EselectStart.setText(currentPosition.getStartDate());
+                } else {
+                    EselectStart.setText("Select Start Date ");
             }
 
-            if(currentPosition.getEndDate() != null){
+
+        if (currentPosition.getEndDate() != null) {
                 EselectEnd.setText(currentPosition.getEndDate());
-            }else{
-                EselectEnd.setText("N/A");
+            } else {
+                EselectEnd.setText("Select End Date");
             }
         }
+
 
         editEndDate(); //date picker dialog to edit start/end dates
         editStartDate();
@@ -133,20 +135,19 @@ public class MedEdit extends AppCompatActivity {
 
                 DatePickerDialog dialogStart = new DatePickerDialog(MedEdit.this, android.R.style.Theme_Material_Light_Dialog, mStartDateListener, calStartYear,calStartMonth,calStartDay);
                 dialogStart.show();
-
-                //date listener in onclick method, so will only listen for date when clicked
-                mStartDateListener = new DatePickerDialog.OnDateSetListener(){
-                    @Override
-                    public void onDateSet(DatePicker datePicker, int calStartYear, int calStartMonth, int calStartDay){
-                        calStartMonth = calStartMonth + 1;
-                        calStartDate = calStartMonth + "/" + calStartDay + "/" +calStartYear;
-                        EselectStart.setText(calStartDate);
-                    }
-                };
+                Toast.makeText(getApplicationContext(), calStartDate, Toast.LENGTH_SHORT).show();
             }
         });
 
+        mStartDateListener = new DatePickerDialog.OnDateSetListener(){
+            @Override
+            public void onDateSet(DatePicker datePicker, int calStartYear, int calStartMonth, int calStartDay){
+                calStartMonth = calStartMonth + 1;
+                calStartDate = calStartMonth + "/" + calStartDay + "/" +calStartYear;
+                EselectStart.setText(calStartDate);
 
+            }
+        };
     }
 
     public void editEndDate(){
@@ -160,40 +161,18 @@ public class MedEdit extends AppCompatActivity {
 
                 DatePickerDialog dialogEnd = new DatePickerDialog(MedEdit.this, android.R.style.Theme_Material_Light_Dialog, mEndDateListener, calEndYear,calEndMonth,calEndDay);
                 dialogEnd.show();
-
-                mEndDateListener = new DatePickerDialog.OnDateSetListener(){
-                    @Override
-                    public void onDateSet(DatePicker datePicker, int calEndYear, int calEndMonth, int calEndDay){
-                        calEndMonth = calEndMonth + 1;
-                        calEndDate = calEndMonth + "/" + calEndDay + "/" + calEndYear;
-                        EselectEnd.setText(calEndDate);
-                    }
-                };
             }
         });
 
-
+        mEndDateListener = new DatePickerDialog.OnDateSetListener(){
+            @Override
+            public void onDateSet(DatePicker datePicker, int calEndYear, int calEndMonth, int calEndDay){
+                calEndMonth = calEndMonth + 1;
+                calEndDate = calEndMonth + "/" + calEndDay + "/" + calEndYear;
+                EselectEnd.setText(calEndDate);
+            }
+        };
 
     }
 
 }
-
-
-
-
-  /*final AppDatabase db = AppDatabase.getDatabase(this);
-            mAllMeds = db.medDao().getMedListByDate();
-
-            mAllMeds.observe(this, new Observer<List<MedItem>>(){
-                @Override
-                public void onChanged(@Nullable List<MedItem> mAllMeds1) {
-                    if (mAllMeds == null) {
-                        test = "empty";
-                    } else {
-                        //test = mAllMeds1.get(position).getMedName();
-                        test = "not empty";
-                    }
-                }
-            });
-
-            mAllMeds.observe(this,);*/

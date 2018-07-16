@@ -14,6 +14,7 @@ public class MedRepository {
     private MedDao mMedDao;
     private LiveData<List<MedItem>> mAllMeds;
     private LiveData<List<String>> mConditions;
+    private LiveData<List<MedItem>> mMedsByCondition;
 
     //get access to data from AppDatabase
     MedRepository(Application application){
@@ -27,6 +28,7 @@ public class MedRepository {
     LiveData<List<MedItem>> getAllMeds(){
         return mAllMeds;
     }
+    LiveData<List<MedItem>> getMedsByCondition(String condition) {return mMedDao.getMedsByCondition(condition);}
     LiveData<List<String>> getConditions() { return mConditions; }
 
     public void insert (MedItem medItem){
