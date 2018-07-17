@@ -112,6 +112,7 @@ public class MedEdit extends AppCompatActivity {
         });
 
         delete = (Button) findViewById(R.id.delete);
+        delete.bringToFront();
         delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
