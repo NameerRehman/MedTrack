@@ -65,19 +65,27 @@ public class MedEdit extends AppCompatActivity {
             EsetCondition.setText(currentPosition.getCondition());
             EsetNotes.setText(currentPosition.getNotes());
 
-            if (currentPosition.getStartDate() != null && !currentPosition.getStartDate().equals("")) {
+            if (currentPosition.getStartDate() != null) {
+                if(!currentPosition.getStartDate().equals("")) {
                     EselectStart.setText(currentPosition.getStartDate());
-                } else {
+                }else {
                     EselectStart.setText("Select Start Date");
+                }
+            } else {
+                EselectStart.setText("Select Start Date");
             }
 
-        if (currentPosition.getEndDate() != null && !currentPosition.getStartDate().equals("")) {
-            EselectEnd.setText(currentPosition.getEndDate());
-            if (currentPosition.getEndDate().equals("Ongoing")) {
-                Eongoing.setChecked(true);
-                EselectEnd.setTextColor(Color.parseColor("#D3D3D3"));
-            } else {
-                Eongoing.setChecked(false);
+        if (currentPosition.getEndDate() != null) {
+            if(!currentPosition.getEndDate().equals("")) {
+                EselectEnd.setText(currentPosition.getEndDate());
+                if (currentPosition.getEndDate().equals("Ongoing")) {
+                    Eongoing.setChecked(true);
+                    EselectEnd.setTextColor(Color.parseColor("#D3D3D3"));
+                } else {
+                    Eongoing.setChecked(false);
+                }
+            }else {
+                EselectEnd.setText("Select End Date");
             }
         }else {
             EselectEnd.setText("Select End Date");
