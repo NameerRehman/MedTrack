@@ -4,6 +4,7 @@ import android.app.DatePickerDialog;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
+import android.graphics.Color;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
@@ -11,6 +12,8 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -28,6 +31,7 @@ public class MedEdit extends AppCompatActivity {
     private EditText EselectMed;
     private EditText EsetCondition;
     private EditText EsetNotes;
+    private CheckBox Eongoing;
     private Button delete;
 
     private MedItem currentPosition;
@@ -45,11 +49,12 @@ public class MedEdit extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_med_edit);
 
-        EselectStart = (TextView) findViewById(R.id.EselectStart);
-        EselectEnd = (TextView) findViewById(R.id.EselectEnd);
-        EselectMed = (EditText) findViewById(R.id.EselectMed);
-        EsetCondition = (EditText) findViewById(R.id.EsetCondition);
-        EsetNotes = (EditText) findViewById(R.id.EsetNotes);
+        EselectStart = findViewById(R.id.EselectStart);
+        EselectEnd = findViewById(R.id.EselectEnd);
+        EselectMed = findViewById(R.id.EselectMed);
+        EsetCondition = findViewById(R.id.EsetCondition);
+        EsetNotes = findViewById(R.id.EsetNotes);
+        Eongoing = findViewById(R.id.Eongoing);
 
         //get MedItem object that was clicked in RecyclerView adapter
         Bundle extras = getIntent().getExtras();
@@ -60,20 +65,40 @@ public class MedEdit extends AppCompatActivity {
             EsetCondition.setText(currentPosition.getCondition());
             EsetNotes.setText(currentPosition.getNotes());
 
-            if (currentPosition.getStartDate() != null) {
+            if (currentPosition.getStartDate() != null && !currentPosition.getStartDate().equals("")) {
                     EselectStart.setText(currentPosition.getStartDate());
                 } else {
-                    EselectStart.setText("Select Start Date ");
+                    EselectStart.setText("Select Start Date");
             }
 
-
-        if (currentPosition.getEndDate() != null) {
-                EselectEnd.setText(currentPosition.getEndDate());
+        if (currentPosition.getEndDate() != null && !currentPosition.getStartDate().equals("")) {
+            EselectEnd.setText(currentPosition.getEndDate());
+            if (currentPosition.getEndDate().equals("Ongoing")) {
+                Eongoing.setChecked(true);
+                EselectEnd.setTextColor(Color.parseColor("#D3D3D3"));
             } else {
-                EselectEnd.setText("Select End Date");
+                Eongoing.setChecked(false);
+            }
+        }else {
+            EselectEnd.setText("Select End Date");
             }
         }
 
+        Eongoing.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked==true){
+                    EselectEnd.setText("Ongoing");
+                    calEndDate = "Ongoing";
+                    EselectEnd.setClickable(false);
+                    EselectEnd.setTextColor(Color.parseColor("#D3D3D3"));
+                }else if(Eongoing.isChecked()==false){
+                    EselectEnd.setClickable(true);
+                    EselectEnd.setTextColor(Color.parseColor("#000000"));
+
+                }
+            }
+        });
 
         editEndDate(); //date picker dialog to edit start/end dates
         editStartDate();
@@ -98,11 +123,23 @@ public class MedEdit extends AppCompatActivity {
                     calEndDate = EselectEnd.getText().toString();
 
                     i.putExtra("EmedName", medName);
-                    i.putExtra("Estart", calStartDate);
+                    //i.putExtra("Estart", calStartDate);
                     i.putExtra("Eend", calEndDate);
                     i.putExtra("Econdition", condition);
                     i.putExtra("Enotes", notes);
                     i.putExtra("id", currentPosition.getId());
+
+                    if(calStartDate.equals("Select Start Date")){
+                        i.putExtra("Estart", "");
+                    }else{
+                        i.putExtra("Estart", calStartDate);
+                    }
+
+                    if(calEndDate.equals("Select End Date")){
+                        i.putExtra("Eend", "");
+                    }else{
+                        i.putExtra("Eend", calEndDate);
+                    }
                     setResult(2, i);
                     finish();
 

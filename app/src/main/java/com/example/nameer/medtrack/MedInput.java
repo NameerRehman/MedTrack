@@ -5,12 +5,16 @@ import android.app.DatePickerDialog;
 import android.arch.persistence.room.Room;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ComponentInfo;
+import android.graphics.Color;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -31,6 +35,7 @@ public class MedInput extends AppCompatActivity {
     private EditText selectMed;
     private EditText setCondition;
     private EditText setNotes;
+    private CheckBox ongoing;
     private DatePickerDialog.OnDateSetListener mStartDateListener;
     private DatePickerDialog.OnDateSetListener mEndDateListener;
     private String calStartDate;
@@ -50,6 +55,24 @@ public class MedInput extends AppCompatActivity {
         selectMed = (EditText) findViewById(R.id.selectMed);
         setCondition = (EditText) findViewById(R.id.setCondition);
         setNotes = (EditText) findViewById(R.id.setNotes);
+        ongoing = findViewById(R.id.ongoing);
+
+
+ongoing.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+    @Override
+    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+        if(isChecked==true){
+            selectEnd.setText("Ongoing");
+            calEndDate = "Ongoing";
+            selectEnd.setClickable(false);
+            selectEnd.setTextColor(Color.parseColor("#D3D3D3"));
+        }else if(ongoing.isChecked()==false){
+            selectEnd.setClickable(true);
+            selectEnd.setTextColor(Color.parseColor("#000000"));
+
+        }
+    }
+});
 
 
         selectStart.setOnClickListener(new View.OnClickListener() {

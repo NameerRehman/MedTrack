@@ -20,6 +20,7 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.support.design.widget.FloatingActionButton;
@@ -101,14 +102,11 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         Fragment fragment = null;
         if(item.getItemId()==R.id.nav_meds){
-            fragment = new CalendarFragment ();
-            }
-        if (fragment!=null){
-            FragmentManager fragmentManager = getSupportFragmentManager();
-            android.support.v4.app.FragmentTransaction ft = fragmentManager.beginTransaction();
-            ft.replace(R.id.fragment_container, fragment);
-            ft.commit();
+            Intent i = new Intent(MainActivity.this, Calendar.class);
+            startActivity(i);
+            //overridePendingTransition(0,0);
         }
+
         DrawerLayout drawerLayout = findViewById(R.id.drawerLayout);
         drawerLayout.closeDrawer(GravityCompat.START);
         return true;
@@ -122,6 +120,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             super.onBackPressed();
         }
     }
+    @Override
 
     public void onActivityResult(int requestCode, int resultCode, Intent i){
         super.onActivityResult(requestCode, resultCode, i);

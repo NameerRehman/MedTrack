@@ -17,7 +17,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".MedInput" />
-        <activity android:name=".MedEdit"></activity>
+        <activity android:name=".MedEdit" />
+        <activity android:name=".Calendar"></activity>
     </application>
 
 </manifest>
