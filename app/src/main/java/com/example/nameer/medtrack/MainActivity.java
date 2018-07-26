@@ -1,17 +1,14 @@
 package com.example.nameer.medtrack;
 
-import android.app.Activity;
-import android.app.FragmentTransaction;
+
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
-import android.arch.persistence.room.Room;
-import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -19,22 +16,17 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.support.design.widget.FloatingActionButton;
-import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.FrameLayout;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
-import android.widget.ArrayAdapter;
-import android.widget.AdapterView.OnItemSelectedListener;
 
 
 public class MainActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener,NavigationView.OnNavigationItemSelectedListener{
@@ -51,7 +43,12 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     private String notes;
 
     private Spinner conditionsSpinner;
-    private int viewCode;
+    private Spinner orderSpinner;
+    private CheckBox ongoing;
+    private String viewCodeCondition;
+    private String viewCodeOrder;
+    private boolean viewCodeOngoing;
+
     ArrayList<String> conditionsArrayList;
     private String conditionSelect;
     private MedViewModel mMedViewModel;
@@ -64,7 +61,9 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        viewCode = 0; //Set to 0 to show all conditions on activity start
+        viewCodeCondition = "view all"; //show all conditions on activity start
+        viewCodeOrder = "date added"; //sort by date added on activity start
+
         recyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         final MedAdaptar adapter = new MedAdaptar(this);
@@ -75,7 +74,10 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         setupConditionsSpinner();
         conditionsSpinner.setOnItemSelectedListener(this);
 
-        observer(); //shows view based on viewCode and sets up observer
+        setupOrderSpinner();
+        orderSpinner.setOnItemSelectedListener(this);
+
+        observer(); //shows view based on viewCode (determined by conditionsSpinner) and sets up observer
 
         add = (FloatingActionButton)findViewById(R.id.add);
         add.setOnClickListener(new View.OnClickListener() {
@@ -86,31 +88,23 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             }
         });
 
-        drawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
-        toggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.open, R.string.close);
-        drawerLayout.addDrawerListener(toggle);
-        toggle.syncState();
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        setupNavDrawer();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.bringToFront();
-        navigationView.setNavigationItemSelectedListener(this);
-
+        ongoing = findViewById(R.id.showOngoing);
+        ongoing.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked==true){
+                   viewCodeOngoing = true;
+                    observer();
+                }else if(ongoing.isChecked()==false){
+                    viewCodeOngoing = false;
+                    observer();
+                }
+            }
+        });
     }
 
-    @Override
-    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        Fragment fragment = null;
-        if(item.getItemId()==R.id.nav_meds){
-            Intent i = new Intent(MainActivity.this, Calendar.class);
-            startActivity(i);
-            //overridePendingTransition(0,0);
-        }
-
-        DrawerLayout drawerLayout = findViewById(R.id.drawerLayout);
-        drawerLayout.closeDrawer(GravityCompat.START);
-        return true;
-    }
 
     @Override
     public void onBackPressed() {
@@ -158,9 +152,10 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     }
 
     public void setupConditionsSpinner(){
-        conditionsSpinner = (Spinner) findViewById(R.id.conditionsSpinner);
+        conditionsSpinner = findViewById(R.id.conditionsSpinner);
         conditionsArrayList = new ArrayList<String>();
         final ArrayAdapter<String> conditionsAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,conditionsArrayList);
+
         mMedViewModel.getConditions().observe(this, new Observer<List<String>>(){
             @Override
             public void onChanged (@Nullable final List<String> conditionsList){
@@ -181,42 +176,145 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         });
     }
 
+    public void setupOrderSpinner(){
+        orderSpinner = findViewById(R.id.orderSpinner);
+        ArrayList<String> orderArrayList = new ArrayList<>();
+        final ArrayAdapter<String> orderAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,orderArrayList);
+        orderArrayList.add("Date Added");
+        orderArrayList.add("Start Date");
+        orderArrayList.add("Med Name");
+        orderAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        orderSpinner.setAdapter(orderAdapter);
+    }
+
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        String selectedCondition = parent.getItemAtPosition(position).toString();
+       Spinner spinner = (Spinner) parent;
+        switch(spinner.getId()){
+            case(R.id.conditionsSpinner):
+                String selectedCondition = parent.getItemAtPosition(position).toString();
+                if(selectedCondition == "View All"){
+                    viewCodeCondition = "view all";
+                    observer();
+                }else{
+                    conditionSelect = selectedCondition;
+                    viewCodeCondition = "condition";
+                    observer();
+                }
+                break;
 
-        if(selectedCondition == "View All"){
-            viewCode = 0;
-            observer();
-        }else{
-            conditionSelect = selectedCondition;
-            viewCode = 1;
-            observer();
+            case(R.id.orderSpinner):
+                String selectedOrder = parent.getItemAtPosition(position).toString();
+                switch(selectedOrder){
+                    case("Date Added"):
+                        viewCodeOrder = "date added";
+                        observer();
+                        break;
+                    case("Start Date"):
+                        viewCodeOrder = "start date";
+                        observer();
+                        break;
+                    case("Med Name"):
+                        viewCodeOrder = "med name";
+                        observer();
+                        break;
+                }
         }
-
     }
 
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
-
     }
 
     public void observer(){
         final MedAdaptar adapter = new MedAdaptar(this);
         recyclerView.setAdapter(adapter);
 
-        if (viewCode == 0){
-            mMedViewModel.getAllMeds().observe(this, new Observer<List<MedItem>>(){
+        if (viewCodeCondition == "view all" && viewCodeOrder == "start date" && viewCodeOngoing == false){
+            mMedViewModel.getMedsByStartDate().observe(this, new Observer<List<MedItem>>(){
                 @Override
                 public void onChanged (@Nullable final List<MedItem> medList){
                     adapter.setMedList(medList); //Updates the "mMedList" variable in adapter
                 }
             });
-        } else if (viewCode == 1){
-            mMedViewModel.getMedsByCondition(conditionSelect).observe(this, new Observer<List<MedItem>>(){
+
+        }else if (viewCodeCondition == "view all" && viewCodeOrder == "date added" && viewCodeOngoing == false) {
+            mMedViewModel.getMedsByDateAdded().observe(this, new Observer<List<MedItem>>() {
                 @Override
-                public void onChanged (@Nullable final List<MedItem> medList){
-                    adapter.setMedList(medList); //Updates the "mMedList" variable in adapter
+                public void onChanged(@Nullable final List<MedItem> medList) {
+                    adapter.setMedList(medList);
+                }
+            });
+
+        }else if (viewCodeCondition == "view all" && viewCodeOrder == "med name"&& viewCodeOngoing == false) {
+            mMedViewModel.getMedsByAlphabetical().observe(this, new Observer<List<MedItem>>() {
+                @Override
+                public void onChanged(@Nullable final List<MedItem> medList) {
+                    adapter.setMedList(medList);
+                }
+            });
+
+        }else if (viewCodeCondition == "condition" && viewCodeOrder == "date added" && viewCodeOngoing == false) {
+            mMedViewModel.getMedsByConditionDateAdded(conditionSelect).observe(this, new Observer<List<MedItem>>() {
+                @Override
+                public void onChanged(@Nullable final List<MedItem> medList) {
+                    adapter.setMedList(medList);
+                }
+            });
+        }else if (viewCodeCondition == "condition" && viewCodeOrder == "start date" && viewCodeOngoing == false) {
+            mMedViewModel.getMedsByConditionStartDate(conditionSelect).observe(this, new Observer<List<MedItem>>() {
+                @Override
+                public void onChanged(@Nullable final List<MedItem> medList) {
+                    adapter.setMedList(medList);
+                }
+            });
+        }else if (viewCodeCondition == "condition" && viewCodeOrder == "med name" && viewCodeOngoing == false) {
+            mMedViewModel.getMedsByConditionAlphabetical(conditionSelect).observe(this, new Observer<List<MedItem>>() {
+                @Override
+                public void onChanged(@Nullable final List<MedItem> medList) {
+                    adapter.setMedList(medList);
+                }
+            });
+        }else if (viewCodeCondition == "view all" && viewCodeOrder == "start date" && viewCodeOngoing == true) {
+            mMedViewModel.getMedsByOngoingStart("Ongoing").observe(this, new Observer<List<MedItem>>() {
+                @Override
+                public void onChanged(@Nullable final List<MedItem> medList) {
+                    adapter.setMedList(medList);
+                }
+            });
+        }else if (viewCodeCondition == "view all" && viewCodeOrder == "date added" && viewCodeOngoing == true) {
+            mMedViewModel.getMedsByOngoingDA("Ongoing").observe(this, new Observer<List<MedItem>>() {
+                @Override
+                public void onChanged(@Nullable final List<MedItem> medList) {
+                    adapter.setMedList(medList);
+                }
+            });
+        }else if (viewCodeCondition == "view all" && viewCodeOrder == "med name" && viewCodeOngoing == true) {
+            mMedViewModel.getMedsByOngoingAlphabetical("Ongoing").observe(this, new Observer<List<MedItem>>() {
+                @Override
+                public void onChanged(@Nullable final List<MedItem> medList) {
+                    adapter.setMedList(medList);
+                }
+            });
+        }else if (viewCodeCondition == "condition" && viewCodeOrder == "start date" && viewCodeOngoing == true) {
+            mMedViewModel.getMedsByConditionOngoingStart(conditionSelect, "Ongoing").observe(this, new Observer<List<MedItem>>() {
+                @Override
+                public void onChanged(@Nullable final List<MedItem> medList) {
+                    adapter.setMedList(medList);
+                }
+            });
+        }else if (viewCodeCondition == "condition" && viewCodeOrder == "date added" && viewCodeOngoing == true) {
+            mMedViewModel.getMedsByConditionOngoingDA(conditionSelect, "Ongoing").observe(this, new Observer<List<MedItem>>() {
+                @Override
+                public void onChanged(@Nullable final List<MedItem> medList) {
+                    adapter.setMedList(medList);
+                }
+            });
+        }else if (viewCodeCondition == "condition" && viewCodeOrder == "med name" && viewCodeOngoing == true) {
+            mMedViewModel.getMedsByConditionOngoingAlphabetical(conditionSelect, "Ongoing").observe(this, new Observer<List<MedItem>>() {
+                @Override
+                public void onChanged(@Nullable final List<MedItem> medList) {
+                    adapter.setMedList(medList);
                 }
             });
         }
@@ -229,5 +327,31 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void setupNavDrawer(){
+        drawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
+        toggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.open, R.string.close);
+        drawerLayout.addDrawerListener(toggle);
+        toggle.syncState();
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.bringToFront();
+        navigationView.setNavigationItemSelectedListener(this);
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        Fragment fragment = null;
+        if(item.getItemId()==R.id.nav_meds){
+            Intent i = new Intent(MainActivity.this, Calendar.class);
+            startActivity(i);
+            //overridePendingTransition(0,0);
+        }
+
+        DrawerLayout drawerLayout = findViewById(R.id.drawerLayout);
+        drawerLayout.closeDrawer(GravityCompat.START);
+        return true;
     }
 }

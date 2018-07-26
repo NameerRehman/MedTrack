@@ -22,26 +22,36 @@ public class MedViewModel extends AndroidViewModel{
     public MedViewModel(Application application) {
         super(application);
         mRepository = new MedRepository(application);
-        mAllMeds = mRepository.getAllMeds(); //returns mAllMeds from repo - db.medDao().getMedListByDate;
+        mAllMeds = mRepository.getMedsByStartDate(); //returns mAllMeds from repo - db.medDao().getMedListByDate;
         mConditions = mRepository.getConditions();
     }
 
     //return LiveData mAllMeds (called in MainActivity to setup observer relationship)
-    LiveData<List<MedItem>> getAllMeds() {
+    LiveData<List<MedItem>> getMedsByStartDate() {
         return mAllMeds;
     }
     LiveData<List<String>> getConditions() { return mConditions; }
-    LiveData<List<MedItem>> getMedsByCondition(String condition) {return mRepository.getMedsByCondition(condition);}
+    LiveData<List<MedItem>> getMedsByConditionDateAdded(String condition) {return mRepository.getMedsByConditionDateAdded(condition);}
+
+    LiveData<List<MedItem>> getMedsByDateAdded() {return mRepository.getMedsByDateAdded();}
+    LiveData<List<MedItem>> getMedsByAlphabetical() {return mRepository.getMedsByAlphabetical();}
+    LiveData<List<MedItem>> getMedsByOngoingDA(String endDate) {return mRepository.getMedsByOngoingDA(endDate);}
+    LiveData<List<MedItem>> getMedsByOngoingStart(String endDate) {return mRepository.getMedsByOngoingStart(endDate);}
+    LiveData<List<MedItem>> getMedsByOngoingAlphabetical(String endDate) {return mRepository.getMedsByOngoingAlphabetical(endDate);}
+
+    LiveData<List<MedItem>> getMedsByConditionAlphabetical(String condition) {return mRepository.getMedsByConditionAlphabetical(condition);}
+    LiveData<List<MedItem>> getMedsByConditionStartDate(String condition) {return mRepository.getMedsByConditionStartDate(condition);}
+    LiveData<List<MedItem>> getMedsByConditionOngoingDA(String condition, String endDate) {return mRepository.getMedsByConditionOngoingDA(condition, endDate);}
+    LiveData<List<MedItem>> getMedsByConditionOngoingStart(String condition, String endDate) {return mRepository.getMedsByConditionOngoingStart(condition, endDate);}
+    LiveData<List<MedItem>> getMedsByConditionOngoingAlphabetical(String condition, String endDate) {return mRepository.getMedsByConditionOngoingAlphabetical(condition, endDate);}
 
     //Insert new data into repo - used in onClick of "add" buton in MainActivity
     public void insert(MedItem medItem) {
         mRepository.insert(medItem);
     }
-
     public void delete(int id){
         mRepository.delete(id);
     }
-
     public void update(String medName, String startDate, String endDate, String condition, String notes, int id){
         mRepository.update(medName, startDate, endDate, condition, notes, id);
     }

@@ -132,7 +132,7 @@ public class MedEdit extends AppCompatActivity {
 
                     i.putExtra("EmedName", medName);
                     //i.putExtra("Estart", calStartDate);
-                    i.putExtra("Eend", calEndDate);
+                    //i.putExtra("Eend", calEndDate);
                     i.putExtra("Econdition", condition);
                     i.putExtra("Enotes", notes);
                     i.putExtra("id", currentPosition.getId());

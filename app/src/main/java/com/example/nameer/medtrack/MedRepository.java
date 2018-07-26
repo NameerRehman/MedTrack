@@ -20,16 +20,28 @@ public class MedRepository {
     MedRepository(Application application){
         AppDatabase db = AppDatabase.getDatabase(application);
         mMedDao = db.medDao();
-        mAllMeds = mMedDao.getMedListByDate(); //calls database query (with the help of MedDao class) to get Meds orderd by StartDate
+        mAllMeds = mMedDao.getMedsByStartDate(); //calls database query (with the help of MedDao class) to get Meds orderd by StartDate
         mConditions = mMedDao.getConditions();
     }
 
     //getter to be accessed by MedViewModel and then MainActivity to observe LiveData
-    LiveData<List<MedItem>> getAllMeds(){
-        return mAllMeds;
-    }
-    LiveData<List<MedItem>> getMedsByCondition(String condition) {return mMedDao.getMedsByCondition(condition);}
+    LiveData<List<MedItem>> getMedsByStartDate(){return mAllMeds;} //returns mMedDao.getMedsListbyStartDate
+    LiveData<List<MedItem>> getMedsByConditionDateAdded(String condition) {return mMedDao.getMedsByConditionDateAdded(condition);}
     LiveData<List<String>> getConditions() { return mConditions; }
+
+    LiveData<List<MedItem>> getMedsByDateAdded() {return mMedDao.getMedsByDateAdded();}
+    LiveData<List<MedItem>> getMedsByAlphabetical() {return mMedDao.getMedsByAlphabetical();}
+    LiveData<List<MedItem>> getMedsByOngoingDA(String endDate) {return mMedDao.getMedsByOngoingDA(endDate);}
+    LiveData<List<MedItem>> getMedsByOngoingStart(String endDate) {return mMedDao.getMedsByOngoingStart(endDate);}
+    LiveData<List<MedItem>> getMedsByOngoingAlphabetical(String endDate) {return mMedDao.getMedsByOngoingAlphabetical(endDate);}
+
+    LiveData<List<MedItem>> getMedsByConditionAlphabetical(String condition) {return mMedDao.getMedsByConditionAlphabetical(condition);}
+    LiveData<List<MedItem>> getMedsByConditionStartDate(String condition) {return mMedDao.getMedsByConditionStartDate(condition);}
+    LiveData<List<MedItem>> getMedsByConditionOngoingDA(String condition, String endDate) {return mMedDao.getMedsByConditionOngoingDA(condition, endDate);}
+    LiveData<List<MedItem>> getMedsByConditionOngoingStart(String condition, String endDate) {return mMedDao.getMedsByConditionOngoingStart(condition, endDate);}
+    LiveData<List<MedItem>> getMedsByConditionOngoingAlphabetical(String condition, String endDate) {return mMedDao.getMedsByConditionOngoingAlphabetical(condition, endDate);}
+
+
 
     public void insert (MedItem medItem){
         new insertAsyncTask(mMedDao).execute(medItem);

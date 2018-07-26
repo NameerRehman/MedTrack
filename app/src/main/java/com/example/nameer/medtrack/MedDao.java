@@ -13,15 +13,49 @@ import java.util.List;
 
 @Dao
 public interface MedDao {
+    //Query by order of meds
     @Query("SELECT * FROM med_table ORDER BY start_date")
-    LiveData<List<MedItem>> getMedListByDate();
+    LiveData<List<MedItem>> getMedsByStartDate();
 
-    @Query("SELECT * FROM med_table WHERE condition = :condition")
-    LiveData<List<MedItem>> getMedsByCondition(String condition);
+    @Query("SELECT * FROM med_table")
+    LiveData<List<MedItem>> getMedsByDateAdded();
 
+    @Query("SELECT * FROM med_table ORDER BY med_name")
+    LiveData<List<MedItem>> getMedsByAlphabetical();
+
+    @Query("SELECT * FROM med_table WHERE end_date = :endDate")
+    LiveData<List<MedItem>> getMedsByOngoingDA(String endDate);
+
+    @Query("SELECT * FROM med_table WHERE end_date = :endDate ORDER BY start_date")
+    LiveData<List<MedItem>> getMedsByOngoingStart(String endDate);
+
+    @Query("SELECT * FROM med_table WHERE end_date = :endDate ORDER BY med_name")
+    LiveData<List<MedItem>> getMedsByOngoingAlphabetical(String endDate);
+
+    //Query by condition
     @Query("SELECT DISTINCT condition FROM med_table")
     LiveData<List<String>> getConditions();
 
+    @Query("SELECT * FROM med_table WHERE condition = :condition ")
+    LiveData<List<MedItem>> getMedsByConditionDateAdded(String condition);
+
+    //Query by condition & order of meds
+    @Query("SELECT * FROM med_table WHERE condition = :condition ORDER BY med_name")
+    LiveData<List<MedItem>> getMedsByConditionAlphabetical(String condition);
+
+    @Query("SELECT * FROM med_table WHERE condition = :condition ORDER BY start_date")
+    LiveData<List<MedItem>> getMedsByConditionStartDate(String condition);
+
+    @Query("SELECT * FROM med_table WHERE condition = :condition and end_date = :endDate")
+    LiveData<List<MedItem>> getMedsByConditionOngoingDA(String condition, String endDate);
+
+    @Query("SELECT * FROM med_table WHERE condition = :condition and end_date = :endDate ORDER BY start_date")
+    LiveData<List<MedItem>> getMedsByConditionOngoingStart(String condition, String endDate);
+
+    @Query("SELECT * FROM med_table WHERE condition = :condition and end_date = :endDate ORDER BY med_name")
+    LiveData<List<MedItem>> getMedsByConditionOngoingAlphabetical(String condition, String endDate);
+
+    //Edit database entries
     @Insert
     void insertAll(MedItem...medItems);
 
