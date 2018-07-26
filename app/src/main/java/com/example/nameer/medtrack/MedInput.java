@@ -10,6 +10,7 @@ import android.graphics.Color;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -57,6 +58,9 @@ public class MedInput extends AppCompatActivity {
         setNotes = (EditText) findViewById(R.id.setNotes);
         ongoing = findViewById(R.id.ongoing);
 
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
 
 ongoing.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
     @Override

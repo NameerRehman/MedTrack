@@ -14,8 +14,10 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.support.design.widget.FloatingActionButton;
@@ -23,30 +25,28 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 
 
 public class MainActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener,NavigationView.OnNavigationItemSelectedListener{
-    private RecyclerView recyclerView;
 
+    private RecyclerView recyclerView;
     FloatingActionButton add;
     private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle toggle;
 
-    private String startDate;
-    private String endDate;
-    private String medName;
-    private String condition;
-    private String notes;
+    private String startDate, endDate, medName, condition, notes;
 
-    private Spinner conditionsSpinner;
-    private Spinner orderSpinner;
+    private Spinner conditionsSpinner, orderSpinner;
     private CheckBox ongoing;
-    private String viewCodeCondition;
-    private String viewCodeOrder;
+    private String viewCodeCondition, viewCodeOrder;
     private boolean viewCodeOngoing;
 
     ArrayList<String> conditionsArrayList;
@@ -55,14 +55,35 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     public static final int NEW_MEDITEM_REQUEST_CODE = 1;
     public static final int EDIT_MEDITEM_REQUEST_CODE = 2;
 
+    CardView filterCard, spinnersCard;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        filterCard = findViewById(R.id.filterCard);
+        spinnersCard = findViewById(R.id.spinnersCard);
+        spinnersCard.setVisibility(View.GONE);
+        filterCard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (spinnersCard.isShown()) {
+                    Fx.slide_up(MainActivity.this, spinnersCard);
+                    spinnersCard.setVisibility(View.GONE);
+                } else {
+                    spinnersCard.setVisibility(View.VISIBLE);
+                    Fx.slide_down(MainActivity.this, spinnersCard);
+                }
+            }
+        });
+
         viewCodeCondition = "view all"; //show all conditions on activity start
         viewCodeOrder = "date added"; //sort by date added on activity start
+
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
 
         recyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -237,6 +258,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                     adapter.setMedList(medList); //Updates the "mMedList" variable in adapter
                 }
             });
+            Fx.slide_up(MainActivity.this, recyclerView);
 
         }else if (viewCodeCondition == "view all" && viewCodeOrder == "date added" && viewCodeOngoing == false) {
             mMedViewModel.getMedsByDateAdded().observe(this, new Observer<List<MedItem>>() {

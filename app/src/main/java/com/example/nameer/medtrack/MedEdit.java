@@ -9,6 +9,7 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
@@ -55,6 +56,10 @@ public class MedEdit extends AppCompatActivity {
         EsetCondition = findViewById(R.id.EsetCondition);
         EsetNotes = findViewById(R.id.EsetNotes);
         Eongoing = findViewById(R.id.Eongoing);
+
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
 
         //get MedItem object that was clicked in RecyclerView adapter
         Bundle extras = getIntent().getExtras();
