@@ -9,9 +9,10 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 
-@Database(entities = {MedItem.class}, version = 1)
+@Database(entities = {MedItem.class, CalendarEvent.class}, version = 2)
 public abstract class AppDatabase extends RoomDatabase {
     public abstract MedDao medDao();
+    public abstract CalDao calDao();
 
     private static AppDatabase INSTANCE;
 
@@ -28,8 +29,9 @@ public abstract class AppDatabase extends RoomDatabase {
                 if (INSTANCE == null) {
                     //create database
                     INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
-                            AppDatabase.class, "word_database")
-                            .addMigrations(MIGRATION_1_2)
+                            AppDatabase.class, "med_database")
+                            //.addMigrations(MIGRATION_1_2)
+                            .fallbackToDestructiveMigration()
                             .build();
 
                 }
@@ -37,6 +39,7 @@ public abstract class AppDatabase extends RoomDatabase {
         }
         return INSTANCE;
     }
+
 
     private static RoomDatabase.Callback sRoomDatabaseCallback = new RoomDatabase.Callback() {
         @Override
@@ -47,15 +50,16 @@ public abstract class AppDatabase extends RoomDatabase {
     };
 
     private static class PopulateDbAsync extends AsyncTask<Void, Void, Void> {
-        private final MedDao mDao;
+        private final MedDao medDao;
+        private final CalDao calDao;
 
         PopulateDbAsync(AppDatabase db){
-            mDao = db.medDao();
+            medDao = db.medDao();
+            calDao = db.calDao();
         }
 
         @Override
         protected Void doInBackground(final Void... params){
-            //mDao.deleteAll();
             return null;
 
         }

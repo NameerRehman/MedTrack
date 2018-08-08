@@ -1,0 +1,332 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingVertical="15dp"
+            android:paddingHorizontal="10dp">
+
+            <android.support.v7.widget.CardView
+                android:id="@+id/symptomsCard"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                app:cardBackgroundColor="@color/colorAccent"
+                app:cardCornerRadius="15dp"
+                app:cardElevation="3dp">
+
+                <TextView
+                    android:id="@+id/symptomsText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:clickable="true"
+                    android:paddingLeft="12dp"
+                    android:paddingVertical="8dp"
+                    android:text="Symptoms"
+                    android:textColor="#FFFFFF"
+                    android:textStyle="bold" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:paddingRight="12dp"
+                    android:paddingTop="4dp"
+                    android:src="@drawable/ic_arrow_drop_down_black_24dp" />
+
+            </android.support.v7.widget.CardView>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:id="@+id/symptomsView">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Head"
+                    android:paddingTop="10dp"
+                    android:layout_marginLeft="3dp"
+                    android:drawableLeft="@drawable/ic_head"
+                    android:drawablePadding="4dp"/>
+
+                <CheckBox
+                    android:id="@+id/headache"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Headache"
+                    android:textSize="17sp" />
+
+                <TextView
+                    android:id="@+id/text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <CheckBox
+                    android:id="@+id/diziness"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Diziness"
+                    android:textSize="17sp" />
+
+                <CheckBox
+                    android:id="@+id/acne"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Acne"
+                    android:textSize="17sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Body"
+                    android:paddingTop="10dp"
+                    android:drawableLeft="@drawable/ic_body"
+                    android:drawablePadding="4dp"/>
+
+                <CheckBox
+                    android:id="@+id/bodyAches"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Body aches"
+                    android:textSize="17sp" />
+
+                <CheckBox
+                    android:id="@+id/cramps"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Cramps"
+                    android:textSize="17sp" />
+
+                <CheckBox
+                    android:id="@+id/chills"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Chills"
+                    android:textSize="17sp" />
+
+                <CheckBox
+                    android:id="@+id/itchyness"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Itchyness"
+                    android:textSize="17sp" />
+
+                <CheckBox
+                    android:id="@+id/flare"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Skin flare/rash"
+                    android:textSize="17sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Abdomen"
+                    android:paddingTop="10dp"
+                    android:drawableLeft="@drawable/ic_stomach"
+                    android:drawablePadding="4dp"/>
+
+                <CheckBox
+                    android:id="@+id/bloating"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Bloating"
+                    android:textSize="17sp" />
+
+                <CheckBox
+                    android:id="@+id/constipation"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Constipation"
+                    android:textSize="17sp" />
+
+                <CheckBox
+                    android:id="@+id/diarrhea"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Diarrhea"
+                    android:textSize="17sp" />
+
+                <CheckBox
+                    android:id="@+id/gas"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Gas"
+                    android:textSize="17sp" />
+
+                <CheckBox
+                    android:id="@+id/abdominalCramps"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Abdominal cramps"
+                    android:textSize="17sp" />
+
+                <CheckBox
+                    android:id="@+id/nausea"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Nausea"
+                    android:textSize="17sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Mental"
+                    android:paddingTop="10dp"
+                    android:drawablePadding="4dp"
+                    android:drawableLeft="@drawable/ic_brain"/>
+
+                <CheckBox
+                    android:id="@+id/stress"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Stress"
+                    android:textSize="17sp" />
+
+                <CheckBox
+                    android:id="@+id/moodiness"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Moodiness"
+                    android:textSize="17sp" />
+
+                <CheckBox
+                    android:id="@+id/irritable"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Irritability"
+                    android:textSize="17sp" />
+
+                <CheckBox
+                    android:id="@+id/insomnia"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Insomnia"
+                    android:textSize="17sp" />
+
+                <CheckBox
+                    android:id="@+id/fatigue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Fatigue"
+                    android:textSize="17sp" />
+
+                <CheckBox
+                    android:id="@+id/confusion"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Confusion"
+                    android:textSize="17sp"
+                    android:paddingBottom="10dp"/>
+
+            </LinearLayout>
+        <android.support.v7.widget.CardView
+            android:id="@+id/moodCard"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            app:cardBackgroundColor="@color/colorAccent"
+            app:cardCornerRadius="15dp"
+            app:cardElevation="3dp">
+
+            <TextView
+                android:id="@+id/moodText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:paddingLeft="12dp"
+                android:paddingVertical="8dp"
+                android:text="Mood"
+                android:textColor="#FFFFFF"
+                android:textStyle="bold" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:paddingRight="12dp"
+                android:paddingTop="4dp"
+                android:src="@drawable/ic_arrow_drop_down_black_24dp" />
+
+        </android.support.v7.widget.CardView>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:id="@+id/moodView">
+            <CheckBox
+                android:id="@+id/happy"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Happy"
+                android:textSize="17sp" />
+        </LinearLayout>
+
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="11dp"
+                android:layout_marginTop="20dp"
+                android:elevation="1dp"
+                android:minHeight="80dp"
+                app:cardCornerRadius="20dp"
+                android:layout_marginBottom="10dp">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="15dp"
+                    android:layout_marginTop="15dp"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="-5dp"
+                        android:paddingRight="12dp"
+                        android:paddingTop="2dp"
+                        android:scaleX="1"
+                        android:scaleY="1"
+                        android:src="@drawable/ic_notes" />
+
+                    <EditText
+                        android:id="@+id/EsetNotes"
+                        style="@android:style/Widget.Material.Light.EditText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="10dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:background="@android:color/transparent"
+                        android:hint="Notes "
+                        android:textAppearance="@android:style/TextAppearance.Material.Subhead"
+                        android:textSize="19sp" />
+                </LinearLayout>
+            </android.support.v7.widget.CardView>
+        </LinearLayout>
+    </ScrollView>
+
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/finish"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|right"
+        android:layout_marginBottom="15dp"
+        android:layout_marginRight="15dp"
+        android:clickable="true"
+        android:src="@drawable/ic_check_white"
+        app:fabCustomSize="60dp" />
+</android.support.design.widget.CoordinatorLayout>

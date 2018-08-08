@@ -62,22 +62,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        filterCard = findViewById(R.id.filterCard);
-        spinnersCard = findViewById(R.id.spinnersCard);
-        spinnersCard.setVisibility(View.GONE);
-        filterCard.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (spinnersCard.isShown()) {
-                    Fx.slide_up(MainActivity.this, spinnersCard);
-                    spinnersCard.setVisibility(View.GONE);
-                } else {
-                    spinnersCard.setVisibility(View.VISIBLE);
-                    Fx.slide_down(MainActivity.this, spinnersCard);
-                }
-            }
-        });
-
         viewCodeCondition = "view all"; //show all conditions on activity start
         viewCodeOrder = "date added"; //sort by date added on activity start
 
@@ -99,6 +83,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         orderSpinner.setOnItemSelectedListener(this);
 
         observer(); //shows view based on viewCode (determined by conditionsSpinner) and sets up observer
+
+        filterCard(); //Hide and show filter options
 
         add = (FloatingActionButton)findViewById(R.id.add);
         add.setOnClickListener(new View.OnClickListener() {
@@ -247,108 +233,21 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     public void onNothingSelected(AdapterView<?> parent) {
     }
 
-    public void observer(){
-        final MedAdaptar adapter = new MedAdaptar(this);
-        recyclerView.setAdapter(adapter);
-
-        if (viewCodeCondition == "view all" && viewCodeOrder == "start date" && viewCodeOngoing == false){
-            mMedViewModel.getMedsByStartDate().observe(this, new Observer<List<MedItem>>(){
-                @Override
-                public void onChanged (@Nullable final List<MedItem> medList){
-                    adapter.setMedList(medList); //Updates the "mMedList" variable in adapter
+    public void filterCard(){
+        filterCard = findViewById(R.id.filterCard);
+        spinnersCard = findViewById(R.id.spinnersCard);
+        spinnersCard.setVisibility(View.GONE);
+        filterCard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (spinnersCard.isShown()) {
+                    spinnersCard.setVisibility(View.GONE);
+                } else {
+                    spinnersCard.setVisibility(View.VISIBLE);
+                    //Fx.slide_down(MainActivity.this, spinnersCard);
                 }
-            });
-            Fx.slide_up(MainActivity.this, recyclerView);
-
-        }else if (viewCodeCondition == "view all" && viewCodeOrder == "date added" && viewCodeOngoing == false) {
-            mMedViewModel.getMedsByDateAdded().observe(this, new Observer<List<MedItem>>() {
-                @Override
-                public void onChanged(@Nullable final List<MedItem> medList) {
-                    adapter.setMedList(medList);
-                }
-            });
-
-        }else if (viewCodeCondition == "view all" && viewCodeOrder == "med name"&& viewCodeOngoing == false) {
-            mMedViewModel.getMedsByAlphabetical().observe(this, new Observer<List<MedItem>>() {
-                @Override
-                public void onChanged(@Nullable final List<MedItem> medList) {
-                    adapter.setMedList(medList);
-                }
-            });
-
-        }else if (viewCodeCondition == "condition" && viewCodeOrder == "date added" && viewCodeOngoing == false) {
-            mMedViewModel.getMedsByConditionDateAdded(conditionSelect).observe(this, new Observer<List<MedItem>>() {
-                @Override
-                public void onChanged(@Nullable final List<MedItem> medList) {
-                    adapter.setMedList(medList);
-                }
-            });
-        }else if (viewCodeCondition == "condition" && viewCodeOrder == "start date" && viewCodeOngoing == false) {
-            mMedViewModel.getMedsByConditionStartDate(conditionSelect).observe(this, new Observer<List<MedItem>>() {
-                @Override
-                public void onChanged(@Nullable final List<MedItem> medList) {
-                    adapter.setMedList(medList);
-                }
-            });
-        }else if (viewCodeCondition == "condition" && viewCodeOrder == "med name" && viewCodeOngoing == false) {
-            mMedViewModel.getMedsByConditionAlphabetical(conditionSelect).observe(this, new Observer<List<MedItem>>() {
-                @Override
-                public void onChanged(@Nullable final List<MedItem> medList) {
-                    adapter.setMedList(medList);
-                }
-            });
-        }else if (viewCodeCondition == "view all" && viewCodeOrder == "start date" && viewCodeOngoing == true) {
-            mMedViewModel.getMedsByOngoingStart("Ongoing").observe(this, new Observer<List<MedItem>>() {
-                @Override
-                public void onChanged(@Nullable final List<MedItem> medList) {
-                    adapter.setMedList(medList);
-                }
-            });
-        }else if (viewCodeCondition == "view all" && viewCodeOrder == "date added" && viewCodeOngoing == true) {
-            mMedViewModel.getMedsByOngoingDA("Ongoing").observe(this, new Observer<List<MedItem>>() {
-                @Override
-                public void onChanged(@Nullable final List<MedItem> medList) {
-                    adapter.setMedList(medList);
-                }
-            });
-        }else if (viewCodeCondition == "view all" && viewCodeOrder == "med name" && viewCodeOngoing == true) {
-            mMedViewModel.getMedsByOngoingAlphabetical("Ongoing").observe(this, new Observer<List<MedItem>>() {
-                @Override
-                public void onChanged(@Nullable final List<MedItem> medList) {
-                    adapter.setMedList(medList);
-                }
-            });
-        }else if (viewCodeCondition == "condition" && viewCodeOrder == "start date" && viewCodeOngoing == true) {
-            mMedViewModel.getMedsByConditionOngoingStart(conditionSelect, "Ongoing").observe(this, new Observer<List<MedItem>>() {
-                @Override
-                public void onChanged(@Nullable final List<MedItem> medList) {
-                    adapter.setMedList(medList);
-                }
-            });
-        }else if (viewCodeCondition == "condition" && viewCodeOrder == "date added" && viewCodeOngoing == true) {
-            mMedViewModel.getMedsByConditionOngoingDA(conditionSelect, "Ongoing").observe(this, new Observer<List<MedItem>>() {
-                @Override
-                public void onChanged(@Nullable final List<MedItem> medList) {
-                    adapter.setMedList(medList);
-                }
-            });
-        }else if (viewCodeCondition == "condition" && viewCodeOrder == "med name" && viewCodeOngoing == true) {
-            mMedViewModel.getMedsByConditionOngoingAlphabetical(conditionSelect, "Ongoing").observe(this, new Observer<List<MedItem>>() {
-                @Override
-                public void onChanged(@Nullable final List<MedItem> medList) {
-                    adapter.setMedList(medList);
-                }
-            });
-        }
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if(toggle.onOptionsItemSelected(item)){
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
+            }
+        });
     }
 
     private void setupNavDrawer(){
@@ -366,14 +265,141 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         Fragment fragment = null;
-        if(item.getItemId()==R.id.nav_meds){
+        if(item.getItemId()==R.id.nav_calendar){
             Intent i = new Intent(MainActivity.this, Calendar.class);
+
             startActivity(i);
             //overridePendingTransition(0,0);
         }
 
-        DrawerLayout drawerLayout = findViewById(R.id.drawerLayout);
-        drawerLayout.closeDrawer(GravityCompat.START);
+        //DrawerLayout drawerLayout = findViewById(R.id.drawerLayout);
+        //drawerLayout.closeDrawer(GravityCompat.START);
         return true;
     }
+
+    public void observer(){
+        final MedAdaptar adapter = new MedAdaptar(this);
+        recyclerView.setAdapter(adapter);
+
+        if (viewCodeCondition == "view all" && viewCodeOrder == "start date" && viewCodeOngoing == false){
+            mMedViewModel.getMedsByStartDate().observe(this, new Observer<List<MedItem>>(){
+                @Override
+                public void onChanged (@Nullable final List<MedItem> medList){
+                    adapter.setMedList(medList); //Updates the "mMedList" variable in adapter
+                }
+            });
+            Fx.slide_down(MainActivity.this, recyclerView);
+
+        }else if (viewCodeCondition == "view all" && viewCodeOrder == "date added" && viewCodeOngoing == false) {
+            mMedViewModel.getMedsByDateAdded().observe(this, new Observer<List<MedItem>>() {
+                @Override
+                public void onChanged(@Nullable final List<MedItem> medList) {
+                    adapter.setMedList(medList);
+                }
+            });
+            Fx.slide_down(MainActivity.this, recyclerView);
+
+        }else if (viewCodeCondition == "view all" && viewCodeOrder == "med name"&& viewCodeOngoing == false) {
+            mMedViewModel.getMedsByAlphabetical().observe(this, new Observer<List<MedItem>>() {
+                @Override
+                public void onChanged(@Nullable final List<MedItem> medList) {
+                    adapter.setMedList(medList);
+                }
+            });
+            Fx.slide_down(MainActivity.this, recyclerView);
+
+        }else if (viewCodeCondition == "condition" && viewCodeOrder == "date added" && viewCodeOngoing == false) {
+            mMedViewModel.getMedsByConditionDateAdded(conditionSelect).observe(this, new Observer<List<MedItem>>() {
+                @Override
+                public void onChanged(@Nullable final List<MedItem> medList) {
+                    adapter.setMedList(medList);
+                }
+            });
+            Fx.slide_down(MainActivity.this, recyclerView);
+
+        }else if (viewCodeCondition == "condition" && viewCodeOrder == "start date" && viewCodeOngoing == false) {
+            mMedViewModel.getMedsByConditionStartDate(conditionSelect).observe(this, new Observer<List<MedItem>>() {
+                @Override
+                public void onChanged(@Nullable final List<MedItem> medList) {
+                    adapter.setMedList(medList);
+                }
+            });
+            Fx.slide_down(MainActivity.this, recyclerView);
+
+        }else if (viewCodeCondition == "condition" && viewCodeOrder == "med name" && viewCodeOngoing == false) {
+            mMedViewModel.getMedsByConditionAlphabetical(conditionSelect).observe(this, new Observer<List<MedItem>>() {
+                @Override
+                public void onChanged(@Nullable final List<MedItem> medList) {
+                    adapter.setMedList(medList);
+                }
+            });
+            Fx.slide_down(MainActivity.this, recyclerView);
+
+        }else if (viewCodeCondition == "view all" && viewCodeOrder == "start date" && viewCodeOngoing == true) {
+            mMedViewModel.getMedsByOngoingStart("Ongoing").observe(this, new Observer<List<MedItem>>() {
+                @Override
+                public void onChanged(@Nullable final List<MedItem> medList) {
+                    adapter.setMedList(medList);
+                }
+            });
+            Fx.slide_down(MainActivity.this, recyclerView);
+
+        }else if (viewCodeCondition == "view all" && viewCodeOrder == "date added" && viewCodeOngoing == true) {
+            mMedViewModel.getMedsByOngoingDA("Ongoing").observe(this, new Observer<List<MedItem>>() {
+                @Override
+                public void onChanged(@Nullable final List<MedItem> medList) {
+                    adapter.setMedList(medList);
+                }
+            });
+            Fx.slide_down(MainActivity.this, recyclerView);
+
+        }else if (viewCodeCondition == "view all" && viewCodeOrder == "med name" && viewCodeOngoing == true) {
+            mMedViewModel.getMedsByOngoingAlphabetical("Ongoing").observe(this, new Observer<List<MedItem>>() {
+                @Override
+                public void onChanged(@Nullable final List<MedItem> medList) {
+                    adapter.setMedList(medList);
+                }
+            });
+            Fx.slide_down(MainActivity.this, recyclerView);
+
+        }else if (viewCodeCondition == "condition" && viewCodeOrder == "start date" && viewCodeOngoing == true) {
+            mMedViewModel.getMedsByConditionOngoingStart(conditionSelect, "Ongoing").observe(this, new Observer<List<MedItem>>() {
+                @Override
+                public void onChanged(@Nullable final List<MedItem> medList) {
+                    adapter.setMedList(medList);
+                }
+            });
+            Fx.slide_down(MainActivity.this, recyclerView);
+
+        }else if (viewCodeCondition == "condition" && viewCodeOrder == "date added" && viewCodeOngoing == true) {
+            mMedViewModel.getMedsByConditionOngoingDA(conditionSelect, "Ongoing").observe(this, new Observer<List<MedItem>>() {
+                @Override
+                public void onChanged(@Nullable final List<MedItem> medList) {
+                    adapter.setMedList(medList);
+                }
+            });
+            Fx.slide_down(MainActivity.this, recyclerView);
+
+        }else if (viewCodeCondition == "condition" && viewCodeOrder == "med name" && viewCodeOngoing == true) {
+            mMedViewModel.getMedsByConditionOngoingAlphabetical(conditionSelect, "Ongoing").observe(this, new Observer<List<MedItem>>() {
+                @Override
+                public void onChanged(@Nullable final List<MedItem> medList) {
+                    adapter.setMedList(medList);
+                }
+            });
+            Fx.slide_down(MainActivity.this, recyclerView);
+
+        }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if(toggle.onOptionsItemSelected(item)){
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+
 }

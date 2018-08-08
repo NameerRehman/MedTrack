@@ -53,6 +53,10 @@ public class MedViewModel extends AndroidViewModel{
         mRepository.delete(id);
     }
     public void update(String medName, String startDate, String endDate, String condition, String notes, int id){
-        mRepository.update(medName, startDate, endDate, condition, notes, id);
-    }
+        mRepository.update(medName, startDate, endDate, condition, notes, id); }
+
+        public void insertCal(CalendarEvent calendarEvent) { mRepository.insertCal(calendarEvent); }
+    LiveData<CalendarEvent> getEvents(String date) {return mRepository.getEvents(date);}
+
+
 }

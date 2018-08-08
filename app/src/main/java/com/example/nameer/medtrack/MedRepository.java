@@ -12,6 +12,7 @@ import java.util.List;
 public class MedRepository {
 
     private MedDao mMedDao;
+    private CalDao mCalDao;
     private LiveData<List<MedItem>> mAllMeds;
     private LiveData<List<String>> mConditions;
     private LiveData<List<MedItem>> mMedsByCondition;
@@ -20,6 +21,7 @@ public class MedRepository {
     MedRepository(Application application){
         AppDatabase db = AppDatabase.getDatabase(application);
         mMedDao = db.medDao();
+        mCalDao = db.calDao();
         mAllMeds = mMedDao.getMedsByStartDate(); //calls database query (with the help of MedDao class) to get Meds orderd by StartDate
         mConditions = mMedDao.getConditions();
     }
@@ -50,6 +52,11 @@ public class MedRepository {
     public void update (String medName, String startDate, String endDate, String condition, String notes, int id){
         new editAsyncTask(mMedDao, medName, startDate, endDate, condition, notes).execute(id); }
 
+    public void insertCal (CalendarEvent calendarEvent){
+        new insertAsyncTaskCal(mCalDao).execute(calendarEvent);
+    }
+    LiveData<CalendarEvent> getEvents(String date) {return mCalDao.getEvents(date);}
+
 
 
     private static class insertAsyncTask extends AsyncTask<MedItem, Void, Void> {
@@ -61,6 +68,20 @@ public class MedRepository {
 
         @Override
         protected Void doInBackground(final MedItem... params) {
+            mAsyncTaskDao.insertAll(params[0]);
+            return null;
+        }
+    }
+
+    private static class insertAsyncTaskCal extends AsyncTask<CalendarEvent, Void, Void> {
+        private CalDao mAsyncTaskDao;
+
+        insertAsyncTaskCal(CalDao dao) {
+            mAsyncTaskDao = dao;
+        }
+
+        @Override
+        protected Void doInBackground(final CalendarEvent... params) {
             mAsyncTaskDao.insertAll(params[0]);
             return null;
         }
@@ -103,18 +124,4 @@ public class MedRepository {
             return null;
         }
     }
-
-    /*private static class getConditionsAsyncTask extends AsyncTask<Void, Void, Void> {
-        private MedDao mAsyncTaskDao;
-
-        getConditionsAsyncTask(MedDao dao) {
-            mAsyncTaskDao = dao;
-        }
-
-        @Override
-        protected Void doInBackground(final Void...params) {
-            mAsyncTaskDao.getConditions();
-            return null;
-        }
-    }*/
 }
