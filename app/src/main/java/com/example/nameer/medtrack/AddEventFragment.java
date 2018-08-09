@@ -17,6 +17,7 @@ import android.view.ViewGroup;
 import android.widget.CalendarView;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -28,12 +29,14 @@ import java.util.List;
 public class AddEventFragment extends Fragment implements View.OnClickListener {
     private View view;
     private CalendarView calendarView;
-    private FloatingActionButton finish;
-    private CheckBox headache;
-    ArrayList<String> symptomList;
-    private String date, symptoms;
     private MedViewModel mMedViewModel;
-    private String calSymptoms, calNotes, calMood;
+
+    private FloatingActionButton finish;
+    private CheckBox headache, diziness, acne, bodyaches, cramps, chills, itchyness, flare, bloating, constipation, diarrhea, gas, abdominalCramps, nausea, stress, moodiness, irritability, insomnia, fatigue, confusion;
+    private CheckBox happy;
+    private EditText notesEditText;
+    ArrayList<String> symptomList, moodList;
+    private String date, symptoms, moods, notes;
     CardView symptomsCard, moodCard, notesCard;
     LinearLayout symptomsView, moodView, notesView;
 
@@ -53,51 +56,20 @@ public class AddEventFragment extends Fragment implements View.OnClickListener {
             date = bundle.getString("date");
         }
 
-        symptomsCard();
+        mMedViewModel = ViewModelProviders.of(this).get(MedViewModel.class);
+
+        symptomsCard(); //Cards to show/hide symptoms & moods lists
         moodCard();
 
-        final TextView text = view.findViewById(R.id.text);
-        mMedViewModel = ViewModelProviders.of(this).get(MedViewModel.class);
-        mMedViewModel.getEvents(date).observe(this, new Observer<CalendarEvent>() {
-            @Override
-            public void onChanged(@Nullable final CalendarEvent cal) {
-                if(cal!=null) {
-                    calSymptoms = cal.getCalSymptoms();
-                    text.setText(calSymptoms);
-                }
-            }
-            });
-
         symptomList = new ArrayList<>();
-        headache = view.findViewById(R.id.headache);
-        headache.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(isChecked==true){
-                    symptomList.add("headache");
-                    symptomsListToString();
-                }if(isChecked==false){
-                    symptomList.remove("headache");
-                    symptomsListToString();
-                }
-            }
-        });
+        moodList = new ArrayList<>();
 
-        finish = view.findViewById(R.id.finish);
-        finish.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                CalendarEvent calendarEvent = new CalendarEvent(date,symptoms,"test","test");
-                mMedViewModel.insertCal(calendarEvent);
+        notesEditText = view.findViewById(R.id.notes);
 
-                Fragment CalendarFragment = new CalendarFragment();
-                //addEventFragment.setArguments(bundle);
-                FragmentManager fm = getActivity().getSupportFragmentManager();
-                FragmentTransaction ft = fm.beginTransaction().replace(R.id.fragment_container, CalendarFragment);
-                ft.addToBackStack(null);
-                ft.commit();
-            }
-        });
+        checkedItems();
+
+
+        finish();
     }
 
     @Override
@@ -137,6 +109,69 @@ public class AddEventFragment extends Fragment implements View.OnClickListener {
         });
     }
 
+    public void finish(){
+        finish = view.findViewById(R.id.finish);
+        finish.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                notes = notesEditText.getEditableText().toString();
+                CalendarEvent calendarEvent = new CalendarEvent(date,symptoms,moods,notes);
+                mMedViewModel.insertCal(calendarEvent);
+
+                Fragment CalendarFragment = new CalendarFragment();
+                //addEventFragment.setArguments(bundle);
+                FragmentManager fm = getActivity().getSupportFragmentManager();
+                FragmentTransaction ft = fm.beginTransaction().replace(R.id.fragment_container, CalendarFragment);
+                ft.addToBackStack(null);
+                ft.commit();
+            }
+        });
+    }
+
+    public void checkedItems(){
+        headache = view.findViewById(R.id.headache);
+        headache.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked==true){
+                    symptomList.add("Headache");
+                    symptomsListToString();
+                }if(isChecked==false){
+                    symptomList.remove("Headache");
+                    symptomsListToString();
+                }
+            }
+        });
+
+        diziness = view.findViewById(R.id.diziness);
+        diziness.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked==true){
+                    symptomList.add("Diziness");
+                    symptomsListToString();
+                }if(isChecked==false){
+                    symptomList.remove("Diziness");
+                    symptomsListToString();
+                }
+            }
+        });
+
+        happy = view.findViewById(R.id.happy);
+        happy.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked==true){
+                    moodList.add("Happy");
+                    moodListToString();
+                }if(isChecked==false){
+                    moodList.remove("Happy");
+                    moodListToString();
+                }
+            }
+        });
+    }
+
 
     public String symptomsListToString(){
         symptoms="";
@@ -150,4 +185,18 @@ public class AddEventFragment extends Fragment implements View.OnClickListener {
         Toast.makeText(getContext(), symptoms, Toast.LENGTH_SHORT).show();
         return symptoms;
     }
+
+    public String moodListToString(){
+        moods="";
+        for (int i = 0; i < moodList.size() ; i++) {
+            if(i == (moodList.size() -1)){  //if on last item of the list, do not add a comma after
+                moods = moods + moodList.get(i);
+            }else{
+                moods = moods + moodList.get(i) + ", ";
+            }
+        }
+        Toast.makeText(getContext(), moods, Toast.LENGTH_SHORT).show();
+        return moods;
+    }
+
 }

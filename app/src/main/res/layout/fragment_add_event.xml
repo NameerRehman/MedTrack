@@ -202,7 +202,7 @@
                     android:textSize="17sp" />
 
                 <CheckBox
-                    android:id="@+id/irritable"
+                    android:id="@+id/irritability"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Irritability"
@@ -302,7 +302,7 @@
                         android:src="@drawable/ic_notes" />
 
                     <EditText
-                        android:id="@+id/EsetNotes"
+                        android:id="@+id/notes"
                         style="@android:style/Widget.Material.Light.EditText"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
