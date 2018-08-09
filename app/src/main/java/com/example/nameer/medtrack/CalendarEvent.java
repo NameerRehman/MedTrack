@@ -6,6 +6,7 @@ import android.arch.persistence.room.PrimaryKey;
 import android.support.annotation.NonNull;
 
 import java.io.Serializable;
+import java.util.Date;
 
 @Entity (tableName = "cal_event")
 public class CalendarEvent implements Serializable{
@@ -15,7 +16,7 @@ public class CalendarEvent implements Serializable{
     private int calId;
 
     @ColumnInfo(name = "date")
-    private String calDate;
+    private long calDate;
 
     @ColumnInfo(name = "symptoms")
     private String calSymptoms;
@@ -26,7 +27,7 @@ public class CalendarEvent implements Serializable{
     @ColumnInfo(name = "notes")
     private String calNotes;
 
-    public CalendarEvent(String calDate, String calSymptoms, String calMood, String calNotes){
+    public CalendarEvent(long calDate, String calSymptoms, String calMood, String calNotes){
         this.calDate = calDate;
         this.calSymptoms = calSymptoms;
         this.calMood = calMood;
@@ -43,11 +44,11 @@ public class CalendarEvent implements Serializable{
     }
 
 
-    public String getCalDate() {
+    public long getCalDate() {
         return calDate;
     }
 
-    public void setCalDate(String calDate) {
+    public void setCalDate(long calDate) {
         this.calDate = calDate;
     }
 

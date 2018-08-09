@@ -5,6 +5,7 @@ import android.arch.lifecycle.AndroidViewModel;
 import android.arch.lifecycle.LiveData;
 import android.support.annotation.NonNull;
 
+import java.util.Date;
 import java.util.List;
 
 //This class links the repository to MainActivity -
@@ -56,7 +57,9 @@ public class MedViewModel extends AndroidViewModel{
         mRepository.update(medName, startDate, endDate, condition, notes, id); }
 
         public void insertCal(CalendarEvent calendarEvent) { mRepository.insertCal(calendarEvent); }
-    LiveData<CalendarEvent> getEvents(String date) {return mRepository.getEvents(date);}
+    LiveData<CalendarEvent> getEvents(long date) {return mRepository.getEvents(date);}
+    LiveData<List<CalendarEvent>> getallEvents(){return mRepository.getallEvents();}
+
 
 
 }

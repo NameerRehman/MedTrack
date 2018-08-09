@@ -22,29 +22,31 @@ import android.widget.Toast;
 import com.github.sundeepk.compactcalendarview.CompactCalendarView;
 import com.github.sundeepk.compactcalendarview.domain.Event;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 public class CalendarFragment extends Fragment implements View.OnClickListener {
     private View view;
-    private CalendarView calendarView;
-    private FloatingActionButton add;
-    private String date;
-    private TextView showSymptoms, showMood, showNotes;
     CompactCalendarView compactCalendar;
-    private SimpleDateFormat dateFormat = new SimpleDateFormat("MMMM- yyyy", Locale.getDefault());
+    private FloatingActionButton add;
+    private long date;
     private MedViewModel mMedViewModel;
+    private TextView showSymptoms, showMood, showNotes;
+    private SimpleDateFormat dateFormat = new SimpleDateFormat("MMMM- yyyy", Locale.getDefault());
     private String calSymptoms, calNotes, calMood;
+    private List<CalendarEvent> allEvents;
 
+    String test;
     public interface DataPassListener{
         public void passData(String data);
     }
-
-
 
     @Nullable
     @Override
@@ -57,20 +59,47 @@ public class CalendarFragment extends Fragment implements View.OnClickListener {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        compactCalendar = view.findViewById(R.id.compactcalendar_view);
+        compactCalendar.setUseThreeLetterAbbreviation(true);
+
         showSymptoms = view.findViewById(R.id.showSymptoms);
         showMood = view.findViewById(R.id.showMood);
         showNotes = view.findViewById(R.id.showNotes);
 
-
-        compactCalendar = view.findViewById(R.id.compactcalendar_view);
-        compactCalendar.setUseThreeLetterAbbreviation(true);
-
         mMedViewModel = ViewModelProviders.of(this).get(MedViewModel.class);
+
+        mMedViewModel.getallEvents().observe(this, new Observer<List<CalendarEvent>>() {
+            @Override
+            public void onChanged(@Nullable final List<CalendarEvent> eventList) {
+                allEvents = eventList;
+                for (int i = 0; i < allEvents.size(); i++) {
+                    long epoch = allEvents.get(i).getCalDate();
+                    final Event ev2 = new Event(Color.RED, epoch, "Church Service and Flag Raising Ceremony");
+                    if(compactCalendar.getEvents(allEvents.get(i).getCalDate()).size() == 0){
+                        compactCalendar.addEvent(ev2);
+                    }else{}
+
+                }
+            }
+        });
+
+        /*if (allEvents != null){
+            for (int i = 0; i < allEvents.size(); i++) {
+
+            long epoch = allEvents.get(i).getCalDate();
+            final Event ev2 = new Event(Color.RED, epoch, "Church Service and Flag Raising Ceremony");
+            if(compactCalendar.getEvents(allEvents.get(i).getCalDate()).size() == 0){
+                compactCalendar.addEvent(ev2);
+            }else{}
+
+            }
+        }*/
+
 
         compactCalendar.setListener(new CompactCalendarView.CompactCalendarViewListener() {
             @Override
             public void onDayClick(Date dateClicked) {
-                date = dateClicked.toString();
+                date = dateClicked.getTime(); //converts date to a long
                 /*long epoch = dateClicked.getTime();
                 final Event ev2 = new Event(Color.RED, epoch, "Church Service and Flag Raising Ceremony");
                 if(compactCalendar.getEvents(dateClicked).size() == 0){
@@ -120,8 +149,8 @@ public class CalendarFragment extends Fragment implements View.OnClickListener {
             @Override
             public void onClick(View v) {
                 Bundle bundle = new Bundle();
-                bundle.putString("date",date);
-                if (date != null){
+                bundle.putLong("date",date);
+                if (date != 0L){
                     Fragment addEventFragment = new AddEventFragment();
                     addEventFragment.setArguments(bundle);
                     FragmentManager fm = getActivity().getSupportFragmentManager();

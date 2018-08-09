@@ -5,6 +5,7 @@ import android.arch.lifecycle.LiveData;
 import android.os.AsyncTask;
 import android.os.Bundle;
 
+import java.util.Date;
 import java.util.List;
 
 //this class manages one or more databases - in this case, AppDatabase. Sends data to MedViewModel
@@ -26,6 +27,13 @@ public class MedRepository {
         mConditions = mMedDao.getConditions();
     }
 
+    public void insert (MedItem medItem){
+        new insertAsyncTask(mMedDao).execute(medItem);
+    }
+    public void delete (int id){ new deleteAsyncTask(mMedDao).execute(id); }
+    public void update (String medName, String startDate, String endDate, String condition, String notes, int id){
+        new editAsyncTask(mMedDao, medName, startDate, endDate, condition, notes).execute(id); }
+
     //getter to be accessed by MedViewModel and then MainActivity to observe LiveData
     LiveData<List<MedItem>> getMedsByStartDate(){return mAllMeds;} //returns mMedDao.getMedsListbyStartDate
     LiveData<List<MedItem>> getMedsByConditionDateAdded(String condition) {return mMedDao.getMedsByConditionDateAdded(condition);}
@@ -44,21 +52,15 @@ public class MedRepository {
     LiveData<List<MedItem>> getMedsByConditionOngoingAlphabetical(String condition, String endDate) {return mMedDao.getMedsByConditionOngoingAlphabetical(condition, endDate);}
 
 
-
-    public void insert (MedItem medItem){
-        new insertAsyncTask(mMedDao).execute(medItem);
-    }
-    public void delete (int id){ new deleteAsyncTask(mMedDao).execute(id); }
-    public void update (String medName, String startDate, String endDate, String condition, String notes, int id){
-        new editAsyncTask(mMedDao, medName, startDate, endDate, condition, notes).execute(id); }
-
+    //Calendar queries
     public void insertCal (CalendarEvent calendarEvent){
         new insertAsyncTaskCal(mCalDao).execute(calendarEvent);
     }
-    LiveData<CalendarEvent> getEvents(String date) {return mCalDao.getEvents(date);}
+    LiveData<CalendarEvent> getEvents(long date) {return mCalDao.getEvents(date);}
+    LiveData<List<CalendarEvent>> getallEvents(){return mCalDao.getallEvents();}
 
 
-
+    //Med AsyncTasks
     private static class insertAsyncTask extends AsyncTask<MedItem, Void, Void> {
         private MedDao mAsyncTaskDao;
 
@@ -68,20 +70,6 @@ public class MedRepository {
 
         @Override
         protected Void doInBackground(final MedItem... params) {
-            mAsyncTaskDao.insertAll(params[0]);
-            return null;
-        }
-    }
-
-    private static class insertAsyncTaskCal extends AsyncTask<CalendarEvent, Void, Void> {
-        private CalDao mAsyncTaskDao;
-
-        insertAsyncTaskCal(CalDao dao) {
-            mAsyncTaskDao = dao;
-        }
-
-        @Override
-        protected Void doInBackground(final CalendarEvent... params) {
             mAsyncTaskDao.insertAll(params[0]);
             return null;
         }
@@ -121,6 +109,21 @@ public class MedRepository {
         @Override
         protected Void doInBackground(final Integer... params) {
             mAsyncTaskDao.update(medName, startDate, endDate, condition, notes, params[0]);
+            return null;
+        }
+    }
+
+    //Calendar AsyncTasks
+    private static class insertAsyncTaskCal extends AsyncTask<CalendarEvent, Void, Void> {
+        private CalDao mAsyncTaskDao;
+
+        insertAsyncTaskCal(CalDao dao) {
+            mAsyncTaskDao = dao;
+        }
+
+        @Override
+        protected Void doInBackground(final CalendarEvent... params) {
+            mAsyncTaskDao.insertAll(params[0]);
             return null;
         }
     }

@@ -5,6 +5,7 @@ import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.Query;
 
+import java.util.Date;
 import java.util.List;
 
 //This class maps method calls to database queries
@@ -14,7 +15,10 @@ import java.util.List;
 public interface CalDao {
 
     @Query("SELECT * FROM cal_event WHERE date = :date")
-    LiveData<CalendarEvent> getEvents(String date);
+    LiveData<CalendarEvent> getEvents(long date);
+
+    @Query("SELECT * FROM cal_event")
+    LiveData<List<CalendarEvent>> getallEvents();
 
     //Edit database entries
     @Insert

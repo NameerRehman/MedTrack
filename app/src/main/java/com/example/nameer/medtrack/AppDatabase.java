@@ -9,7 +9,7 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 
-@Database(entities = {MedItem.class, CalendarEvent.class}, version = 2)
+@Database(entities = {MedItem.class, CalendarEvent.class}, version = 3)
 public abstract class AppDatabase extends RoomDatabase {
     public abstract MedDao medDao();
     public abstract CalDao calDao();

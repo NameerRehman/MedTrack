@@ -24,6 +24,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class AddEventFragment extends Fragment implements View.OnClickListener {
@@ -36,7 +37,8 @@ public class AddEventFragment extends Fragment implements View.OnClickListener {
     private CheckBox happy;
     private EditText notesEditText;
     ArrayList<String> symptomList, moodList;
-    private String date, symptoms, moods, notes;
+    private String symptoms, moods, notes;
+    long date;
     CardView symptomsCard, moodCard, notesCard;
     LinearLayout symptomsView, moodView, notesView;
 
@@ -53,7 +55,9 @@ public class AddEventFragment extends Fragment implements View.OnClickListener {
         Bundle bundle = this.getArguments();
 
         if(bundle != null){
-            date = bundle.getString("date");
+            //date = bundle.getString("date");
+            date = bundle.getLong("date");
+
         }
 
         mMedViewModel = ViewModelProviders.of(this).get(MedViewModel.class);
