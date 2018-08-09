@@ -3,12 +3,54 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-
-
-        <CalendarView
+        <android.support.design.widget.AppBarLayout
+            android:id="@+id/appBar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/calendarView"></CalendarView>
+            android:layout_height="250dp"
+            >
+
+                <android.support.design.widget.CollapsingToolbarLayout
+                    android:id="@+id/toolbarlayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                        <CalendarView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/calendarView"
+                            app:layout_collapseMode="parallax"></CalendarView>
+
+                        <android.support.v7.widget.Toolbar
+                            android:id="@+id/tool"
+                            android:layout_width="match_parent"
+                            android:layout_height="?attr/actionBarSize"
+                            app:layout_collapseMode="parallax"/>
+
+
+                </android.support.design.widget.CollapsingToolbarLayout>
+
+        </android.support.design.widget.AppBarLayout>
+
+
+
+        <android.support.v4.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior" >
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="dsdfd"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="fwf"
+                    android:paddingTop="500dp"/>
+                </LinearLayout>
+        </android.support.v4.widget.NestedScrollView>
 
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/addNote"

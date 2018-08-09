@@ -46,7 +46,7 @@ private ActionBarDrawerToggle toggle;
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         Fragment fragment = null;
-        if(item.getItemId()==R.id.nav_calendar){
+        if(item.getItemId()==R.id.nav_meds){
             Intent i = new Intent(Calendar.this, MainActivity.class);
 
             startActivity(i);
