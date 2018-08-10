@@ -25,6 +25,6 @@ public interface CalDao {
     void insertAll(CalendarEvent...calendarEvents);
 
     @Query("DELETE FROM cal_event WHERE date = :date")
-    void deleteEvent(int date);
+    void deleteEvent(long date);
 
 }

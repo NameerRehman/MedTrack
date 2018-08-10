@@ -53,9 +53,9 @@ public class MedRepository {
 
 
     //Calendar queries
-    public void insertCal (CalendarEvent calendarEvent){
-        new insertAsyncTaskCal(mCalDao).execute(calendarEvent);
-    }
+    public void insertCal (CalendarEvent calendarEvent){new insertAsyncTaskCal(mCalDao).execute(calendarEvent);}
+    public void deleteCal (long date){ new deleteAsyncTaskCal(mCalDao).execute(date); }
+
     LiveData<CalendarEvent> getEvents(long date) {return mCalDao.getEvents(date);}
     LiveData<List<CalendarEvent>> getallEvents(){return mCalDao.getallEvents();}
 
@@ -124,6 +124,20 @@ public class MedRepository {
         @Override
         protected Void doInBackground(final CalendarEvent... params) {
             mAsyncTaskDao.insertAll(params[0]);
+            return null;
+        }
+    }
+
+    private static class deleteAsyncTaskCal extends AsyncTask<Long, Void, Void> {
+        private CalDao mAsyncTaskDao;
+
+        deleteAsyncTaskCal(CalDao dao) {
+            mAsyncTaskDao = dao;
+        }
+
+        @Override
+        protected Void doInBackground(final Long... params) {
+            mAsyncTaskDao.deleteEvent(params[0]);
             return null;
         }
     }

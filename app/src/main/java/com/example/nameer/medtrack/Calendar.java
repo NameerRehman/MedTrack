@@ -17,6 +17,7 @@ public class Calendar extends AppCompatActivity implements NavigationView.OnNavi
 private CalendarView calendarView;
 private DrawerLayout drawerLayout;
 private ActionBarDrawerToggle toggle;
+private String test;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,7 +26,9 @@ private ActionBarDrawerToggle toggle;
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        //getSupportActionBar().setDisplayShowTitleEnabled(false);
+
+
 
     setupNavDrawer();
     getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new CalendarFragment()).commit();

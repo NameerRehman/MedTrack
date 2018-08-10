@@ -39,7 +39,7 @@ public class CalendarFragment extends Fragment implements View.OnClickListener {
     private long date;
     private MedViewModel mMedViewModel;
     private TextView showSymptoms, showMood, showNotes;
-    private SimpleDateFormat dateFormat = new SimpleDateFormat("MMMM- yyyy", Locale.getDefault());
+    private SimpleDateFormat dateFormat = new SimpleDateFormat("MMMM yyyy", Locale.getDefault());
     private String calSymptoms, calNotes, calMood;
     private List<CalendarEvent> allEvents;
 
@@ -62,6 +62,8 @@ public class CalendarFragment extends Fragment implements View.OnClickListener {
         compactCalendar = view.findViewById(R.id.compactcalendar_view);
         compactCalendar.setUseThreeLetterAbbreviation(true);
 
+        getActivity().setTitle(dateFormat.format(compactCalendar.getFirstDayOfCurrentMonth()));
+
         showSymptoms = view.findViewById(R.id.showSymptoms);
         showMood = view.findViewById(R.id.showMood);
         showNotes = view.findViewById(R.id.showNotes);
@@ -82,18 +84,6 @@ public class CalendarFragment extends Fragment implements View.OnClickListener {
                 }
             }
         });
-
-        /*if (allEvents != null){
-            for (int i = 0; i < allEvents.size(); i++) {
-
-            long epoch = allEvents.get(i).getCalDate();
-            final Event ev2 = new Event(Color.RED, epoch, "Church Service and Flag Raising Ceremony");
-            if(compactCalendar.getEvents(allEvents.get(i).getCalDate()).size() == 0){
-                compactCalendar.addEvent(ev2);
-            }else{}
-
-            }
-        }*/
 
 
         compactCalendar.setListener(new CompactCalendarView.CompactCalendarViewListener() {
@@ -129,7 +119,7 @@ public class CalendarFragment extends Fragment implements View.OnClickListener {
 
             @Override
             public void onMonthScroll(Date firstDayOfNewMonth) {
-                //eventText.setText(dateFormat.format(firstDayOfNewMonth));
+                getActivity().setTitle(dateFormat.format(firstDayOfNewMonth));
             }
         });
 
@@ -169,3 +159,4 @@ public class CalendarFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onClick(View v) {}
 }
+

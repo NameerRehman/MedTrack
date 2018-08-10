@@ -23,9 +23,11 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class AddEventFragment extends Fragment implements View.OnClickListener {
     private View view;
@@ -41,6 +43,8 @@ public class AddEventFragment extends Fragment implements View.OnClickListener {
     long date;
     CardView symptomsCard, moodCard, notesCard;
     LinearLayout symptomsView, moodView, notesView;
+    private SimpleDateFormat dateFormat = new SimpleDateFormat("MMM dd yyyy", Locale.getDefault());
+
 
     @Nullable
     @Override
@@ -57,8 +61,10 @@ public class AddEventFragment extends Fragment implements View.OnClickListener {
         if(bundle != null){
             //date = bundle.getString("date");
             date = bundle.getLong("date");
-
         }
+        Date dateDisplay = new Date(date);
+        String formattedDate = dateFormat.format(dateDisplay);
+        getActivity().setTitle(formattedDate);
 
         mMedViewModel = ViewModelProviders.of(this).get(MedViewModel.class);
 

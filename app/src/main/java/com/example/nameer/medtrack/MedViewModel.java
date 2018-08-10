@@ -27,6 +27,14 @@ public class MedViewModel extends AndroidViewModel{
         mConditions = mRepository.getConditions();
     }
 
+    //Med queries
+    public void insert(MedItem medItem) {
+        mRepository.insert(medItem);
+    }
+    public void delete(int id){ mRepository.delete(id); }
+    public void update(String medName, String startDate, String endDate, String condition, String notes, int id){
+        mRepository.update(medName, startDate, endDate, condition, notes, id); }
+
     //return LiveData mAllMeds (called in MainActivity to setup observer relationship)
     LiveData<List<MedItem>> getMedsByStartDate() {
         return mAllMeds;
@@ -46,17 +54,13 @@ public class MedViewModel extends AndroidViewModel{
     LiveData<List<MedItem>> getMedsByConditionOngoingStart(String condition, String endDate) {return mRepository.getMedsByConditionOngoingStart(condition, endDate);}
     LiveData<List<MedItem>> getMedsByConditionOngoingAlphabetical(String condition, String endDate) {return mRepository.getMedsByConditionOngoingAlphabetical(condition, endDate);}
 
-    //Insert new data into repo - used in onClick of "add" buton in MainActivity
-    public void insert(MedItem medItem) {
-        mRepository.insert(medItem);
-    }
-    public void delete(int id){
-        mRepository.delete(id);
-    }
-    public void update(String medName, String startDate, String endDate, String condition, String notes, int id){
-        mRepository.update(medName, startDate, endDate, condition, notes, id); }
 
-        public void insertCal(CalendarEvent calendarEvent) { mRepository.insertCal(calendarEvent); }
+
+    //Calendar queries
+    public void insertCal(CalendarEvent calendarEvent) { mRepository.insertCal(calendarEvent); }
+    public void deleteCal (long date){ mRepository.deleteCal(date); }
+
+
     LiveData<CalendarEvent> getEvents(long date) {return mRepository.getEvents(date);}
     LiveData<List<CalendarEvent>> getallEvents(){return mRepository.getallEvents();}
 
