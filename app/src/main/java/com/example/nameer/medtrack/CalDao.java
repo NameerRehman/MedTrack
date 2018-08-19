@@ -27,4 +27,8 @@ public interface CalDao {
     @Query("DELETE FROM cal_event WHERE date = :date")
     void deleteEvent(long date);
 
+    @Query("UPDATE cal_event SET symptoms = :symptoms, mood = :mood, notes = :notes WHERE date =:date")
+    void updateEvent(long date, String symptoms, String mood, String notes);
+
+
 }

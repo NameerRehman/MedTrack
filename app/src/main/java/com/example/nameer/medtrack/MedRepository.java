@@ -27,6 +27,7 @@ public class MedRepository {
         mConditions = mMedDao.getConditions();
     }
 
+    //Meds queries
     public void insert (MedItem medItem){
         new insertAsyncTask(mMedDao).execute(medItem);
     }
@@ -34,7 +35,6 @@ public class MedRepository {
     public void update (String medName, String startDate, String endDate, String condition, String notes, int id){
         new editAsyncTask(mMedDao, medName, startDate, endDate, condition, notes).execute(id); }
 
-    //getter to be accessed by MedViewModel and then MainActivity to observe LiveData
     LiveData<List<MedItem>> getMedsByStartDate(){return mAllMeds;} //returns mMedDao.getMedsListbyStartDate
     LiveData<List<MedItem>> getMedsByConditionDateAdded(String condition) {return mMedDao.getMedsByConditionDateAdded(condition);}
     LiveData<List<String>> getConditions() { return mConditions; }
@@ -55,6 +55,8 @@ public class MedRepository {
     //Calendar queries
     public void insertCal (CalendarEvent calendarEvent){new insertAsyncTaskCal(mCalDao).execute(calendarEvent);}
     public void deleteCal (long date){ new deleteAsyncTaskCal(mCalDao).execute(date); }
+    public void editCal (long date, String symptoms, String mood, String notes){
+        new editAsyncTaskCal(mCalDao, symptoms, mood, notes).execute(date);}
 
     LiveData<CalendarEvent> getEvents(long date) {return mCalDao.getEvents(date);}
     LiveData<List<CalendarEvent>> getallEvents(){return mCalDao.getallEvents();}
@@ -138,6 +140,26 @@ public class MedRepository {
         @Override
         protected Void doInBackground(final Long... params) {
             mAsyncTaskDao.deleteEvent(params[0]);
+            return null;
+        }
+    }
+
+    private static class editAsyncTaskCal extends AsyncTask<Long, Void, Void> {
+        private CalDao mAsyncTaskDao;
+        private String symptoms;
+        private String mood;
+        private String notes;
+
+        editAsyncTaskCal(CalDao dao, String symptoms, String mood, String notes) {
+            mAsyncTaskDao = dao;
+            this.symptoms = symptoms;
+            this.mood = mood;
+            this.notes = notes;
+        }
+
+        @Override
+        protected Void doInBackground(final Long... params) {
+            mAsyncTaskDao.updateEvent(params[0], symptoms, mood, notes);
             return null;
         }
     }
