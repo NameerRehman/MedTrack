@@ -1,8 +1,11 @@
 package com.example.nameer.medtrack;
 
+import android.app.AlertDialog;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -70,7 +73,7 @@ public class AddEventFragment extends Fragment implements View.OnClickListener {
             date = bundle.getLong("date");
         }
         Date dateDisplay = new Date(date); //change Long type to Date type
-        String formattedDate = dateFormat.format(dateDisplay); //format by "MMM dd"
+        final String formattedDate = dateFormat.format(dateDisplay); //format by "MMM dd"
         getActivity().setTitle(formattedDate);
 
         checkedItems();
@@ -81,7 +84,7 @@ public class AddEventFragment extends Fragment implements View.OnClickListener {
         mMedViewModel.getEvents(date).observe(getActivity(), new Observer<CalendarEvent>() {
             @Override
             public void onChanged(@Nullable final CalendarEvent cal) {
-                if(cal!=null) {
+                if (cal != null) {
                     existingEvent = true;
                     notesEditText.setText(cal.getCalNotes());
                     fillSymptomsData("Headache", headache, cal);
@@ -90,20 +93,20 @@ public class AddEventFragment extends Fragment implements View.OnClickListener {
                     fillSymptomsData("Body aches", bodyaches, cal);
                     fillSymptomsData("Cramps", cramps, cal);
                     fillSymptomsData("Chills", chills, cal);
-                    fillSymptomsData("Itchiness", itchyness, cal );
-                    fillSymptomsData("Skin flare/rash", flare, cal );
-                    fillSymptomsData("Bloating", bloating, cal );
+                    fillSymptomsData("Itchiness", itchyness, cal);
+                    fillSymptomsData("Skin flare/rash", flare, cal);
+                    fillSymptomsData("Bloating", bloating, cal);
                     fillSymptomsData("Constipation", constipation, cal);
-                    fillSymptomsData("Diarrhea", diarrhea, cal );
-                    fillSymptomsData("Gas", gas, cal );
-                    fillSymptomsData("Abdominal cramps", abdominalCramps, cal );
-                    fillSymptomsData("Nausea", nausea, cal );
-                    fillSymptomsData("Stress", stress, cal );
-                    fillSymptomsData("Moodiness", moodiness, cal );
-                    fillSymptomsData("Irritability", irritability, cal );
-                    fillSymptomsData("Insomnia", insomnia, cal );
-                    fillSymptomsData("Fatigue", fatigue, cal );
-                    fillSymptomsData("Confusion", confusion, cal );
+                    fillSymptomsData("Diarrhea", diarrhea, cal);
+                    fillSymptomsData("Gas", gas, cal);
+                    fillSymptomsData("Abdominal cramps", abdominalCramps, cal);
+                    fillSymptomsData("Nausea", nausea, cal);
+                    fillSymptomsData("Stress", stress, cal);
+                    fillSymptomsData("Moodiness", moodiness, cal);
+                    fillSymptomsData("Irritability", irritability, cal);
+                    fillSymptomsData("Insomnia", insomnia, cal);
+                    fillSymptomsData("Fatigue", fatigue, cal);
+                    fillSymptomsData("Confusion", confusion, cal);
 
                     fillMoodData(happy, "Happy", cal);
                     fillMoodData(angry, "Angry", cal);
@@ -118,23 +121,46 @@ public class AddEventFragment extends Fragment implements View.OnClickListener {
                     fillMoodData(weird, "Weird", cal);
                     fillMoodData(cheerful, "Cheerful", cal);
 
-                }else{
+                } else {
                     existingEvent = false;
                 }
 
                 deleteEvent.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        mMedViewModel.deleteCal(date);
-                        Fragment CalendarFragment = new CalendarFragment();
-                        FragmentManager fm = getActivity().getSupportFragmentManager();
-                        FragmentTransaction ft = fm.beginTransaction().replace(R.id.fragment_container, CalendarFragment);
-                        ft.addToBackStack(null);
-                        ft.commit();
-                        Toast.makeText(getContext(), "Calendar item deleted", Toast.LENGTH_SHORT).show();
+                        if (symptomList.size() == 0 && moodList.size() == 0 && cal.getCalNotes() == null) {
+                            Toast.makeText(getContext(), "There is nothing to delete", Toast.LENGTH_SHORT).show();
+                        }else{
+                        AlertDialog.Builder alert = new AlertDialog.Builder(getContext());
+                        alert.setTitle("Delete");
+                        alert.setMessage("Are you sure you want to delete?");
+                        alert.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                mMedViewModel.deleteCal(date);
+                                Fragment CalendarFragment = new CalendarFragment();
+                                FragmentManager fm = getActivity().getSupportFragmentManager();
+                                FragmentTransaction ft = fm.beginTransaction().replace(R.id.fragment_container, CalendarFragment);
+                                ft.addToBackStack(null);
+                                ft.commit();
+                                Toast.makeText(getContext(), "Cleared data for " + formattedDate, Toast.LENGTH_SHORT).show();
+                            }
+                        });
+
+                        alert.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        });
+
+                        alert.show();
+                    }
+
                     }
                 });
             }
+
         });
 
         symptomsCard(); //Cards to show/hide symptoms & moods lists

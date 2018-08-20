@@ -1,10 +1,13 @@
 package com.example.nameer.medtrack;
 
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
+import android.location.Address;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
@@ -168,10 +171,29 @@ public class MedEdit extends AppCompatActivity {
         delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(MedEdit.this, MainActivity.class);
-                i.putExtra("id", currentPosition.getId());
-                setResult(3,i);
-                finish();
+
+                AlertDialog.Builder alert = new AlertDialog.Builder(MedEdit.this);
+                alert.setTitle("Delete");
+                alert.setMessage("Are you sure you want to delete?");
+                alert.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Intent i = new Intent(MedEdit.this, MainActivity.class);
+                        i.putExtra("id", currentPosition.getId());
+                        setResult(3,i);
+                        finish();
+                        dialog.dismiss();
+                    }
+                });
+
+                alert.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+
+                alert.show();
 
             }
         });
