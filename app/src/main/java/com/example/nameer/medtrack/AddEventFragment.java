@@ -42,7 +42,7 @@ public class AddEventFragment extends Fragment implements View.OnClickListener {
 
     private FloatingActionButton finish;
     private CheckBox headache, diziness, acne, bodyaches, cramps, chills, itchyness, flare, bloating, constipation, diarrhea, gas, abdominalCramps, nausea, stress, moodiness, irritability, insomnia, fatigue, confusion;
-    private CheckBox happy;
+    private CheckBox happy,angry,lonely,sad,worried,neutral,anxious,cranky,scared,loving,weird,cheerful;
     private Button deleteEvent;
     private EditText notesEditText;
     ArrayList<String> symptomList, moodList;
@@ -90,6 +90,33 @@ public class AddEventFragment extends Fragment implements View.OnClickListener {
                     fillSymptomsData("Body aches", bodyaches, cal);
                     fillSymptomsData("Cramps", cramps, cal);
                     fillSymptomsData("Chills", chills, cal);
+                    fillSymptomsData("Itchiness", itchyness, cal );
+                    fillSymptomsData("Skin flare/rash", flare, cal );
+                    fillSymptomsData("Bloating", bloating, cal );
+                    fillSymptomsData("Constipation", constipation, cal);
+                    fillSymptomsData("Diarrhea", diarrhea, cal );
+                    fillSymptomsData("Gas", gas, cal );
+                    fillSymptomsData("Abdominal cramps", abdominalCramps, cal );
+                    fillSymptomsData("Nausea", nausea, cal );
+                    fillSymptomsData("Stress", stress, cal );
+                    fillSymptomsData("Moodiness", moodiness, cal );
+                    fillSymptomsData("Irritability", irritability, cal );
+                    fillSymptomsData("Insomnia", insomnia, cal );
+                    fillSymptomsData("Fatigue", fatigue, cal );
+                    fillSymptomsData("Confusion", confusion, cal );
+
+                    fillMoodData(happy, "Happy", cal);
+                    fillMoodData(angry, "Angry", cal);
+                    fillMoodData(lonely, "Lonely", cal);
+                    fillMoodData(sad, "Sad", cal);
+                    fillMoodData(neutral, "Neutral", cal);
+                    fillMoodData(worried, "Worried", cal);
+                    fillMoodData(anxious, "Anxious", cal);
+                    fillMoodData(cranky, "Cranky", cal);
+                    fillMoodData(scared, "Scared", cal);
+                    fillMoodData(loving, "Loving", cal);
+                    fillMoodData(weird, "Weird", cal);
+                    fillMoodData(cheerful, "Cheerful", cal);
 
                 }else{
                     existingEvent = false;
@@ -117,8 +144,6 @@ public class AddEventFragment extends Fragment implements View.OnClickListener {
         moodList = new ArrayList<>();
 
         notesEditText = view.findViewById(R.id.notes);
-
-
 
         finish();
     }
@@ -228,15 +253,13 @@ public class AddEventFragment extends Fragment implements View.OnClickListener {
         fatigue = view.findViewById(R.id.fatigue);
         confusion = view.findViewById(R.id.confusion);
 
-
-
         isCheckedSymptoms(headache, R.id.headache, "Headache");
         isCheckedSymptoms(diziness, R.id.diziness, "Diziness");
         isCheckedSymptoms(acne, R.id.acne, "Acne");
         isCheckedSymptoms(bodyaches, R.id.bodyAches, "Body aches");
         isCheckedSymptoms(cramps, R.id.cramps, "Cramps");
         isCheckedSymptoms(chills, R.id.chills, "Chills");
-        isCheckedSymptoms(itchyness, R.id.itchyness, "Itchyness");
+        isCheckedSymptoms(itchyness, R.id.itchyness, "Itchiness");
         isCheckedSymptoms(flare, R.id.flare, "Skin flare/rash");
         isCheckedSymptoms(bloating, R.id.bloating, "Bloating");
         isCheckedSymptoms(constipation, R.id.constipation, "Constipation");
@@ -251,20 +274,32 @@ public class AddEventFragment extends Fragment implements View.OnClickListener {
         isCheckedSymptoms(fatigue, R.id.fatigue, "Fatigue");
         isCheckedSymptoms(confusion, R.id.confusion, "Confusion");
 
-
         happy = view.findViewById(R.id.happy);
-        happy.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(isChecked==true){
-                    moodList.add("Happy");
-                    moodListToString();
-                }if(isChecked==false){
-                    moodList.remove("Happy");
-                    moodListToString();
-                }
-            }
-        });
+        angry = view.findViewById(R.id.angry);
+        lonely = view.findViewById(R.id.lonely);
+        sad = view.findViewById(R.id.sad);
+        neutral = view.findViewById(R.id.neutral);
+        worried = view.findViewById(R.id.worried);
+        anxious = view.findViewById(R.id.anxious);
+        cranky = view.findViewById(R.id.cranky);
+        scared = view.findViewById(R.id.scared);
+        loving = view.findViewById(R.id.loving);
+        weird = view.findViewById(R.id.weird);
+        cheerful = view.findViewById(R.id.cheerful);
+
+        isCheckedMood(happy, "Happy");
+        isCheckedMood(angry, "Angry");
+        isCheckedMood(lonely, "Lonely");
+        isCheckedMood(sad, "Sad");
+        isCheckedMood(neutral, "Neutral");
+        isCheckedMood(worried, "Worried");
+        isCheckedMood(anxious, "Anxious");
+        isCheckedMood(cranky, "Cranky");
+        isCheckedMood(scared, "Scared");
+        isCheckedMood(loving, "Loving");
+        isCheckedMood(weird, "Weird");
+        isCheckedMood(cheerful, "Cheerful");
+
     }
 
     public void isCheckedSymptoms(CheckBox symptomCheck, int id, final String symptomName){
@@ -278,6 +313,20 @@ public class AddEventFragment extends Fragment implements View.OnClickListener {
                 }if(isChecked==false){
                     symptomList.remove(symptomName);
                     symptomsListToString();
+                }
+            }
+        });
+    }
+    public void isCheckedMood(CheckBox moodCheck, final String mood){
+        moodCheck.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked==true){
+                    moodList.add(mood);
+                    moodListToString();
+                }if(isChecked==false){
+                    moodList.remove(mood);
+                    moodListToString();
                 }
             }
         });
@@ -309,6 +358,12 @@ public class AddEventFragment extends Fragment implements View.OnClickListener {
 
     public void fillSymptomsData(String symptom, CheckBox checkBox, CalendarEvent cal) {
         if (cal.getCalSymptoms() != null && cal.getCalSymptoms().contains(symptom)) {
+            checkBox.setChecked(true);
+        }
+    }
+
+    public void fillMoodData(CheckBox checkBox, String mood, CalendarEvent cal) {
+        if (cal.getCalMood() != null && cal.getCalMood().contains(mood)) {
             checkBox.setChecked(true);
         }
     }

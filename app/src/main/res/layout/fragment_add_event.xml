@@ -12,8 +12,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:paddingVertical="15dp"
-            android:paddingHorizontal="10dp">
+            android:paddingHorizontal="10dp"
+            android:paddingVertical="15dp">
 
             <android.support.v7.widget.CardView
                 android:id="@+id/symptomsCard"
@@ -46,19 +46,19 @@
             </android.support.v7.widget.CardView>
 
             <LinearLayout
+                android:id="@+id/symptomsView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:id="@+id/symptomsView">
+                android:orientation="vertical">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Head"
-                    android:paddingTop="10dp"
                     android:layout_marginLeft="3dp"
                     android:drawableLeft="@drawable/ic_head"
-                    android:drawablePadding="4dp"/>
+                    android:drawablePadding="4dp"
+                    android:paddingTop="10dp"
+                    android:text="Head" />
 
                 <CheckBox
                     android:id="@+id/headache"
@@ -84,10 +84,10 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Body"
-                    android:paddingTop="10dp"
                     android:drawableLeft="@drawable/ic_body"
-                    android:drawablePadding="4dp"/>
+                    android:drawablePadding="4dp"
+                    android:paddingTop="10dp"
+                    android:text="Body" />
 
                 <CheckBox
                     android:id="@+id/bodyAches"
@@ -114,7 +114,7 @@
                     android:id="@+id/itchyness"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Itchyness"
+                    android:text="Itchiness"
                     android:textSize="17sp" />
 
                 <CheckBox
@@ -127,10 +127,10 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Abdomen"
-                    android:paddingTop="10dp"
                     android:drawableLeft="@drawable/ic_stomach"
-                    android:drawablePadding="4dp"/>
+                    android:drawablePadding="4dp"
+                    android:paddingTop="10dp"
+                    android:text="Abdomen" />
 
                 <CheckBox
                     android:id="@+id/bloating"
@@ -177,10 +177,10 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Mental"
-                    android:paddingTop="10dp"
+                    android:drawableLeft="@drawable/ic_brain"
                     android:drawablePadding="4dp"
-                    android:drawableLeft="@drawable/ic_brain"/>
+                    android:paddingTop="10dp"
+                    android:text="Mental" />
 
                 <CheckBox
                     android:id="@+id/stress"
@@ -221,63 +221,307 @@
                     android:id="@+id/confusion"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:paddingBottom="10dp"
                     android:text="Confusion"
-                    android:textSize="17sp"
-                    android:paddingBottom="10dp"/>
+                    android:textSize="17sp" />
 
             </LinearLayout>
-        <android.support.v7.widget.CardView
-            android:id="@+id/moodCard"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="5dp"
-            app:cardBackgroundColor="@color/colorAccent"
-            app:cardCornerRadius="15dp"
-            app:cardElevation="3dp">
 
-            <TextView
-                android:id="@+id/moodText"
-                android:layout_width="wrap_content"
+            <android.support.v7.widget.CardView
+                android:id="@+id/moodCard"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:clickable="true"
-                android:paddingLeft="12dp"
-                android:paddingVertical="8dp"
-                android:text="Mood"
-                android:textColor="#FFFFFF"
-                android:textStyle="bold" />
+                android:layout_marginBottom="5dp"
+                app:cardBackgroundColor="@color/colorAccent"
+                app:cardCornerRadius="15dp"
+                app:cardElevation="3dp">
 
-            <ImageView
-                android:layout_width="wrap_content"
+                <TextView
+                    android:id="@+id/moodText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:clickable="true"
+                    android:paddingLeft="12dp"
+                    android:paddingVertical="8dp"
+                    android:text="Mood"
+                    android:textColor="#FFFFFF"
+                    android:textStyle="bold" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:paddingRight="12dp"
+                    android:paddingTop="4dp"
+                    android:src="@drawable/ic_arrow_drop_down_black_24dp" />
+
+            </android.support.v7.widget.CardView>
+
+            <LinearLayout
+                android:id="@+id/moodView"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="right"
-                android:paddingRight="12dp"
-                android:paddingTop="4dp"
-                android:src="@drawable/ic_arrow_drop_down_black_24dp" />
+                android:orientation="horizontal">
 
-        </android.support.v7.widget.CardView>
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:id="@+id/moodView">
-            <CheckBox
-                android:id="@+id/happy"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Happy"
-                android:textSize="17sp" />
-        </LinearLayout>
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:scaleX="0.8"
+                        android:scaleY="0.8"
+                        android:src="@drawable/ic_happy" />
+
+                    <CheckBox
+                        android:id="@+id/happy"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Happy"
+                        android:textSize="15sp"
+                        android:layout_marginTop="-7dp"
+                        android:layout_gravity="center"
+                        android:layout_marginBottom="7dp"
+                        android:paddingRight="5dp" />
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:scaleX="0.8"
+                        android:scaleY="0.8"
+                        android:src="@drawable/ic_sad" />
+
+                    <CheckBox
+                        android:id="@+id/sad"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Sad"
+                        android:textSize="15sp"
+                        android:layout_marginTop="-7dp"
+                        android:layout_gravity="center"
+                        android:layout_marginBottom="7dp"
+                        android:paddingRight="5dp"/>
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:scaleX="0.8"
+                        android:scaleY="0.8"
+                        android:src="@drawable/ic_anxious" />
+
+                    <CheckBox
+                        android:id="@+id/anxious"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Anxious"
+                        android:textSize="15sp"
+                        android:layout_marginTop="-7dp"
+                        android:layout_gravity="center"
+                        android:layout_marginBottom="7dp"
+                        android:paddingRight="5dp"/>
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:scaleX="0.8"
+                        android:scaleY="0.8"
+                        android:src="@drawable/ic_loving" />
+
+                    <CheckBox
+                        android:id="@+id/loving"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Loving"
+                        android:textSize="15sp"
+                        android:layout_marginTop="-7dp"
+                        android:layout_gravity="center"
+                        android:layout_marginBottom="7dp"
+                        android:paddingRight="5dp"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:paddingHorizontal="5dp">
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:scaleX="0.8"
+                        android:scaleY="0.8"
+                        android:src="@drawable/ic_angry" />
+
+                    <CheckBox
+                        android:id="@+id/angry"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Angry"
+                        android:textSize="15sp"
+                        android:layout_marginTop="-7dp"
+                        android:layout_gravity="center"
+                        android:layout_marginBottom="7dp"
+                        android:paddingRight="5dp"/>
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:scaleX="0.8"
+                        android:scaleY="0.8"
+                        android:src="@drawable/ic_worried" />
+
+                    <CheckBox
+                        android:id="@+id/worried"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Worried"
+                        android:textSize="15sp"
+                        android:layout_marginTop="-7dp"
+                        android:layout_gravity="center"
+                        android:layout_marginBottom="7dp"
+                        android:paddingRight="5dp"/>
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:scaleX="0.8"
+                        android:scaleY="0.8"
+                        android:src="@drawable/ic_cranky" />
+
+                    <CheckBox
+                        android:id="@+id/cranky"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Cranky"
+                        android:textSize="15sp"
+                        android:layout_marginTop="-7dp"
+                        android:layout_gravity="center"
+                        android:layout_marginBottom="7dp"
+                        android:paddingRight="5dp"/>
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:scaleX="0.8"
+                        android:scaleY="0.8"
+                        android:src="@drawable/ic_weird" />
+
+                    <CheckBox
+                        android:id="@+id/weird"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Weird"
+                        android:textSize="15sp"
+                        android:layout_marginTop="-7dp"
+                        android:layout_gravity="center"
+                        android:layout_marginBottom="7dp"
+                        android:paddingRight="5dp"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:scaleX="0.8"
+                        android:scaleY="0.8"
+                        android:src="@drawable/ic_lonely" />
+
+                    <CheckBox
+                        android:id="@+id/lonely"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Lonely"
+                        android:textSize="15sp"
+                        android:layout_marginTop="-7dp"
+                        android:layout_gravity="center"
+                        android:layout_marginBottom="7dp"
+                        android:paddingRight="5dp"/>
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:scaleX="0.8"
+                        android:scaleY="0.8"
+                        android:src="@drawable/ic_neutral" />
+
+                    <CheckBox
+                        android:id="@+id/neutral"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Neutral"
+                        android:textSize="15sp"
+                        android:layout_marginTop="-7dp"
+                        android:layout_gravity="center"
+                        android:layout_marginBottom="7dp"
+                        android:paddingRight="5dp"/>
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:scaleX="0.8"
+                        android:scaleY="0.8"
+                        android:src="@drawable/ic_scared" />
+
+                    <CheckBox
+                        android:id="@+id/scared"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Scared"
+                        android:textSize="15sp"
+                        android:layout_marginTop="-5dp"
+                        android:layout_gravity="center"
+                        android:layout_marginBottom="5dp"/>
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:scaleX="0.8"
+                        android:scaleY="0.8"
+                        android:src="@drawable/ic_cheerful" />
+
+                    <CheckBox
+                        android:id="@+id/cheerful"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Cheerful"
+                        android:textSize="15sp"
+                        android:layout_marginTop="-7dp"
+                        android:layout_gravity="center"
+                        android:layout_marginBottom="7dp"
+                        android:paddingRight="5dp"/>
+                </LinearLayout>
+            </LinearLayout>
 
             <android.support.v7.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
                 android:layout_marginHorizontal="11dp"
                 android:layout_marginTop="20dp"
                 android:elevation="1dp"
                 android:minHeight="80dp"
-                app:cardCornerRadius="20dp"
-                android:layout_marginBottom="10dp">
+                app:cardCornerRadius="20dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -289,7 +533,7 @@
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:paddingLeft="-5dp"
+                        android:paddingLeft="5dp"
                         android:paddingRight="12dp"
                         android:paddingTop="2dp"
                         android:scaleX="1"
@@ -317,9 +561,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginVertical="10dp"
+                android:backgroundTint="#df0707"
                 android:text="Delete"
-                android:textColor="#FFFFFF"
-                android:backgroundTint="#df0707"/>
+                android:textColor="#FFFFFF" />
         </LinearLayout>
     </ScrollView>
 
