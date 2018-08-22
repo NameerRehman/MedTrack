@@ -29,7 +29,7 @@ dependencies {
     implementation 'com.android.support:cardview-v7:27.1.1'
     implementation 'com.android.support:design:27.1.1'
     implementation 'com.github.sundeepk:compact-calendar-view:3.0.0'
-
+    implementation 'com.github.apl-devs:appintro:v4.2.3'
 
     // Room components
     implementation "android.arch.persistence.room:runtime:$rootProject.roomVersion"
