@@ -64,12 +64,18 @@ public class CalendarFragment extends Fragment implements View.OnClickListener {
 
         getActivity().setTitle(dateFormat.format(compactCalendar.getFirstDayOfCurrentMonth()));
 
+        // Calendar c = Calendar.getInstance();
+        //date = c.getTimeInMillis();
+
+
+        //Symptoms, Mood, and Notes fields under calendar
         showSymptoms = view.findViewById(R.id.showSymptoms);
         showMood = view.findViewById(R.id.showMood);
         showNotes = view.findViewById(R.id.showNotes);
 
         mMedViewModel = ViewModelProviders.of(this).get(MedViewModel.class);
 
+        //Get all events and add dot under corresponding dates
         mMedViewModel.getallEvents().observe(this, new Observer<List<CalendarEvent>>() {
             @Override
             public void onChanged(@Nullable final List<CalendarEvent> eventList) {
@@ -80,22 +86,16 @@ public class CalendarFragment extends Fragment implements View.OnClickListener {
                     if(compactCalendar.getEvents(allEvents.get(i).getCalDate()).size() == 0){
                         compactCalendar.addEvent(ev2);
                     }else{}
-
                 }
             }
         });
-
 
         compactCalendar.setListener(new CompactCalendarView.CompactCalendarViewListener() {
             @Override
             public void onDayClick(Date dateClicked) {
                 date = dateClicked.getTime(); //converts date to a long
-                /*long epoch = dateClicked.getTime();
-                final Event ev2 = new Event(Color.RED, epoch, "Church Service and Flag Raising Ceremony");
-                if(compactCalendar.getEvents(dateClicked).size() == 0){
-                    compactCalendar.addEvent(ev2);
-                }else{}*/
 
+                //Fill Symptoms, Mood, and Notes fields with existing data for selected date (if not null)
                 mMedViewModel.getEvents(date).observe(getActivity(), new Observer<CalendarEvent>() {
                     @Override
                     public void onChanged(@Nullable final CalendarEvent cal) {
@@ -123,17 +123,6 @@ public class CalendarFragment extends Fragment implements View.OnClickListener {
             }
         });
 
-
-
-       /* date = Calendar.getInstance().getTime().toString();
-        calendarView = view.findViewById(R.id.calendarView);
-        calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
-            @Override
-            public void onSelectedDayChange(@NonNull final CalendarView view, int year, int month, int dayOfMonth) {
-                date = dayOfMonth + "/" + month + "/" + year;
-            }
-        });*/
-
         add = view.findViewById(R.id.addNote);
         add.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -150,7 +139,6 @@ public class CalendarFragment extends Fragment implements View.OnClickListener {
                 }else{
                     Toast.makeText(getContext(), "Please select a date", Toast.LENGTH_SHORT).show();
                 }
-
             }
         });
 

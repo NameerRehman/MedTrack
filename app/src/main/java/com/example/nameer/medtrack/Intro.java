@@ -28,7 +28,7 @@ public class Intro extends AppIntro {
         SliderPage sliderPage = new SliderPage();
         sliderPage.setTitle("Welcome to MedTrak");
         sliderPage.setDescription("MedTrak makes it easy to track your health, well being, and medications. All in one place.");
-        sliderPage.setImageDrawable(R.drawable.ic_local_hospital_white_140dp);
+        sliderPage.setImageDrawable(R.drawable.ic_icon);
         sliderPage.setBgColor(Color.parseColor("#3F51B5"));
         addSlide(AppIntroFragment.newInstance(sliderPage));
 
