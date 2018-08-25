@@ -23,8 +23,7 @@
                                           <PersistentState>
                                             <option name="values">
                                               <map>
-                                                <entry key="scalingPercent" value="129" />
-                                                <entry key="trimmed" value="true" />
+                                                <entry key="scalingPercent" value="117" />
                                               </map>
                                             </option>
                                           </PersistentState>
@@ -35,8 +34,8 @@
                                   <option name="values">
                                     <map>
                                       <entry key="backgroundAssetType" value="COLOR" />
-                                      <entry key="backgroundColor" value="ffffff" />
-                                      <entry key="foregroundImage" value="C:\Users\nameer\Downloads\untitled (11).png" />
+                                      <entry key="backgroundColor" value="3f51b5" />
+                                      <entry key="foregroundImage" value="C:\Users\nameer\Downloads\untitled (12).png" />
                                     </map>
                                   </option>
                                 </PersistentState>
@@ -77,12 +76,13 @@
                         </option>
                         <option name="values">
                           <map>
+                            <entry key="assetSourceType" value="FILE" />
                             <entry key="color" value="ff4081" />
-                            <entry key="height" value="200" />
-                            <entry key="outputName" value="ic_local_hospital_pink" />
+                            <entry key="height" value="33" />
+                            <entry key="outputName" value="ic_weight" />
                             <entry key="overrideSize" value="true" />
-                            <entry key="sourceFile" value="C:\Users\nameer" />
-                            <entry key="width" value="200" />
+                            <entry key="sourceFile" value="C:\Users\nameer\Downloads\noun_Weight_560313.svg" />
+                            <entry key="width" value="25" />
                           </map>
                         </option>
                       </PersistentState>

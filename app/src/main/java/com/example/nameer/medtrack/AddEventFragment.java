@@ -20,6 +20,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CalendarView;
 import android.widget.CheckBox;
@@ -27,16 +29,18 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RadioGroup;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.lang.reflect.Array;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-public class AddEventFragment extends Fragment implements View.OnClickListener {
+public class AddEventFragment extends Fragment implements View.OnClickListener, AdapterView.OnItemSelectedListener {
     private View view;
     private CalendarView calendarView;
     private SimpleDateFormat dateFormat = new SimpleDateFormat("MMM dd yyyy", Locale.getDefault());
@@ -47,9 +51,11 @@ public class AddEventFragment extends Fragment implements View.OnClickListener {
     private CheckBox headache, diziness, acne, bodyaches, cramps, chills, itchyness, flare, bloating, constipation, diarrhea, gas, abdominalCramps, nausea, stress, moodiness, irritability, insomnia, fatigue, confusion;
     private CheckBox happy,angry,lonely,sad,worried,neutral,anxious,cranky,scared,loving,weird,cheerful;
     private Button deleteEvent;
-    private EditText notesEditText;
+    private Spinner glucoseSpinner, weightSpinner;
+    private String weightUnit, glucoseUnit;
+    private EditText weightEditText, glucoseEditText, spEditText, dpEditText, pulseEditText, notesEditText;
     ArrayList<String> symptomList, moodList;
-    private String symptoms, moods, notes;
+    private String symptoms, moods, weight, glucose, bp, pulse, notes;
     long date;
     CardView symptomsCard, moodCard;
     LinearLayout symptomsView, moodView;
@@ -69,23 +75,60 @@ public class AddEventFragment extends Fragment implements View.OnClickListener {
         Bundle bundle = this.getArguments();
 
         if(bundle != null){
-            //date = bundle.getString("date");
             date = bundle.getLong("date");
         }
+
+        //Set actionbar title to current Calendar date
         Date dateDisplay = new Date(date); //change Long type to Date type
-        final String formattedDate = dateFormat.format(dateDisplay); //format by "MMM dd"
+        final String formattedDate = dateFormat.format(dateDisplay);
         getActivity().setTitle(formattedDate);
 
         checkedItems();
 
         deleteEvent = view.findViewById(R.id.deleteEvent);
+        notesEditText = view.findViewById(R.id.notes);
+        weightEditText = view.findViewById(R.id.weight);
+        glucoseEditText = view.findViewById(R.id.glucose);
+        dpEditText = view.findViewById(R.id.dpBlood);
+        spEditText = view.findViewById(R.id.spBlood);
+        pulseEditText = view.findViewById(R.id.pulse);
 
+        weight = weightEditText.getEditableText().toString() + " " + weightUnit;
+        glucose = glucoseEditText.getEditableText().toString() + " " + glucoseUnit;
+        bp = spEditText.getEditableText().toString() + "/" + dpEditText.getEditableText().toString() + " sp/dp";
+        pulse = pulseEditText.getEditableText().toString() + " " + "bpm";
+
+        //default units
+        weightUnit = "lbs";
+        glucoseUnit = "mg/dL";
+
+        //setup spinners for weight and glucose units
+        weightSpinner = view.findViewById(R.id.weightSpinner);
+        final ArrayList<String> weightList = new ArrayList<>();
+        weightList.add("lbs");
+        weightList.add("kg");
+        final ArrayAdapter<String> weightAdapter = new ArrayAdapter<>(getContext(),android.R.layout.simple_list_item_1,weightList);
+        weightSpinner.setAdapter(weightAdapter);
+
+        glucoseSpinner = view.findViewById(R.id.glucoseSpinner);
+        final ArrayList<String> glucoseList = new ArrayList<>();
+        glucoseList.add("mg/dL");
+        glucoseList.add("mmo/L");
+        final ArrayAdapter<String> glucoseAdapter = new ArrayAdapter<>(getContext(),android.R.layout.simple_list_item_1,glucoseList);
+        glucoseSpinner.setAdapter(glucoseAdapter);
+
+        symptomList = new ArrayList<>();
+        moodList = new ArrayList<>();
+
+        //getEvents(date) query gets event from database based on "date"
         mMedViewModel = ViewModelProviders.of(this).get(MedViewModel.class);
         mMedViewModel.getEvents(date).observe(getActivity(), new Observer<CalendarEvent>() {
             @Override
             public void onChanged(@Nullable final CalendarEvent cal) {
                 if (cal != null) {
+                    //set existingEvent true so existing database entry is updated upon finish
                     existingEvent = true;
+
                     notesEditText.setText(cal.getCalNotes());
                     fillSymptomsData("Headache", headache, cal);
                     fillSymptomsData("Diziness", diziness, cal);
@@ -121,55 +164,21 @@ public class AddEventFragment extends Fragment implements View.OnClickListener {
                     fillMoodData(weird, "Weird", cal);
                     fillMoodData(cheerful, "Cheerful", cal);
 
+                    //click listener for delete button - deletes queried date
+                    delete(cal, formattedDate);
+
                 } else {
+                    //set existingEvent false so new database entry is created upon finish
                     existingEvent = false;
                 }
 
-                deleteEvent.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        if (symptomList.size() == 0 && moodList.size() == 0 && cal.getCalNotes() == null) {
-                            Toast.makeText(getContext(), "There is nothing to delete", Toast.LENGTH_SHORT).show();
-                        }else{
-                        AlertDialog.Builder alert = new AlertDialog.Builder(getContext());
-                        alert.setTitle("Delete");
-                        alert.setMessage("Are you sure you want to delete?");
-                        alert.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                mMedViewModel.deleteCal(date);
-                                Fragment CalendarFragment = new CalendarFragment();
-                                FragmentManager fm = getActivity().getSupportFragmentManager();
-                                FragmentTransaction ft = fm.beginTransaction().replace(R.id.fragment_container, CalendarFragment);
-                                ft.addToBackStack(null);
-                                ft.commit();
-                                Toast.makeText(getContext(), "Cleared data for " + formattedDate, Toast.LENGTH_SHORT).show();
-                            }
-                        });
+    }
 
-                        alert.setNegativeButton("No", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.dismiss();
-                            }
-                        });
+});
 
-                        alert.show();
-                    }
-
-                    }
-                });
-            }
-
-        });
-
-        symptomsCard(); //Cards to show/hide symptoms & moods lists
+        //Cards to show & hide symptoms & moods lists
+        symptomsCard();
         moodCard();
-
-        symptomList = new ArrayList<>();
-        moodList = new ArrayList<>();
-
-        notesEditText = view.findViewById(R.id.notes);
 
         finish();
     }
@@ -177,6 +186,7 @@ public class AddEventFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onClick(View v) {}
 
+    //Show & hide symptoms and moods layouts
     public void symptomsCard(){
         symptomsCard = view.findViewById(R.id.symptomsCard);
         symptomsView = view.findViewById(R.id.symptomsView);
@@ -211,52 +221,39 @@ public class AddEventFragment extends Fragment implements View.OnClickListener {
         });
     }
 
-    public void finish(){
-        finish = view.findViewById(R.id.finish);
-        finish.setOnClickListener(new View.OnClickListener() {
+    //Set logic for check/unchecked checkboxes
+    public void isCheckedSymptoms(CheckBox symptomCheck, int id, final String symptomName){
+        //symptomCheck = view.findViewById(id);
+        symptomCheck.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
-            public void onClick(View v) {
-                notes = notesEditText.getEditableText().toString();
-
-                if(existingEvent == false) {
-                    CalendarEvent calendarEvent = new CalendarEvent(date, symptoms, moods, notes);
-                    mMedViewModel.insertCal(calendarEvent);
-
-                    Fragment CalendarFragment = new CalendarFragment();
-                    //addEventFragment.setArguments(bundle);
-                    FragmentManager fm = getActivity().getSupportFragmentManager();
-                    FragmentTransaction ft = fm.beginTransaction().replace(R.id.fragment_container, CalendarFragment);
-                    ft.addToBackStack(null);
-                    ft.commit();
-                    InputMethodManager inputManager = (InputMethodManager) getActivity()
-                            .getSystemService(Context.INPUT_METHOD_SERVICE);
-                    View currentFocusedView = getActivity().getCurrentFocus();
-                    if (currentFocusedView != null) {
-                        inputManager.hideSoftInputFromWindow(currentFocusedView.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
-                    }
-                }else{
-                    mMedViewModel.editCal(date, symptoms, moods, notes);
-                    Fragment CalendarFragment = new CalendarFragment();
-                    //addEventFragment.setArguments(bundle);
-                    FragmentManager fm = getActivity().getSupportFragmentManager();
-                    FragmentTransaction ft = fm.beginTransaction().replace(R.id.fragment_container, CalendarFragment);
-                    ft.addToBackStack(null);
-                    ft.commit();
-                    InputMethodManager inputManager = (InputMethodManager) getActivity()
-                            .getSystemService(Context.INPUT_METHOD_SERVICE);
-
-                    // check if no view has focus:
-                    View currentFocusedView = getActivity().getCurrentFocus();
-                    if (currentFocusedView != null) {
-                        inputManager.hideSoftInputFromWindow(currentFocusedView.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
-                    }
-                    Toast.makeText(getContext(), "Calendar item updated", Toast.LENGTH_SHORT).show();
-
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked==true){
+                    symptomList.add(symptomName);
+                    symptomsListToString();
+                }if(isChecked==false){
+                    symptomList.remove(symptomName);
+                    symptomsListToString();
                 }
             }
         });
     }
 
+    public void isCheckedMood(CheckBox moodCheck, final String mood){
+        moodCheck.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked==true){
+                    moodList.add(mood);
+                    moodListToString();
+                }if(isChecked==false){
+                    moodList.remove(mood);
+                    moodListToString();
+                }
+            }
+        });
+    }
+
+    //Implement checkboxes and isChecked methods
     public void checkedItems(){
         headache = view.findViewById(R.id.headache);
         diziness = view.findViewById(R.id.diziness);
@@ -328,36 +325,7 @@ public class AddEventFragment extends Fragment implements View.OnClickListener {
 
     }
 
-    public void isCheckedSymptoms(CheckBox symptomCheck, int id, final String symptomName){
-        //symptomCheck = view.findViewById(id);
-        symptomCheck.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(isChecked==true){
-                    symptomList.add(symptomName);
-                    symptomsListToString();
-                }if(isChecked==false){
-                    symptomList.remove(symptomName);
-                    symptomsListToString();
-                }
-            }
-        });
-    }
-    public void isCheckedMood(CheckBox moodCheck, final String mood){
-        moodCheck.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(isChecked==true){
-                    moodList.add(mood);
-                    moodListToString();
-                }if(isChecked==false){
-                    moodList.remove(mood);
-                    moodListToString();
-                }
-            }
-        });
-    }
-
+    //Convert lists of symptoms and moods to strings
     public String symptomsListToString(){
         symptoms="";
         for (int i = 0; i < symptomList.size() ; i++) {
@@ -382,6 +350,7 @@ public class AddEventFragment extends Fragment implements View.OnClickListener {
         return moods;
     }
 
+    //populate fields when editing existing data
     public void fillSymptomsData(String symptom, CheckBox checkBox, CalendarEvent cal) {
         if (cal.getCalSymptoms() != null && cal.getCalSymptoms().contains(symptom)) {
             checkBox.setChecked(true);
@@ -394,4 +363,112 @@ public class AddEventFragment extends Fragment implements View.OnClickListener {
         }
     }
 
+    public void finish(){
+        finish = view.findViewById(R.id.finish);
+        finish.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                notes = notesEditText.getEditableText().toString();
+
+                if(existingEvent == false) {
+                    CalendarEvent calendarEvent = new CalendarEvent(date, symptoms, moods, notes);
+                    mMedViewModel.insertCal(calendarEvent);
+
+                    Fragment CalendarFragment = new CalendarFragment();
+                    //addEventFragment.setArguments(bundle);
+                    FragmentManager fm = getActivity().getSupportFragmentManager();
+                    FragmentTransaction ft = fm.beginTransaction().replace(R.id.fragment_container, CalendarFragment);
+                    ft.addToBackStack(null);
+                    ft.commit();
+                    InputMethodManager inputManager = (InputMethodManager) getActivity()
+                            .getSystemService(Context.INPUT_METHOD_SERVICE);
+                    View currentFocusedView = getActivity().getCurrentFocus();
+                    if (currentFocusedView != null) {
+                        inputManager.hideSoftInputFromWindow(currentFocusedView.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+                    }
+                }else{
+                    mMedViewModel.editCal(date, symptoms, moods, notes);
+                    Fragment CalendarFragment = new CalendarFragment();
+                    //addEventFragment.setArguments(bundle);
+                    FragmentManager fm = getActivity().getSupportFragmentManager();
+                    FragmentTransaction ft = fm.beginTransaction().replace(R.id.fragment_container, CalendarFragment);
+                    ft.addToBackStack(null);
+                    ft.commit();
+                    InputMethodManager inputManager = (InputMethodManager) getActivity()
+                            .getSystemService(Context.INPUT_METHOD_SERVICE);
+
+                    // check if no view has focus:
+                    View currentFocusedView = getActivity().getCurrentFocus();
+                    if (currentFocusedView != null) {
+                        inputManager.hideSoftInputFromWindow(currentFocusedView.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+                    }
+                    Toast.makeText(getContext(), "Calendar item updated", Toast.LENGTH_SHORT).show();
+
+                }
+            }
+        });
+    }
+
+    public void delete(final CalendarEvent cal,final String formattedDate ){
+        deleteEvent.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (symptomList.size() == 0 && moodList.size() == 0 && cal.getCalNotes() == null) {
+                    Toast.makeText(getContext(), "There is nothing to delete", Toast.LENGTH_SHORT).show();
+                }else{
+                    AlertDialog.Builder alert = new AlertDialog.Builder(getContext());
+                    alert.setTitle("Delete");
+                    alert.setMessage("Are you sure you want to delete?");
+                    alert.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            mMedViewModel.deleteCal(date);
+                            Fragment CalendarFragment = new CalendarFragment();
+                            FragmentManager fm = getActivity().getSupportFragmentManager();
+                            FragmentTransaction ft = fm.beginTransaction().replace(R.id.fragment_container, CalendarFragment);
+                            ft.addToBackStack(null);
+                            ft.commit();
+                            Toast.makeText(getContext(), "Cleared data for " + formattedDate, Toast.LENGTH_SHORT).show();
+                        }
+                    });
+
+                    alert.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    });
+
+                    alert.show();
+                }
+
+            }
+        });
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        Spinner spinner = (Spinner) parent;
+        switch(spinner.getId()){
+            case R.id.weightSpinner:
+                switch (parent.getItemAtPosition(position).toString()){
+                    case "lbs":
+                        weightUnit = "lbs";
+                    case "kg":
+                        weightUnit = "kg";
+                }
+            case R.id.glucoseSpinner:
+                switch (parent.getItemAtPosition(position).toString()){
+                    case "mg/dL":
+                        glucoseUnit = "mg/dL";
+                    case "mmol/L":
+                        glucoseUnit = "mmol/L";
+                }
+        }
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+
+    }
 }

@@ -19,7 +19,7 @@
                 android:id="@+id/symptomsCard"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="5dp"
+                android:layout_marginBottom="10dp"
                 app:cardBackgroundColor="@color/colorAccent"
                 app:cardCornerRadius="15dp"
                 app:cardElevation="3dp">
@@ -49,7 +49,8 @@
                 android:id="@+id/symptomsView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:layout_marginBottom="20dp">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -221,7 +222,6 @@
                     android:id="@+id/confusion"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:paddingBottom="10dp"
                     android:text="Confusion"
                     android:textSize="17sp" />
 
@@ -231,7 +231,7 @@
                 android:id="@+id/moodCard"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="5dp"
+                android:layout_marginBottom="15dp"
                 app:cardBackgroundColor="@color/colorAccent"
                 app:cardCornerRadius="15dp"
                 app:cardElevation="3dp">
@@ -261,7 +261,8 @@
                 android:id="@+id/moodView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:layout_marginBottom="20dp">
 
                 <LinearLayout
                     android:layout_width="0dp"
@@ -516,17 +517,205 @@
             <android.support.v7.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                android:layout_marginHorizontal="11dp"
-                android:layout_marginTop="20dp"
+                android:layout_marginBottom="15dp"
+                android:layout_marginHorizontal="3dp"
                 android:elevation="1dp"
-                android:minHeight="80dp"
+                android:minHeight="120dp"
                 app:cardCornerRadius="20dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="15dp"
+                    android:orientation="vertical">
+            <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="10dp"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal">
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="5dp"
+                    android:paddingRight="12dp"
+                    android:paddingTop="7dp"
+                    android:scaleX="1"
+                    android:scaleY="1"
+                    android:src="@drawable/ic_weight" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+
+                    android:text="Weight "
+                    android:textAppearance="@android:style/TextAppearance.Material.Subhead"
+                    android:textSize="16sp" />
+
+                <EditText
+                    android:id="@+id/weight"
+                    style="@android:style/Widget.Material.Light.EditText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:minWidth="80dp"
+                    android:singleLine="true"
+                    android:textAlignment="center"
+                    android:textAppearance="@android:style/TextAppearance.Material.Subhead"
+                    android:textSize="16sp" />
+
+            <Spinner
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/weightSpinner"/>
+        </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="10dp"
+                android:layout_marginTop="8dp"
+                android:orientation="horizontal">
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="1dp"
+                    android:paddingRight="12dp"
+                    android:paddingTop="7dp"
+                    android:scaleX="1"
+                    android:scaleY="1"
+                    android:src="@drawable/ic_glucose" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Glucose "
+                    android:textAppearance="@android:style/TextAppearance.Material.Subhead"
+                    android:textSize="16sp" />
+
+                <EditText
+                    android:id="@+id/glucose"
+                    style="@android:style/Widget.Material.Light.EditText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:inputType="numberDecimal"
+                    android:minWidth="80dp"
+                    android:singleLine="true"
+                    android:textAlignment="center"
+                    android:textAppearance="@android:style/TextAppearance.Material.Subhead"
+                    android:textSize="16sp" />
+
+                <Spinner
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/glucoseSpinner"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="10dp"
+                android:layout_marginTop="8dp"
+                android:orientation="horizontal">
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="4dp"
+                    android:paddingRight="12dp"
+                    android:paddingTop="7dp"
+                    android:scaleX="1"
+                    android:scaleY="1"
+                    android:src="@drawable/ic_blood_pressure" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Blood Pressure "
+                    android:textAppearance="@android:style/TextAppearance.Material.Subhead"
+                    android:textSize="16sp" />
+
+                <EditText
+                    android:id="@+id/spBlood"
+                    style="@android:style/Widget.Material.Light.EditText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:minWidth="60dp"
+                    android:singleLine="true"
+                    android:textAlignment="center"
+                    android:textAppearance="@android:style/TextAppearance.Material.Subhead"
+                    android:textSize="16sp" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=" / "
+                    android:textSize="19sp"/>
+
+                <EditText
+                    android:id="@+id/dpBlood"
+                    style="@android:style/Widget.Material.Light.EditText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:minWidth="60dp"
+                    android:singleLine="true"
+                    android:textAlignment="center"
+                    android:textAppearance="@android:style/TextAppearance.Material.Subhead"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=" sp/dp"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="10dp"
+                android:layout_marginTop="8dp"
+                android:orientation="horizontal">
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="6dp"
+                    android:paddingRight="12dp"
+                    android:paddingTop="7dp"
+                    android:scaleX="1"
+                    android:scaleY="1"
+                    android:src="@drawable/ic_pulse" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Pulse "
+                    android:textAppearance="@android:style/TextAppearance.Material.Subhead"
+                    android:textSize="16sp" />
+
+                <EditText
+                    android:id="@+id/pulse"
+                    style="@android:style/Widget.Material.Light.EditText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:minWidth="80dp"
+                    android:singleLine="true"
+                    android:textAlignment="center"
+                    android:textAppearance="@android:style/TextAppearance.Material.Subhead"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=" bpm"/>
+            </LinearLayout>
+                </LinearLayout>
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="3dp"
+                android:layout_marginBottom="10dp"
+                android:elevation="1dp"
+                android:minHeight="120dp"
+                app:cardCornerRadius="20dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="10dp"
                     android:layout_marginTop="15dp"
                     android:orientation="horizontal">
 
@@ -551,7 +740,7 @@
                         android:background="@android:color/transparent"
                         android:hint="Notes "
                         android:textAppearance="@android:style/TextAppearance.Material.Subhead"
-                        android:textSize="19sp" />
+                        android:textSize="18sp" />
 
                 </LinearLayout>
             </android.support.v7.widget.CardView>
