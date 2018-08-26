@@ -119,7 +119,7 @@ public class CalendarFragment extends Fragment implements View.OnClickListener {
                             }else {
                                 showBp.setText(cal.getCalBp());
                             }
-                            if (cal.getCalPulse().equals( "bpm")){
+                            if (cal.getCalPulse().equals(" bpm")){
                                 showPulse.setText("");
                             }else {
                                 showPulse.setText(cal.getCalPulse());

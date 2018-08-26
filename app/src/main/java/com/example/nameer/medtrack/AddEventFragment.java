@@ -127,6 +127,19 @@ public class AddEventFragment extends Fragment implements View.OnClickListener, 
                     existingEvent = true;
 
                     notesEditText.setText(cal.getCalNotes());
+                    if(cal.getCalWeight().contains("lbs")){
+                        weightEditText.setText(cal.getCalWeight().replace(" lbs",""));
+                    }else{
+                        weightEditText.setText(cal.getCalWeight().replace(" kg",""));
+                    } if (cal.getCalGlucose().contains(" mg")){
+                        glucoseEditText.setText(cal.getCalGlucose().replace( "mg/dL",""));
+                    }else{
+                        glucoseEditText.setText(cal.getCalGlucose().replace(" mmol/L",""));
+                    }
+                    spEditText.setText(cal.getCalBp().substring(0,cal.getCalBp().indexOf("/")));
+                    dpEditText.setText(cal.getCalBp().substring(cal.getCalBp().indexOf("/")+1, cal.getCalBp().indexOf(" ")));
+                    pulseEditText.setText(cal.getCalPulse().replace(" bpm",""));
+
                     fillSymptomsData("Headache", headache, cal);
                     fillSymptomsData("Diziness", diziness, cal);
                     fillSymptomsData("Acne", acne, cal);
