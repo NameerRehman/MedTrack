@@ -38,12 +38,10 @@ public class CalendarFragment extends Fragment implements View.OnClickListener {
     private FloatingActionButton add;
     private long date;
     private MedViewModel mMedViewModel;
-    private TextView showSymptoms, showMood, showNotes;
+    private TextView showSymptoms, showMood, showNotes, showWeight, showGlucose, showBp, showPulse;
     private SimpleDateFormat dateFormat = new SimpleDateFormat("MMMM yyyy", Locale.getDefault());
-    private String calSymptoms, calNotes, calMood;
     private List<CalendarEvent> allEvents;
 
-    String test;
     public interface DataPassListener{
         public void passData(String data);
     }
@@ -67,11 +65,14 @@ public class CalendarFragment extends Fragment implements View.OnClickListener {
         // Calendar c = Calendar.getInstance();
         //date = c.getTimeInMillis();
 
-
         //Symptoms, Mood, and Notes fields under calendar
         showSymptoms = view.findViewById(R.id.showSymptoms);
         showMood = view.findViewById(R.id.showMood);
         showNotes = view.findViewById(R.id.showNotes);
+        showWeight = view.findViewById(R.id.showWeight);
+        showGlucose = view.findViewById(R.id.showGlucose);
+        showBp = view.findViewById(R.id.showBp);
+        showPulse = view.findViewById(R.id.showPulse);
 
         mMedViewModel = ViewModelProviders.of(this).get(MedViewModel.class);
 
@@ -95,23 +96,43 @@ public class CalendarFragment extends Fragment implements View.OnClickListener {
             public void onDayClick(Date dateClicked) {
                 date = dateClicked.getTime(); //converts date to a long
 
-                //Fill Symptoms, Mood, and Notes fields with existing data for selected date (if not null)
+                //Fill fields with data for selected date (if not null)
                 mMedViewModel.getEvents(date).observe(getActivity(), new Observer<CalendarEvent>() {
                     @Override
                     public void onChanged(@Nullable final CalendarEvent cal) {
                         if(cal!=null) {
-                            calSymptoms = cal.getCalSymptoms();
-                            showSymptoms.setText(calSymptoms);
+                            showSymptoms.setText(cal.getCalSymptoms());
+                            showMood.setText(cal.getCalMood());
+                            showNotes.setText(cal.getCalNotes());
+                            if (cal.getCalWeight().equals(" lbs") || cal.getCalWeight().equals(" kg")){
+                                showWeight.setText("");
+                            }else {
+                                showWeight.setText(cal.getCalWeight());
+                            }
+                            if (cal.getCalGlucose().equals(" mmol/dL") || cal.getCalGlucose().equals(" mg/dL")){
+                                showGlucose.setText("");
+                            }else {
+                                showGlucose.setText(cal.getCalGlucose());
+                            }
+                            if (cal.getCalBp().equals("/ sp/dp")){
+                                showBp.setText("");
+                            }else {
+                                showBp.setText(cal.getCalBp());
+                            }
+                            if (cal.getCalPulse().equals( "bpm")){
+                                showPulse.setText("");
+                            }else {
+                                showPulse.setText(cal.getCalPulse());
+                            }
 
-                            calMood = cal.getCalMood();
-                            showMood.setText(calMood);
-
-                            calNotes = cal.getCalNotes();
-                            showNotes.setText(calNotes);
                         }else{ //reset textviews to empty if viewing a date with no cal event item
                             showSymptoms.setText("");
                             showMood.setText("");
                             showNotes.setText("");
+                            showWeight.setText("");
+                            showGlucose.setText("");
+                            showBp.setText("");
+                            showPulse.setText("");
                         }
                     }
                 });

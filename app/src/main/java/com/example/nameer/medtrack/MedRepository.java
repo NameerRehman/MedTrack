@@ -55,8 +55,8 @@ public class MedRepository {
     //Calendar queries
     public void insertCal (CalendarEvent calendarEvent){new insertAsyncTaskCal(mCalDao).execute(calendarEvent);}
     public void deleteCal (long date){ new deleteAsyncTaskCal(mCalDao).execute(date); }
-    public void editCal (long date, String symptoms, String mood, String notes){
-        new editAsyncTaskCal(mCalDao, symptoms, mood, notes).execute(date);}
+    public void editCal (long date, String symptoms, String mood, String notes, String weight, String glucose, String bp, String pulse){
+        new editAsyncTaskCal(mCalDao, symptoms, mood, notes, weight, glucose, bp, pulse).execute(date);}
 
     LiveData<CalendarEvent> getEvents(long date) {return mCalDao.getEvents(date);}
     LiveData<List<CalendarEvent>> getallEvents(){return mCalDao.getallEvents();}
@@ -149,17 +149,25 @@ public class MedRepository {
         private String symptoms;
         private String mood;
         private String notes;
+        private String weight;
+        private String glucose;
+        private String bp;
+        private String pulse;
 
-        editAsyncTaskCal(CalDao dao, String symptoms, String mood, String notes) {
+        editAsyncTaskCal(CalDao dao, String symptoms, String mood, String notes, String weight, String glucose, String bp, String pulse) {
             mAsyncTaskDao = dao;
             this.symptoms = symptoms;
             this.mood = mood;
             this.notes = notes;
+            this.weight = weight;
+            this.glucose = glucose;
+            this.bp = bp;
+            this.pulse = pulse;
         }
 
         @Override
         protected Void doInBackground(final Long... params) {
-            mAsyncTaskDao.updateEvent(params[0], symptoms, mood, notes);
+            mAsyncTaskDao.updateEvent(params[0], symptoms, mood, notes, weight, glucose, bp, pulse);
             return null;
         }
     }

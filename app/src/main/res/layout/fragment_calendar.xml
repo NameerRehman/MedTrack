@@ -89,7 +89,6 @@
                 </LinearLayout>
 
                 <View
-                    android:id="@+id/divider2"
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:layout_marginHorizontal="15dp"
@@ -97,6 +96,141 @@
                     android:background="?android:attr/listDivider"
                     android:visibility="visible" />
 
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingVertical="6dp">
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="5dp"
+                        android:scaleX="0.9"
+                        android:scaleY="0.9"
+                        android:src="@drawable/ic_weight" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="5dp"
+                        android:text="Weight:  "
+                        android:textAllCaps="false"
+                        android:textAppearance="@android:style/TextAppearance.Material.Subhead" />
+
+                    <TextView
+                        android:id="@+id/showWeight"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="15sp" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginHorizontal="15dp"
+                    android:layout_marginVertical="10dp"
+                    android:background="?android:attr/listDivider"
+                    android:visibility="visible" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingVertical="6dp">
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="2dp"
+                        android:src="@drawable/ic_glucose" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Glucose:  "
+                        android:textAllCaps="false"
+                        android:textAppearance="@android:style/TextAppearance.Material.Subhead" />
+
+                    <TextView
+                        android:id="@+id/showGlucose"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="15sp" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginHorizontal="15dp"
+                    android:layout_marginVertical="10dp"
+                    android:background="?android:attr/listDivider"
+                    android:visibility="visible" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingVertical="6dp">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="4dp"
+                        android:scaleX="0.9"
+                        android:scaleY="0.9"
+                        android:src="@drawable/ic_blood_pressure" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text=" Blood Pressure:  "
+                        android:textAllCaps="false"
+                        android:textAppearance="@android:style/TextAppearance.Material.Subhead" />
+
+                    <TextView
+                        android:id="@+id/showBp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="15sp" />
+                </LinearLayout>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginHorizontal="15dp"
+                    android:layout_marginVertical="10dp"
+                    android:background="?android:attr/listDivider"
+                    android:visibility="visible" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingVertical="6dp">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="4dp"
+                        android:scaleX="0.9"
+                        android:scaleY="0.9"
+                        android:src="@drawable/ic_pulse" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text=" Pulse:  "
+                        android:textAllCaps="false"
+                        android:textAppearance="@android:style/TextAppearance.Material.Subhead" />
+
+                    <TextView
+                        android:id="@+id/showPulse"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="15sp" />
+                </LinearLayout>
+                <View
+                    android:id="@+id/divider2"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginHorizontal="15dp"
+                    android:layout_marginVertical="10dp"
+                    android:background="?android:attr/listDivider"
+                    android:visibility="visible" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -108,9 +242,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:drawableLeft="@drawable/ic_notes"
-                        android:paddingLeft="5dp"
+                        android:paddingLeft="3dp"
                         android:text=" Notes:  "
-                        android:textAllCaps="false"
                         android:textAppearance="@android:style/TextAppearance.Material.Subhead" />
 
                     <TextView
@@ -119,6 +252,8 @@
                         android:layout_height="wrap_content"
                         android:textSize="15sp" />
                 </LinearLayout>
+
+
             </LinearLayout>
         </ScrollView>
     </LinearLayout>

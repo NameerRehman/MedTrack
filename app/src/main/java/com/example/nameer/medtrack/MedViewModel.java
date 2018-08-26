@@ -59,8 +59,8 @@ public class MedViewModel extends AndroidViewModel{
     //Calendar queries
     public void insertCal(CalendarEvent calendarEvent) { mRepository.insertCal(calendarEvent); }
     public void deleteCal (long date){ mRepository.deleteCal(date); }
-    public void editCal(long date, String symptoms, String mood, String notes){ mRepository.editCal(date, symptoms, mood, notes);}
-
+    public void editCal(long date, String symptoms, String mood, String notes, String weight, String glucose, String bp, String pulse){
+        mRepository.editCal(date, symptoms, mood, notes, weight, glucose, bp, pulse);}
 
     LiveData<CalendarEvent> getEvents(long date) {return mRepository.getEvents(date);}
     LiveData<List<CalendarEvent>> getallEvents(){return mRepository.getallEvents();}

@@ -27,11 +27,27 @@ public class CalendarEvent implements Serializable{
     @ColumnInfo(name = "notes")
     private String calNotes;
 
-    public CalendarEvent(long calDate, String calSymptoms, String calMood, String calNotes){
+    @ColumnInfo(name = "weight")
+    private String calWeight;
+
+    @ColumnInfo(name = "glucose")
+    private String calGlucose;
+
+    @ColumnInfo(name = "bp")
+    private String calBp;
+
+    @ColumnInfo(name = "pulse")
+    private String calPulse;
+
+    public CalendarEvent(long calDate, String calSymptoms, String calMood, String calNotes, String calWeight, String calGlucose, String calBp, String calPulse){
         this.calDate = calDate;
         this.calSymptoms = calSymptoms;
         this.calMood = calMood;
         this.calNotes = calNotes;
+        this.calWeight = calWeight;
+        this.calGlucose = calGlucose;
+        this.calBp = calBp;
+        this.calPulse = calPulse;
     }
 
     @NonNull
@@ -43,36 +59,27 @@ public class CalendarEvent implements Serializable{
         this.calId = id;
     }
 
-
     public long getCalDate() {
         return calDate;
-    }
-
-    public void setCalDate(long calDate) {
-        this.calDate = calDate;
     }
 
     public String getCalSymptoms() {
         return calSymptoms;
     }
 
-    public void setCalSymptoms(String calSymptoms) {
-        this.calSymptoms = calSymptoms;
-    }
-
     public String getCalMood() {
         return calMood;
-    }
-
-    public void setCalMood(String calMood) {
-        this.calMood = calMood;
     }
 
     public String getCalNotes() {
         return calNotes;
     }
 
-    public void setCalNotes(String calNotes) {
-        this.calNotes = calNotes;
-    }
+    public String getCalWeight() { return calWeight; }
+
+    public String getCalGlucose() { return calGlucose;  }
+
+    public String getCalBp() { return calBp;   }
+
+    public String getCalPulse() {  return calPulse;  }
 }

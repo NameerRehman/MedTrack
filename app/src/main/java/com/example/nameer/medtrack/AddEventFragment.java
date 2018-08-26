@@ -93,11 +93,6 @@ public class AddEventFragment extends Fragment implements View.OnClickListener, 
         spEditText = view.findViewById(R.id.spBlood);
         pulseEditText = view.findViewById(R.id.pulse);
 
-        weight = weightEditText.getEditableText().toString() + " " + weightUnit;
-        glucose = glucoseEditText.getEditableText().toString() + " " + glucoseUnit;
-        bp = spEditText.getEditableText().toString() + "/" + dpEditText.getEditableText().toString() + " sp/dp";
-        pulse = pulseEditText.getEditableText().toString() + " " + "bpm";
-
         //default units
         weightUnit = "lbs";
         glucoseUnit = "mg/dL";
@@ -109,13 +104,15 @@ public class AddEventFragment extends Fragment implements View.OnClickListener, 
         weightList.add("kg");
         final ArrayAdapter<String> weightAdapter = new ArrayAdapter<>(getContext(),android.R.layout.simple_list_item_1,weightList);
         weightSpinner.setAdapter(weightAdapter);
+        weightSpinner.setOnItemSelectedListener(this);
 
         glucoseSpinner = view.findViewById(R.id.glucoseSpinner);
         final ArrayList<String> glucoseList = new ArrayList<>();
         glucoseList.add("mg/dL");
-        glucoseList.add("mmo/L");
+        glucoseList.add("mmol/L");
         final ArrayAdapter<String> glucoseAdapter = new ArrayAdapter<>(getContext(),android.R.layout.simple_list_item_1,glucoseList);
         glucoseSpinner.setAdapter(glucoseAdapter);
+        glucoseSpinner.setOnItemSelectedListener(this);
 
         symptomList = new ArrayList<>();
         moodList = new ArrayList<>();
@@ -369,9 +366,12 @@ public class AddEventFragment extends Fragment implements View.OnClickListener, 
             @Override
             public void onClick(View v) {
                 notes = notesEditText.getEditableText().toString();
-
+                weight = weightEditText.getEditableText().toString() + " " + weightUnit;
+                glucose = glucoseEditText.getEditableText().toString() + " " + glucoseUnit;
+                bp = spEditText.getEditableText().toString() + "/" + dpEditText.getEditableText().toString() + " sp/dp";
+                pulse = pulseEditText.getEditableText().toString() + " " + "bpm";
                 if(existingEvent == false) {
-                    CalendarEvent calendarEvent = new CalendarEvent(date, symptoms, moods, notes);
+                    CalendarEvent calendarEvent = new CalendarEvent(date, symptoms, moods, notes, weight, glucose, bp, pulse);
                     mMedViewModel.insertCal(calendarEvent);
 
                     Fragment CalendarFragment = new CalendarFragment();
@@ -387,7 +387,7 @@ public class AddEventFragment extends Fragment implements View.OnClickListener, 
                         inputManager.hideSoftInputFromWindow(currentFocusedView.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
                     }
                 }else{
-                    mMedViewModel.editCal(date, symptoms, moods, notes);
+                    mMedViewModel.editCal(date, symptoms, moods, notes, weight, glucose, bp, pulse);
                     Fragment CalendarFragment = new CalendarFragment();
                     //addEventFragment.setArguments(bundle);
                     FragmentManager fm = getActivity().getSupportFragmentManager();
@@ -450,20 +450,27 @@ public class AddEventFragment extends Fragment implements View.OnClickListener, 
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         Spinner spinner = (Spinner) parent;
         switch(spinner.getId()){
-            case R.id.weightSpinner:
+            case (R.id.weightSpinner):
                 switch (parent.getItemAtPosition(position).toString()){
-                    case "lbs":
+                    case ("lbs"):
                         weightUnit = "lbs";
-                    case "kg":
+                        break;
+                    case ("kg"):
                         weightUnit = "kg";
+                        Toast.makeText(getContext(), weightUnit, Toast.LENGTH_SHORT).show();
+                        break;
                 }
-            case R.id.glucoseSpinner:
+                break;
+            case (R.id.glucoseSpinner):
                 switch (parent.getItemAtPosition(position).toString()){
-                    case "mg/dL":
+                    case ("mg/dL"):
                         glucoseUnit = "mg/dL";
-                    case "mmol/L":
+                        break;
+                    case ("mmol/L"):
                         glucoseUnit = "mmol/L";
+                        break;
                 }
+                break;
         }
     }
 

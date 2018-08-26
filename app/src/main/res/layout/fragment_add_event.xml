@@ -539,8 +539,6 @@
                     android:paddingLeft="5dp"
                     android:paddingRight="12dp"
                     android:paddingTop="7dp"
-                    android:scaleX="1"
-                    android:scaleY="1"
                     android:src="@drawable/ic_weight" />
                 <TextView
                     android:layout_width="wrap_content"
@@ -557,6 +555,7 @@
                     android:layout_height="wrap_content"
                     android:minWidth="80dp"
                     android:singleLine="true"
+                    android:inputType="numberDecimal"
                     android:textAlignment="center"
                     android:textAppearance="@android:style/TextAppearance.Material.Subhead"
                     android:textSize="16sp" />
@@ -579,8 +578,6 @@
                     android:paddingLeft="1dp"
                     android:paddingRight="12dp"
                     android:paddingTop="7dp"
-                    android:scaleX="1"
-                    android:scaleY="1"
                     android:src="@drawable/ic_glucose" />
                 <TextView
                     android:layout_width="wrap_content"
@@ -619,8 +616,6 @@
                     android:paddingLeft="4dp"
                     android:paddingRight="12dp"
                     android:paddingTop="7dp"
-                    android:scaleX="1"
-                    android:scaleY="1"
                     android:src="@drawable/ic_blood_pressure" />
                 <TextView
                     android:layout_width="wrap_content"
@@ -635,6 +630,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:minWidth="60dp"
+                    android:inputType="numberDecimal"
                     android:singleLine="true"
                     android:textAlignment="center"
                     android:textAppearance="@android:style/TextAppearance.Material.Subhead"
@@ -652,6 +648,7 @@
                     android:layout_height="wrap_content"
                     android:minWidth="60dp"
                     android:singleLine="true"
+                    android:inputType="numberDecimal"
                     android:textAlignment="center"
                     android:textAppearance="@android:style/TextAppearance.Material.Subhead"
                     android:textSize="16sp" />
@@ -666,7 +663,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="10dp"
-                android:layout_marginTop="8dp"
+                android:layout_marginVertical="8dp"
                 android:orientation="horizontal">
                 <ImageView
                     android:layout_width="wrap_content"
@@ -674,8 +671,6 @@
                     android:paddingLeft="6dp"
                     android:paddingRight="12dp"
                     android:paddingTop="7dp"
-                    android:scaleX="1"
-                    android:scaleY="1"
                     android:src="@drawable/ic_pulse" />
                 <TextView
                     android:layout_width="wrap_content"
@@ -692,6 +687,7 @@
                     android:minWidth="80dp"
                     android:singleLine="true"
                     android:textAlignment="center"
+                    android:inputType="numberDecimal"
                     android:textAppearance="@android:style/TextAppearance.Material.Subhead"
                     android:textSize="16sp" />
 
