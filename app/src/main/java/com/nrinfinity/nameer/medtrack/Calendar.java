@@ -1,4 +1,4 @@
-package com.example.nameer.medtrack;
+package com.nrinfinity.nameer.medtrack;
 
 import android.content.Intent;
 import android.support.annotation.NonNull;

@@ -1,4 +1,4 @@
-package com.example.nameer.medtrack;
+package com.nrinfinity.nameer.medtrack;
 
 
 import android.arch.lifecycle.Observer;

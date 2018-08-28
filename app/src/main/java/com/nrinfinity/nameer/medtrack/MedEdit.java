@@ -1,4 +1,4 @@
-package com.example.nameer.medtrack;
+package com.nrinfinity.nameer.medtrack;
 
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;

@@ -1,4 +1,4 @@
-package com.example.nameer.medtrack;
+package com.nrinfinity.nameer.medtrack;
 
 import android.app.AlertDialog;
 import android.arch.lifecycle.Observer;
@@ -470,7 +470,6 @@ public class AddEventFragment extends Fragment implements View.OnClickListener, 
                         break;
                     case ("kg"):
                         weightUnit = "kg";
-                        Toast.makeText(getContext(), weightUnit, Toast.LENGTH_SHORT).show();
                         break;
                 }
                 break;

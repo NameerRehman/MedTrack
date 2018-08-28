@@ -1,4 +1,4 @@
-package com.example.nameer.medtrack;
+package com.nrinfinity.nameer.medtrack;
 
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
