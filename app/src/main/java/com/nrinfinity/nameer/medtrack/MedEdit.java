@@ -129,6 +129,8 @@ public class MedEdit extends AppCompatActivity {
 
                 Intent i = new Intent(MedEdit.this, MainActivity.class);
 
+                //check if selectMed field is empty
+                //if empty, send cancelled result
                 if (TextUtils.isEmpty(EselectMed.getEditableText())) {
                     Toast.makeText(MedEdit.this, "Please enter medication name", Toast.LENGTH_SHORT).show();
                     setResult(RESULT_CANCELED, i);
@@ -140,9 +142,8 @@ public class MedEdit extends AppCompatActivity {
                     calStartDate = EselectStart.getText().toString();
                     calEndDate = EselectEnd.getText().toString();
 
+                    //send user input data via intent.putExtra
                     i.putExtra("EmedName", medName);
-                    //i.putExtra("Estart", calStartDate);
-                    //i.putExtra("Eend", calEndDate);
                     i.putExtra("Econdition", condition);
                     i.putExtra("Enotes", notes);
                     i.putExtra("id", currentPosition.getId());

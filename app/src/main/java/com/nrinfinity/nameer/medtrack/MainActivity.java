@@ -133,10 +133,11 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         }
     }
     @Override
-
     public void onActivityResult(int requestCode, int resultCode, Intent i){
         super.onActivityResult(requestCode, resultCode, i);
 
+          //create new med entry
+          //result code RESULT_OK received from MedInput class upon successful new med entry
         if(requestCode == NEW_MEDITEM_REQUEST_CODE && resultCode == RESULT_OK) {
             medName = i.getStringExtra("medName");
             startDate = i.getStringExtra("start");
@@ -147,6 +148,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             MedItem medItem = new MedItem(medName, startDate, endDate, condition, notes);
             mMedViewModel.insert(medItem);
 
+            //edit existing med entry
+            //result code 2 received from MedEdit class upon successful edit
         } else if(requestCode == EDIT_MEDITEM_REQUEST_CODE && resultCode == 2){
             String EmedName = i.getStringExtra("EmedName");
             String EstartDate = i.getStringExtra("Estart");
@@ -154,16 +157,21 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             String Econdition = i.getStringExtra("Econdition");
             String Enotes = i.getStringExtra("Enotes");
 
+            //Get database ID to update entry in database
             int ID1 = i.getIntExtra("id",0);
             if(ID1 != 0){
                 mMedViewModel.update(EmedName, EstartDate, EendDate, Econdition, Enotes, ID1);
             }
 
+            //delete existing med entry
+            //resultCode 3 received from MedEdit class if Delete button is pressed
         }else if(requestCode == EDIT_MEDITEM_REQUEST_CODE && resultCode ==3){
             int ID = i.getIntExtra("id",0);
             if(ID != 0){
                 mMedViewModel.delete(ID);
             }
+
+            //if no edit or delete request made
         } else {
             Toast.makeText(getApplicationContext(),"Empty not saved", Toast.LENGTH_LONG).show();
         }

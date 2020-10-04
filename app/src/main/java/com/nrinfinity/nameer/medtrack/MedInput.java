@@ -64,21 +64,21 @@ public class MedInput extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
-ongoing.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-    @Override
-    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-        if(isChecked==true){
-            selectEnd.setText("Ongoing");
-            calEndDate = "Ongoing";
-            selectEnd.setClickable(false);
-            selectEnd.setTextColor(Color.parseColor("#D3D3D3"));
-        }else if(ongoing.isChecked()==false){
-            selectEnd.setClickable(true);
-            selectEnd.setTextColor(Color.parseColor("#000000"));
+        ongoing.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked==true){
+                    selectEnd.setText("Ongoing");
+                    calEndDate = "Ongoing";
+                    selectEnd.setClickable(false);
+                    selectEnd.setTextColor(Color.parseColor("#D3D3D3"));
+                }else if(ongoing.isChecked()==false){
+                    selectEnd.setClickable(true);
+                    selectEnd.setTextColor(Color.parseColor("#000000"));
 
-        }
-    }
-});
+                }
+            }
+        });
 
 
         selectStart.setOnClickListener(new View.OnClickListener() {

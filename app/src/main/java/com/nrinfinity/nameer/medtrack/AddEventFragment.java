@@ -181,10 +181,8 @@ public class AddEventFragment extends Fragment implements View.OnClickListener, 
                     //set existingEvent false so new database entry is created upon finish
                     existingEvent = false;
                 }
-
-    }
-
-});
+            }
+        });
 
         //Cards to show & hide symptoms & moods lists
         symptomsCard();
