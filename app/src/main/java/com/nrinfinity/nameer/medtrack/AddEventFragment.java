@@ -48,7 +48,9 @@ public class AddEventFragment extends Fragment implements View.OnClickListener, 
     private MedViewModel mMedViewModel;
 
     private FloatingActionButton finish;
-    private CheckBox headache, diziness, acne, bodyaches, cramps, chills, itchyness, flare, bloating, constipation, diarrhea, gas, abdominalCramps, nausea, stress, moodiness, irritability, insomnia, fatigue, confusion;
+    private CheckBox headache, diziness, acne, bodyaches, cramps, chills, itchyness, flare, bloating,
+            constipation, diarrhea, gas, abdominalCramps, nausea, stress, moodiness, irritability,
+            insomnia, fatigue, confusion;
     private CheckBox happy,angry,lonely,sad,worried,neutral,anxious,cranky,scared,loving,weird,cheerful;
     private Button deleteEvent;
     private Spinner glucoseSpinner, weightSpinner;
@@ -93,40 +95,26 @@ public class AddEventFragment extends Fragment implements View.OnClickListener, 
         spEditText = view.findViewById(R.id.spBlood);
         pulseEditText = view.findViewById(R.id.pulse);
 
-        //default units
+        setupSpinners();
+
+        //set default units
         weightUnit = "lbs";
         glucoseUnit = "mg/dL";
-
-        //setup spinners for weight and glucose units
-        weightSpinner = view.findViewById(R.id.weightSpinner);
-        final ArrayList<String> weightList = new ArrayList<>();
-        weightList.add("lbs");
-        weightList.add("kg");
-        final ArrayAdapter<String> weightAdapter = new ArrayAdapter<>(getContext(),android.R.layout.simple_list_item_1,weightList);
-        weightSpinner.setAdapter(weightAdapter);
-        weightSpinner.setOnItemSelectedListener(this);
-
-        glucoseSpinner = view.findViewById(R.id.glucoseSpinner);
-        final ArrayList<String> glucoseList = new ArrayList<>();
-        glucoseList.add("mg/dL");
-        glucoseList.add("mmol/L");
-        final ArrayAdapter<String> glucoseAdapter = new ArrayAdapter<>(getContext(),android.R.layout.simple_list_item_1,glucoseList);
-        glucoseSpinner.setAdapter(glucoseAdapter);
-        glucoseSpinner.setOnItemSelectedListener(this);
 
         symptomList = new ArrayList<>();
         moodList = new ArrayList<>();
 
-        //getEvents(date) query gets event from database based on "date"
+        //getEvents() queries events from database based on "date"
         mMedViewModel = ViewModelProviders.of(this).get(MedViewModel.class);
         mMedViewModel.getEvents(date).observe(getActivity(), new Observer<CalendarEvent>() {
             @Override
             public void onChanged(@Nullable final CalendarEvent cal) {
-                if (cal != null) {
-                    //set existingEvent true so existing database entry is updated upon finish
-                    existingEvent = true;
 
+                //check if data already exists in calendar for the queried date
+                if (cal != null) {
+                    existingEvent = true; //edits existing database entry upon finish
                     notesEditText.setText(cal.getCalNotes());
+
                     if(cal.getCalWeight().contains("lbs")){
                         weightEditText.setText(cal.getCalWeight().replace(" lbs",""));
                     }else{
@@ -193,6 +181,25 @@ public class AddEventFragment extends Fragment implements View.OnClickListener, 
 
     @Override
     public void onClick(View v) {}
+
+    //setup spinners for weight and glucose units
+    public void setupSpinners(){
+        weightSpinner = view.findViewById(R.id.weightSpinner);
+        final ArrayList<String> weightList = new ArrayList<>();
+        weightList.add("lbs");
+        weightList.add("kg");
+        final ArrayAdapter<String> weightAdapter = new ArrayAdapter<>(getContext(),android.R.layout.simple_list_item_1,weightList);
+        weightSpinner.setAdapter(weightAdapter);
+        weightSpinner.setOnItemSelectedListener(this);
+
+        glucoseSpinner = view.findViewById(R.id.glucoseSpinner);
+        final ArrayList<String> glucoseList = new ArrayList<>();
+        glucoseList.add("mg/dL");
+        glucoseList.add("mmol/L");
+        final ArrayAdapter<String> glucoseAdapter = new ArrayAdapter<>(getContext(),android.R.layout.simple_list_item_1,glucoseList);
+        glucoseSpinner.setAdapter(glucoseAdapter);
+        glucoseSpinner.setOnItemSelectedListener(this);
+    }
 
     //Show & hide symptoms and moods layouts
     public void symptomsCard(){
